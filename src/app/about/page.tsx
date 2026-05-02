@@ -64,7 +64,7 @@ export default function AboutPage() {
             {/* Description */}
             <div>
               <p style={{ fontSize: '1.15rem', lineHeight: '1.7', color: 'rgba(255,255,255,0.85)', textTransform: 'none', fontWeight: 400 }}>
-                At the heart of our brand is a commitment to excellence, discretion, and timeless design. We don't just sell properties — we curate experiences tailored to each client's vision of luxury living. With a deep understanding of high-end markets and a passion for architectural beauty, we bring a personalized, world-class approach to every transaction.
+                At the heart of our brand is a commitment to excellence, discretion, and timeless design. We don&apos;t just sell properties — we curate experiences tailored to each client&apos;s vision of luxury living. With a deep understanding of high-end markets and a passion for architectural beauty, we bring a personalized, world-class approach to every transaction.
               </p>
             </div>
           </motion.div>
