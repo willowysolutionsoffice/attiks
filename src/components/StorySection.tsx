@@ -46,7 +46,7 @@ export default function StorySection() {
 
   return (
     <section ref={containerRef} style={{ height: '300vh', background: '#000', position: 'relative' }}>
-      <div style={{ position: 'sticky', top: 0, height: '100vh', width: '100%', display: 'flex', alignItems: 'center', padding: '0 10%', overflow: 'hidden' }}>
+      <div style={{ position: 'sticky', top: 0, height: '100vh', width: '100%', display: 'flex', alignItems: 'center', padding: '0 var(--section-padding)', overflow: 'hidden' }}>
         <div style={{ width: '100%', maxWidth: '1400px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '100px', alignItems: 'center' }}>
           
           {/* Left Side: Text */}

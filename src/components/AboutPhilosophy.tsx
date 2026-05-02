@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export default function AboutPhilosophy() {
   return (
-    <section className="section" style={{ height: '100vh', background: '#000', padding: '0 5%', scrollSnapAlign: 'start' }}>
+    <section className="section" style={{ height: '100vh', background: '#000', padding: '0 var(--section-padding)', scrollSnapAlign: 'start' }}>
       <div style={{ 
         display: 'flex', 
         width: '100%', 

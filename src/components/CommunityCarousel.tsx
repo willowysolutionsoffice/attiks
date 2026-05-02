@@ -41,8 +41,8 @@ export default function CommunityCarousel() {
           }}
         >
           {extendedCommunities.map((community, i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               style={{
                 width: '400px',
                 height: '60vh',
@@ -52,10 +52,10 @@ export default function CommunityCarousel() {
                 borderRadius: '4px'
               }}
             >
-              <Image 
-                src={community.image} 
-                alt={community.name} 
-                fill 
+              <Image
+                src={community.image}
+                alt={community.name}
+                fill
                 style={{ objectFit: 'cover' }}
               />
               <div style={{

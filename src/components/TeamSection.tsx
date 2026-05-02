@@ -28,7 +28,7 @@ const teamMembers = [
 
 export default function TeamSection() {
   return (
-    <section style={{ background: '#000', padding: '6rem 10%', color: '#fff' }}>
+    <section style={{ background: '#000', padding: '6rem var(--section-padding)', color: '#fff' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}

@@ -15,7 +15,7 @@ export default function AboutPage() {
     <main style={{ background: '#000', minHeight: '100vh', color: '#fff' }}>
       <Navbar />
 
-      <section style={{ padding: '160px 2.5% 80px' }}>
+      <section style={{ padding: '160px var(--section-padding) 80px' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           <PageHeader 
             label="About us"

@@ -23,7 +23,7 @@ const articles = [
 
 export default function PressAndMediaSection() {
   return (
-    <section className="section" style={{ background: '#000', padding: '6rem 10%' }}>
+    <section className="section" style={{ background: '#000', padding: '6rem var(--section-padding)' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
         
         {/* Header */}

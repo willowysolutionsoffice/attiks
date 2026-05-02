@@ -23,7 +23,7 @@ const values = [
 
 export default function ValuesSection() {
   return (
-    <section style={{ padding: '120px 10%', background: '#000' }}>
+    <section style={{ padding: '120px var(--section-padding)', background: '#000' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}

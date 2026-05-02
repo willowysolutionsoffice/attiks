@@ -5,7 +5,7 @@ import Image from 'next/image';
 export default function Footer() {
   return (
     <footer className="relative-content" style={{ background: '#000', borderTop: '1px solid rgba(255,255,255,0.1)', color: '#fff', scrollSnapAlign: 'end' }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '5rem 5%' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '5rem var(--section-padding)' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3rem', justifyContent: 'space-between' }}>
 
           {/* Left Column - Subscription */}
@@ -15,7 +15,7 @@ export default function Footer() {
               alt="Attixs Architecture Logo"
               width={160}
               height={50}
-              style={{ objectFit: 'contain', height: '40px', width: 'auto', marginBottom: '1.5rem' }}
+              style={{ objectFit: 'contain', height: '40px', width: 'auto', marginBottom: '1.5rem', filter: 'invert(1)' }}
             />
             <p style={{ fontSize: '0.85rem', color: '#ccc', marginBottom: '2rem', lineHeight: '1.6' }}>
               Subscribe for priority access to our finest listings and<br />timeless real estate wisdom.
@@ -114,7 +114,7 @@ export default function Footer() {
         <div style={{
           maxWidth: '1400px',
           margin: '0 auto',
-          padding: '1.5rem 5%',
+          padding: '1.5rem var(--section-padding)',
           display: 'flex',
           flexWrap: 'wrap',
           gap: '1rem',

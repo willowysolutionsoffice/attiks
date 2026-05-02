@@ -43,7 +43,7 @@ export default function BlogPage() {
     <main style={{ background: '#000', minHeight: '100vh', color: '#fff', display: 'flex', flexDirection: 'column' }}>
       <Navbar />
 
-      <section style={{ padding: '160px 2.5% 120px', flex: 1 }}>
+      <section style={{ padding: '160px var(--section-padding) 120px', flex: 1 }}>
         <div style={{ maxWidth: '100%', margin: '0 auto' }}>
 
           {/* Header */}

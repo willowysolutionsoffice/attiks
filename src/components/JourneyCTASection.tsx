@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 export default function JourneyCTASection() {
   return (
-    <section className="section" style={{ background: '#000', padding: '0 10% 6rem 10%', display: 'flex', justifyContent: 'center' }}>
+    <section className="section" style={{ background: '#000', padding: '0 var(--section-padding) 6rem var(--section-padding)', display: 'flex', justifyContent: 'center' }}>
       <motion.div 
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

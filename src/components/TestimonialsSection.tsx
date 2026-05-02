@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
 
 export default function TestimonialsSection() {
   return (
-    <section className="section" style={{ height: '100vh', background: '#000', padding: '0 10%', display: 'flex', alignItems: 'center', scrollSnapAlign: 'start' }}>
+    <section className="section" style={{ height: '100vh', background: '#000', padding: '0 var(--section-padding)', display: 'flex', alignItems: 'center', scrollSnapAlign: 'start' }}>
       <div style={{ width: '100%', maxWidth: '1400px', margin: '0 auto' }}>
         
         <motion.div 

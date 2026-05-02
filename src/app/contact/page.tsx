@@ -11,7 +11,7 @@ export default function ContactPage() {
       <Navbar />
 
       {/* Main Content */}
-      <section style={{ padding: '160px 2.5% 120px', flex: 1 }}>
+      <section style={{ padding: '160px var(--section-padding) 120px', flex: 1 }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5%' }}>
           
           {/* Left Column: Info */}
