@@ -1,15 +1,16 @@
 'use client';
 
 import Image from 'next/image';
+import PageHeader from './PageHeader';
 
 export default function PropertiesHeader() {
   return (
     <>
       <header className="properties-header">
-        <span className="properties-label">Properties</span>
-        <h1 className="properties-title">
-          EXPLORE OUR FINEST<br />RESIDENCES
-        </h1>
+        <PageHeader 
+          label="Properties"
+          title={<>EXPLORE OUR FINEST<br />RESIDENCES</>}
+        />
       </header>
 
       <section className="project-hero">

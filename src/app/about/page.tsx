@@ -3,6 +3,7 @@
 import Navbar from '@/components/Navbar';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import PageHeader from '@/components/PageHeader';
 import StorySection from '@/components/StorySection';
 import ValuesSection from '@/components/ValuesSection';
 import TeamSection from '@/components/TeamSection';
@@ -14,20 +15,12 @@ export default function AboutPage() {
     <main style={{ background: '#000', minHeight: '100vh', color: '#fff' }}>
       <Navbar />
 
-      <section style={{ padding: '160px 10% 80px' }}>
+      <section style={{ padding: '160px 2.5% 80px' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <p style={{ fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.1em', color: '#fff', marginBottom: '1.5rem' }}>
-              About us
-            </p>
-            <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 800, color: '#fff', marginBottom: '4rem', lineHeight: 1, letterSpacing: '-0.02em' }}>
-              CRAFTING LUXURY<br />WITH INTENT
-            </h1>
-          </motion.div>
+          <PageHeader 
+            label="About us"
+            title={<>CRAFTING LUXURY<br />WITH INTENT</>}
+          />
 
           <motion.div
             initial={{ opacity: 0, y: 40 }}

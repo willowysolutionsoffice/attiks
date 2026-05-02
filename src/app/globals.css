@@ -121,15 +121,26 @@ p {
 }
 
 .navbar.scrolled {
-  background: rgba(5, 5, 5, 0.8);
-  backdrop-filter: blur(10px);
-  height: 60px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  height: 65px;
 }
 
 .nav-logo {
   font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: 0.1em;
+}
+
+.nav-logo img {
+  filter: invert(1);
+  transition: var(--transition-smooth);
+}
+
+.navbar.scrolled .nav-logo img {
+  filter: invert(0);
 }
 
 .nav-links {
@@ -165,6 +176,16 @@ p {
 
 .nav-link:hover {
   color: #C5A059;
+  opacity: 1;
+}
+
+.navbar.scrolled .nav-link {
+  color: #000;
+  opacity: 0.8;
+  font-weight: 600;
+}
+
+.navbar.scrolled .nav-link:hover {
   opacity: 1;
 }
 
@@ -236,24 +257,31 @@ p {
 
 /* Properties Page */
 .properties-header {
-  padding: 120px 10% 60px;
+  padding: 160px 2.5% 2rem;
   background: var(--background);
 }
 
+.properties-header > * {
+  padding-left: 0.5%;
+}
+
 .properties-label {
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.05em;
+  color: #fff;
+  opacity: 0.8;
   margin-bottom: 1rem;
   display: block;
+  font-weight: 500;
 }
 
 .properties-title {
-  font-size: clamp(2.5rem, 8vw, 4.5rem);
-  line-height: 1.1;
-  font-weight: 400;
-  max-width: 800px;
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+  line-height: 1.0;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
 }
 
 .project-hero {

@@ -3,6 +3,7 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import Image from 'next/image';
+import PageHeader from '@/components/PageHeader';
 
 const articles = [
   {
@@ -46,29 +47,10 @@ export default function BlogPage() {
         <div style={{ maxWidth: '100%', margin: '0 auto' }}>
 
           {/* Header */}
-          <div style={{ marginBottom: '2rem', paddingLeft: '0.5%' }}>
-            <p style={{
-              fontSize: '0.75rem',
-              fontWeight: 500,
-              color: '#fff',
-              marginBottom: '1rem',
-              letterSpacing: '0.05em',
-              textTransform: 'uppercase',
-              opacity: 0.8
-            }}>
-              Blog
-            </p>
-            <h1 style={{
-              fontSize: 'clamp(2.2rem, 4.5vw, 3.2rem)',
-              fontWeight: 500,
-              color: '#fff',
-              lineHeight: '1.0',
-              letterSpacing: '-0.03em',
-              textTransform: 'uppercase'
-            }}>
-              REFINED REAL ESTATE<br />INSIGHTS
-            </h1>
-          </div>
+          <PageHeader 
+            label="Blog"
+            title={<>REFINED REAL ESTATE<br />INSIGHTS</>}
+          />
 
           {/* Grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px' }}>
