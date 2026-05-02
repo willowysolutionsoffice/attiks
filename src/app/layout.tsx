@@ -4,6 +4,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "ATTIXS | Modern Architectural Masterpieces",
   description: "Bespoke architectural design and luxury real estate for the extraordinary.",
+  icons: {
+    icon: "/images/logo-at.png",
+  },
 };
 
 export default function RootLayout({
