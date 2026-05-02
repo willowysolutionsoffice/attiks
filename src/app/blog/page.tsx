@@ -2,7 +2,6 @@
 
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 const articles = [
@@ -43,57 +42,76 @@ export default function BlogPage() {
     <main style={{ background: '#000', minHeight: '100vh', color: '#fff', display: 'flex', flexDirection: 'column' }}>
       <Navbar />
 
-      <section style={{ padding: '160px 10% 120px', flex: 1 }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          
+      <section style={{ padding: '160px 2.5% 120px', flex: 1 }}>
+        <div style={{ maxWidth: '100%', margin: '0 auto' }}>
+
           {/* Header */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            style={{ marginBottom: '4rem' }}
-          >
-            <p style={{ fontSize: '0.85rem', fontWeight: 600, color: '#fff', marginBottom: '1rem', letterSpacing: '0.05em' }}>
+          <div style={{ marginBottom: '2rem', paddingLeft: '0.5%' }}>
+            <p style={{
+              fontSize: '0.75rem',
+              fontWeight: 500,
+              color: '#fff',
+              marginBottom: '1rem',
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+              opacity: 0.8
+            }}>
               Blog
             </p>
-            <h1 style={{ fontSize: 'clamp(2.5rem, 4vw, 3.5rem)', fontWeight: 700, color: '#fff', lineHeight: 1.1, letterSpacing: '-0.02em', textTransform: 'uppercase' }}>
+            <h1 style={{
+              fontSize: 'clamp(2.2rem, 4.5vw, 3.2rem)',
+              fontWeight: 500,
+              color: '#fff',
+              lineHeight: '1.0',
+              letterSpacing: '-0.03em',
+              textTransform: 'uppercase'
+            }}>
               REFINED REAL ESTATE<br />INSIGHTS
             </h1>
-          </motion.div>
+          </div>
 
           {/* Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '40px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px' }}>
             {articles.map((article, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                style={{ cursor: 'pointer' }}
-                onMouseEnter={(e) => {
-                  const img = e.currentTarget.querySelector('img');
-                  if (img) img.style.transform = 'scale(1.05)';
-                }}
-                onMouseLeave={(e) => {
-                  const img = e.currentTarget.querySelector('img');
-                  if (img) img.style.transform = 'scale(1)';
-                }}
+                style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column' }}
               >
-                <div style={{ position: 'relative', width: '100%', aspectRatio: '1/1', marginBottom: '20px', overflow: 'hidden' }}>
-                  <Image 
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  aspectRatio: '1/1.2',
+                  marginBottom: '20px',
+                  overflow: 'hidden'
+                }}>
+                  <Image
                     src={article.image}
                     alt={article.title}
                     fill
-                    style={{ objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)' }}
+                    className="property-card-img"
+                    style={{ objectFit: 'cover' }}
                   />
                 </div>
-                <p style={{ fontSize: '0.85rem', color: '#fff', marginBottom: '8px', fontWeight: 600 }}>
+                <p style={{
+                  fontSize: '0.95rem',
+                  color: '#fff',
+                  marginBottom: '1rem',
+                  fontWeight: 600,
+                  letterSpacing: '0.01em'
+                }}>
                   {article.category}
                 </p>
-                <h3 style={{ fontSize: '1.25rem', color: '#fff', fontWeight: 500, lineHeight: '1.4', letterSpacing: '-0.01em' }}>
+                <h3 style={{
+                  fontSize: '1.35rem',
+                  color: '#fff',
+                  fontWeight: 600,
+                  lineHeight: '1.25',
+                  letterSpacing: '-0.01em',
+                  textTransform: 'none'
+                }}>
                   {article.title}
                 </h3>
-              </motion.div>
+              </div>
             ))}
           </div>
 
