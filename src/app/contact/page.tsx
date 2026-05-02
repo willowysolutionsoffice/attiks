@@ -12,112 +12,95 @@ export default function ContactPage() {
 
       {/* Main Content */}
       <section style={{ padding: '160px var(--section-padding) 120px', flex: 1 }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5%' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
           
-          {/* Left Column: Info */}
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={{ marginBottom: '80px' }}>
             <PageHeader 
               label="Contact"
-              title={<>SPEAK WITH OUR<br />EXPERTS</>}
+              title={<>LET&apos;S SHAPE YOUR<br />VISION TOGETHER</>}
             />
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', paddingLeft: '0.5%' }}>
-              <div>
-                <h4 style={{ fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.6rem', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.02em' }}>Phone</h4>
-                <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem', fontWeight: 400 }}>+1 (201)8455396</p>
-              </div>
-              <div>
-                <h4 style={{ fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.6rem', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.02em' }}>Email</h4>
-                <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem', fontWeight: 400, textTransform: 'uppercase' }}>JACOB@ROYAL.COM</p>
-              </div>
-              <div>
-                <h4 style={{ fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.6rem', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.02em' }}>Careers</h4>
-                <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem', fontWeight: 400, textTransform: 'uppercase' }}>CAREERS@ROYAL.COM</p>
-              </div>
-              <div>
-                <h4 style={{ fontSize: '0.75rem', fontWeight: 600, marginBottom: '0.6rem', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.02em' }}>Address</h4>
-                <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem', fontWeight: 400, lineHeight: '1.6', textTransform: 'uppercase' }}>
-                  3831 EDGEWOOD AVENUE, FRESNO, CALIFORNIA, 93721
-                </p>
-              </div>
-            </div>
+            <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.6)', maxWidth: '500px', marginTop: '2rem', lineHeight: '1.7', fontWeight: 300 }}>
+              Whether you are looking to acquire a masterpiece or list a legacy, our team is here to provide discreet, expert guidance at every step.
+            </p>
           </div>
 
-          {/* Right Column: Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            style={{ display: 'flex', flexDirection: 'column', paddingTop: '4.5rem' }}
-          >
-            <form style={{ display: 'flex', flexDirection: 'column', gap: '1.8rem' }} onSubmit={(e) => e.preventDefault()}>
-              
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                  <label style={{ fontSize: '0.75rem', fontWeight: 600, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.02em' }}>First Name</label>
-                  <input 
-                    type="text" 
-                    placeholder="Jane"
-                    style={{ background: '#111', border: '1px solid rgba(255,255,255,0.1)', padding: '16px', color: '#fff', fontSize: '0.9rem', outline: 'none' }}
-                  />
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                  <label style={{ fontSize: '0.75rem', fontWeight: 600, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.02em' }}>Last Name</label>
-                  <input 
-                    type="text" 
-                    placeholder="Watson"
-                    style={{ background: '#111', border: '1px solid rgba(255,255,255,0.1)', padding: '16px', color: '#fff', fontSize: '0.9rem', outline: 'none' }}
-                  />
-                </div>
-              </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '80px', alignItems: 'stretch' }}>
+            {/* Map Section */}
+            <div style={{ width: '100%', background: '#111', position: 'relative', borderRadius: '2px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <iframe 
+                src="https://www.google.com/maps/d/embed?mid=1AGNpIWX6rbzzsTDXTef1uOw5ItpvBRRW&ehbc=2E312F" 
+                width="100%" 
+                height="100%" 
+                style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg) brightness(0.8)' }} 
+                allowFullScreen 
+                loading="lazy"
+              ></iframe>
+            </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                  <label style={{ fontSize: '0.75rem', fontWeight: 600, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.02em' }}>Email</label>
-                  <input 
-                    type="email" 
-                    placeholder="Jane@framer.com"
-                    style={{ background: '#111', border: '1px solid rgba(255,255,255,0.1)', padding: '16px', color: '#fff', fontSize: '0.9rem', outline: 'none' }}
-                  />
+            {/* Form Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <form style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }} onSubmit={(e) => e.preventDefault()}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+                  <div style={{ position: 'relative' }}>
+                    <input type="text" placeholder="First Name" style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid rgba(255,255,255,0.2)', padding: '12px 0', color: '#fff', fontSize: '0.9rem', outline: 'none' }} />
+                  </div>
+                  <div style={{ position: 'relative' }}>
+                    <input type="text" placeholder="Last Name" style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid rgba(255,255,255,0.2)', padding: '12px 0', color: '#fff', fontSize: '0.9rem', outline: 'none' }} />
+                  </div>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                  <label style={{ fontSize: '0.75rem', fontWeight: 600, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.02em' }}>Phone</label>
-                  <input 
-                    type="tel" 
-                    placeholder="+40749321787"
-                    style={{ background: '#111', border: '1px solid rgba(255,255,255,0.1)', padding: '16px', color: '#fff', fontSize: '0.9rem', outline: 'none' }}
-                  />
-                </div>
-              </div>
+                <input type="email" placeholder="Email Address" style={{ background: 'transparent', border: 'none', borderBottom: '1px solid rgba(255,255,255,0.2)', padding: '12px 0', color: '#fff', fontSize: '0.9rem', outline: 'none' }} />
+                <input type="tel" placeholder="Phone Number" style={{ background: 'transparent', border: 'none', borderBottom: '1px solid rgba(255,255,255,0.2)', padding: '12px 0', color: '#fff', fontSize: '0.9rem', outline: 'none' }} />
+                <textarea placeholder="Tell us about your project" rows={4} style={{ background: 'transparent', border: 'none', borderBottom: '1px solid rgba(255,255,255,0.2)', padding: '12px 0', color: '#fff', fontSize: '0.9rem', outline: 'none', resize: 'none' }}></textarea>
+                
+                <button type="submit" className="btn-premium" style={{ width: '100%', marginTop: '1rem', height: '55px' }}>
+                  Send Message
+                </button>
+              </form>
+            </motion.div>
+          </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                <label style={{ fontSize: '0.75rem', fontWeight: 600, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.02em' }}>Message</label>
-                <textarea 
-                  placeholder="Write your message here.."
-                  rows={5}
-                  style={{ background: '#111', border: '1px solid rgba(255,255,255,0.1)', padding: '16px', color: '#fff', fontSize: '0.9rem', outline: 'none', resize: 'none' }}
-                ></textarea>
-              </div>
-
-              <button 
-                type="submit"
-                style={{ 
-                  background: '#fff', 
-                  color: '#000', 
-                  border: 'none', 
-                  padding: '18px', 
-                  fontSize: '0.85rem', 
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  marginTop: '0.5rem',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em'
-                }}
-              >
-                Submit form
-              </button>
-            </form>
-          </motion.div>
+          {/* Addresses Section */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(3, 1fr)', 
+            gap: '60px', 
+            marginTop: '120px', 
+            borderTop: '1px solid rgba(255,255,255,0.1)', 
+            paddingTop: '80px',
+            textAlign: 'center'
+          }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <h4 style={{ fontSize: '0.75rem', fontWeight: 600, marginBottom: '1.5rem', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Calicut</h4>
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', fontWeight: 300, lineHeight: '1.8' }}>
+                #1/523, Krishna Building<br />
+                NH 66, Azhinhilam PO<br />
+                Calicut - 673632<br />
+                <span style={{ color: '#fff', fontWeight: 500, display: 'block', marginTop: '10px' }}>+91 0483 2941308</span>
+              </p>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <h4 style={{ fontSize: '0.75rem', fontWeight: 600, marginBottom: '1.5rem', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Bangalore</h4>
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', fontWeight: 300, lineHeight: '1.8' }}>
+                No.1DC-121, 1st D Cross<br />
+                2nd Main, Kasturinagar<br />
+                Bangalore – 560 043<br />
+                <span style={{ color: '#fff', fontWeight: 500, display: 'block', marginTop: '10px' }}>+91 8589 011307</span>
+              </p>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <h4 style={{ fontSize: '0.75rem', fontWeight: 600, marginBottom: '1.5rem', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Dubai</h4>
+              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', fontWeight: 300, lineHeight: '1.8' }}>
+                Aspect Tower 906<br />
+                Business Bay, Dubai<br />
+                UAE<br />
+                <span style={{ color: '#fff', fontWeight: 500, display: 'block', marginTop: '10px' }}>hello@attiks.ae</span>
+              </p>
+            </div>
+          </div>
 
         </div>
       </section>

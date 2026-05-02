@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
@@ -57,14 +58,20 @@ export default function Footer() {
             <div style={{ minWidth: '100px' }}>
               <h4 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '1.5rem', color: '#fff' }}>Pages</h4>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                {['HOME', 'ABOUT', 'PROPERTIES', 'BLOG', 'CONTACT'].map((item) => (
-                  <li key={item}>
-                    <a href="#" style={{ color: '#ccc', fontSize: '0.75rem', fontWeight: 500, textDecoration: 'none', transition: 'color 0.3s ease' }}
+                {[
+                  { name: 'HOME', path: '/' },
+                  { name: 'ABOUT', path: '/about' },
+                  { name: 'PROPERTIES', path: '/projects' },
+                  { name: 'BLOG', path: '/blog' },
+                  { name: 'CONTACT', path: '/contact' }
+                ].map((item) => (
+                  <li key={item.name}>
+                    <Link href={item.path} style={{ color: '#ccc', fontSize: '0.75rem', fontWeight: 500, textDecoration: 'none', transition: 'color 0.3s ease' }}
                       onMouseEnter={(e) => e.currentTarget.style.color = '#fff'}
                       onMouseLeave={(e) => e.currentTarget.style.color = '#ccc'}
                     >
-                      {item}
-                    </a>
+                      {item.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -88,19 +95,21 @@ export default function Footer() {
             </div>
 
             {/* Contact */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', minWidth: '180px', maxWidth: '220px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', minWidth: '220px', maxWidth: '300px' }}>
               <div>
                 <h4 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#fff' }}>Phone</h4>
-                <p style={{ color: '#ccc', fontSize: '0.75rem', fontWeight: 500 }}>+1 (201)8455396</p>
+                <p style={{ color: '#ccc', fontSize: '0.75rem', fontWeight: 500 }}>+91 0483 2941308</p>
+                <p style={{ color: '#ccc', fontSize: '0.75rem', fontWeight: 500 }}>+91 8589 022307</p>
               </div>
               <div>
                 <h4 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#fff' }}>Email</h4>
-                <p style={{ color: '#ccc', fontSize: '0.75rem', fontWeight: 500, textTransform: 'uppercase' }}>JACOB@ROYAL.COM</p>
+                <p style={{ color: '#ccc', fontSize: '0.75rem', fontWeight: 500, textTransform: 'uppercase' }}>INFO@ATTIKS.IN</p>
+                <p style={{ color: '#ccc', fontSize: '0.75rem', fontWeight: 500, textTransform: 'uppercase' }}>HELLO@ATTIKS.AE</p>
               </div>
               <div>
-                <h4 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#fff' }}>Address</h4>
+                <h4 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#fff' }}>Locations</h4>
                 <p style={{ color: '#ccc', fontSize: '0.75rem', fontWeight: 500, lineHeight: '1.6', textTransform: 'uppercase' }}>
-                  3831 EDGEWOOD AVENUE, FRESNO,<br />CALIFORNIA, 93721
+                  Calicut | Bangalore | Dubai
                 </p>
               </div>
             </div>

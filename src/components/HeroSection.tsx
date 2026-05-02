@@ -35,20 +35,20 @@ export default function HeroSection() {
       <div className="section-content" style={{ zIndex: 10 }}>
         <div>
           <p style={{ 
-            fontSize: '0.8rem', 
+            fontSize: '0.75rem', 
             textTransform: 'uppercase', 
             letterSpacing: '0.4em', 
-            marginBottom: '1.5rem',
+            marginBottom: '1rem',
             opacity: 0.8
           }}>
             Elite luxury
           </p>
           <h1 style={{ 
-            fontSize: 'clamp(3rem, 10vw, 7rem)', 
+            fontSize: 'clamp(2.5rem, 8vw, 5rem)', 
             fontWeight: '800', 
-            lineHeight: '0.9',
+            lineHeight: '1.0',
             marginBottom: '2.5rem',
-            maxWidth: '900px'
+            maxWidth: '800px'
           }}>
             LIVE WHERE <br /> LUXURY RESIDES
           </h1>
