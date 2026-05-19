@@ -5,16 +5,16 @@ import { motion } from 'framer-motion';
 export default function JourneyCTASection() {
   return (
     <section className="section" style={{ background: '#000', padding: '0 var(--section-padding) 6rem var(--section-padding)', display: 'flex', justifyContent: 'center' }}>
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        style={{ 
-          position: 'relative', 
-          width: '100%', 
+        style={{
+          position: 'relative',
+          width: '100%',
           maxWidth: '1400px',
-          height: '75vh', 
+          height: '75vh',
           minHeight: '550px',
           overflow: 'hidden',
           display: 'flex',
@@ -28,10 +28,10 @@ export default function JourneyCTASection() {
         {/* We use a placeholder image as a poster, and point source to a dummy mp4. 
             Once you have the 5-second video, you can place it in the public folder 
             and update the src attribute below. */}
-        <video 
-          autoPlay 
-          loop 
-          muted 
+        <video
+          autoPlay
+          loop
+          muted
           playsInline
           poster="/story_discussion.png"
           style={{
@@ -61,17 +61,17 @@ export default function JourneyCTASection() {
 
         {/* Content */}
         <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
             style={{ fontSize: '1.1rem', color: '#fff', fontWeight: 500, marginBottom: '1.5rem', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}
           >
-            Join the Journey
+            Start the Projct
           </motion.p>
-          
-          <motion.h2 
+
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
@@ -86,11 +86,11 @@ export default function JourneyCTASection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
-            style={{ 
-              background: '#fff', 
-              color: '#000', 
-              border: 'none', 
-              padding: '14px 32px', 
+            style={{
+              background: '#fff',
+              color: '#000',
+              border: 'none',
+              padding: '14px 32px',
               fontSize: '1rem',
               fontWeight: 600,
               cursor: 'pointer',
