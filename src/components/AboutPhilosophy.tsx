@@ -5,17 +5,16 @@ import Image from 'next/image';
 
 export default function AboutPhilosophy() {
   return (
-    <section className="section" style={{ height: '100vh', background: '#000', padding: '0 var(--section-padding)', scrollSnapAlign: 'start' }}>
+    <section className="section" style={{ height: 'auto', minHeight: '60vh', background: '#000', padding: '40px var(--section-padding) 80px', scrollSnapAlign: 'start' }}>
       <div style={{ 
         display: 'flex', 
         width: '100%', 
-        height: '100%', 
         alignItems: 'center',
         gap: '10%'
       }}>
         
         {/* Left Image Box */}
-        <div style={{ flex: 1.2, position: 'relative', height: '60%', borderRadius: '4px', overflow: 'hidden' }}>
+        <div style={{ flex: 1.2, position: 'relative', height: '60vh', borderRadius: '4px', overflow: 'hidden' }}>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}

@@ -15,9 +15,9 @@ export default function CommunityCarousel() {
   const extendedCommunities = [...communities, ...communities, ...communities, ...communities];
 
   return (
-    <section className="section" style={{ height: '100vh', background: '#000', padding: '5% 0', display: 'flex', flexDirection: 'column', scrollSnapAlign: 'start' }}>
+    <section className="section" style={{ height: 'auto', minHeight: '60vh', background: '#000', padding: '40px 0 80px', display: 'flex', flexDirection: 'column', scrollSnapAlign: 'start' }}>
       <div style={{ textAlign: 'center', marginBottom: '5vh' }}>
-        <h2 style={{ fontSize: '1.2rem', letterSpacing: '0.3em', fontWeight: 600 }}>OUR COMMUNITIES</h2>
+        <h2 style={{ fontSize: '1.2rem', letterSpacing: '0.3em', fontWeight: 600 }}>OUR PROJECTS</h2>
       </div>
 
       <div style={{ flex: 1, overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center' }}>

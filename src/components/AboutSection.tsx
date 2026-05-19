@@ -5,8 +5,8 @@ import Image from 'next/image';
 
 export default function AboutSection() {
   return (
-    <section id="about-us" className="section" style={{ height: '100vh', background: '#000', padding: '0 var(--section-padding)', scrollSnapAlign: 'start' }}>
-      <div style={{ display: 'flex', width: '100%', height: '100%' }}>
+    <section id="about-us" className="section" style={{ height: 'auto', minHeight: '60vh', background: '#000', padding: '80px var(--section-padding) 40px', scrollSnapAlign: 'start' }}>
+      <div style={{ display: 'flex', width: '100%', alignItems: 'center' }}>
 
         {/* Left Content */}
         <div style={{
@@ -22,7 +22,7 @@ export default function AboutSection() {
             transition={{ duration: 0.8, ease: 'easeOut' }}
             viewport={{ once: true }}
           >
-            <p style={{ fontSize: '0.9rem', marginBottom: '1rem', fontWeight: 600 }}>Our Story</p>
+            <p style={{ fontSize: '0.9rem', marginBottom: '1rem', fontWeight: 600 }}>About Us</p>
             <h2 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 'bold', marginBottom: '1.5rem', textTransform: 'none' }}>
               MEET JACOB NOLAN
             </h2>
@@ -45,7 +45,7 @@ export default function AboutSection() {
         </div>
 
         {/* Right Image */}
-        <div style={{ flex: 1, position: 'relative', padding: '120px 0 120px 60px' }}>
+        <div style={{ flex: 1, position: 'relative', padding: '0 0 0 60px', height: 'calc(100vh - 240px)' }}>
           <motion.div
             initial={{ opacity: 0, scale: 1.1 }}
             whileInView={{ opacity: 1, scale: 1 }}
