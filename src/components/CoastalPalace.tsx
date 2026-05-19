@@ -21,7 +21,7 @@ export default function CoastalPalace() {
           style={{ objectFit: 'cover' }}
         />
         {/* Warmer overlay */}
-        <div className="overlay" style={{ background: 'linear-gradient(rgba(40, 20, 0, 0.4), rgba(20, 10, 0, 0.7))' }}></div>
+        <div className="overlay" style={{ background: 'linear-gradient(rgba(40, 20, 0, 0.4), rgba(20, 10, 0, 0.7))', opacity: 0.5 }}></div>
       </div>
 
       <div className="section-content text-center" style={{ zIndex: 10, textAlign: 'center', margin: '0 auto' }}>

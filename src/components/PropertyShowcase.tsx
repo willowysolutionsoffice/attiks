@@ -14,7 +14,7 @@ export default function PropertyShowcase() {
           priority
           style={{ objectFit: 'cover' }}
         />
-        <div className="overlay" style={{ background: 'rgba(0,0,0,0.5)' }}></div>
+        <div className="overlay" style={{ background: 'rgba(0,0,0,0.5)', opacity: 0.5 }}></div>
       </div>
 
       <div

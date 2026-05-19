@@ -14,7 +14,7 @@ export default function SkylinePenthouse() {
           priority
           style={{ objectFit: 'cover' }}
         />
-        <div className="overlay" style={{ background: 'linear-gradient(rgba(0, 10, 30, 0.5), rgba(0, 5, 10, 0.8))' }}></div>
+        <div className="overlay" style={{ background: 'linear-gradient(rgba(0, 10, 30, 0.5), rgba(0, 5, 10, 0.8))', opacity: 0.5 }}></div>
       </div>
 
       <div className="section-content text-center" style={{ zIndex: 10, textAlign: 'center', margin: '0 auto' }}>

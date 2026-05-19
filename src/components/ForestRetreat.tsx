@@ -14,7 +14,7 @@ export default function ForestRetreat() {
           priority
           style={{ objectFit: 'cover' }}
         />
-        <div className="overlay" style={{ background: 'linear-gradient(rgba(10, 30, 10, 0.4), rgba(5, 15, 5, 0.8))' }}></div>
+        <div className="overlay" style={{ background: 'linear-gradient(rgba(10, 30, 10, 0.4), rgba(5, 15, 5, 0.8))', opacity: 0.5 }}></div>
       </div>
 
       <div className="section-content text-center" style={{ zIndex: 10, textAlign: 'center', margin: '0 auto' }}>
