@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function AboutSection() {
   return (
@@ -38,9 +39,9 @@ export default function AboutSection() {
               reflects a commitment to excellence, crafted to exceed the expectations of today&apos;s
               luxury buyer.
             </p>
-            <button className="btn-premium" style={{ borderRadius: '2px', padding: '12px 32px' }}>
+            <Link href="/about" className="btn-premium" style={{ borderRadius: '2px', padding: '12px 32px', display: 'inline-block', textDecoration: 'none' }}>
               About us
-            </button>
+            </Link>
           </motion.div>
         </div>
 

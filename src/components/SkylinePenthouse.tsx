@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function SkylinePenthouse() {
   return (
@@ -26,18 +27,20 @@ export default function SkylinePenthouse() {
           </p>
 
           <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center' }}>
-            <button
+            <Link
+              href="/about"
               className="btn-premium"
-              style={{ padding: '15px 40px', background: '#fff', color: '#000' }}
+              style={{ padding: '15px 40px', background: '#fff', color: '#000', display: 'inline-block', textDecoration: 'none' }}
             >
               Learn more
-            </button>
-            <button
+            </Link>
+            <Link
+              href="/projects"
               className="btn-outline"
-              style={{ padding: '15px 40px', borderColor: '#a5b4fc', color: '#a5b4fc' }}
+              style={{ padding: '15px 40px', borderColor: '#a5b4fc', color: '#a5b4fc', display: 'inline-block', textDecoration: 'none' }}
             >
               View all
-            </button>
+            </Link>
           </div>
         </div>
       </div>

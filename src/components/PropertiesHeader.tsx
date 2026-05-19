@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import PageHeader from './PageHeader';
 
 export default function PropertiesHeader() {
@@ -27,8 +28,8 @@ export default function PropertiesHeader() {
             <h2 className="project-hero-title">THE URBAN VILLA</h2>
             <p className="project-hero-address">123 Main Street, Suite 200, Austin, TX 78701</p>
             <div className="hero-buttons">
-              <a href="#" className="hero-btn-white">Learn more</a>
-              <a href="#" className="hero-btn-outline">View all</a>
+              <Link href="/about" className="hero-btn-white">Learn more</Link>
+              <Link href="/projects" className="hero-btn-outline">View all</Link>
             </div>
           </div>
         </div>

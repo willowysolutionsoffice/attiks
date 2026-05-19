@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function PropertyShowcase() {
   return (
@@ -33,18 +34,20 @@ export default function PropertyShowcase() {
           </p>
 
           <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center' }}>
-            <button
+            <Link
+              href="/about"
               className="btn-premium"
-              style={{ padding: '15px 40px' }}
+              style={{ padding: '15px 40px', display: 'inline-block', textDecoration: 'none' }}
             >
               Learn more
-            </button>
-            <button
+            </Link>
+            <Link
+              href="/projects"
               className="btn-outline"
-              style={{ padding: '15px 40px' }}
+              style={{ padding: '15px 40px', display: 'inline-block', textDecoration: 'none' }}
             >
               View all
-            </button>
+            </Link>
           </div>
         </div>
       </div>

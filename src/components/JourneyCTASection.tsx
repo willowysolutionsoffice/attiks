@@ -1,6 +1,6 @@
 'use client';
-
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 export default function JourneyCTASection() {
   return (
@@ -81,32 +81,38 @@ export default function JourneyCTASection() {
             BEGIN YOUR JOURNEY TO<br />TIMELESS LUXURY.
           </motion.h2>
 
-          <motion.button
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
-            style={{
-              background: '#fff',
-              color: '#000',
-              border: 'none',
-              padding: '14px 32px',
-              fontSize: '1rem',
-              fontWeight: 600,
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.05)';
-              e.currentTarget.style.background = '#f0f0f0';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)';
-              e.currentTarget.style.background = '#fff';
-            }}
           >
-            Experience luxury
-          </motion.button>
+            <Link
+              href="/contact"
+              style={{
+                background: '#fff',
+                color: '#000',
+                border: 'none',
+                padding: '14px 32px',
+                fontSize: '1rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                display: 'inline-block',
+                textDecoration: 'none'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.background = '#f0f0f0';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.background = '#fff';
+              }}
+            >
+              Contact us
+            </Link>
+          </motion.div>
         </div>
       </motion.div>
     </section>

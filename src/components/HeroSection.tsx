@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function HeroSection() {
   return (
@@ -52,9 +53,9 @@ export default function HeroSection() {
           }}>
             LIVE WHERE <br /> LUXURY RESIDES
           </h1>
-          <button className="btn-premium" style={{ padding: '18px 48px', fontSize: '1rem' }}>
+          <Link href="/contact" className="btn-premium" style={{ padding: '18px 48px', fontSize: '1rem', display: 'inline-block', textDecoration: 'none' }}>
             Schedule a tour
-          </button>
+          </Link>
         </div>
       </div>
 
