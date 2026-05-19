@@ -2,12 +2,13 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const communities = [
-  { name: 'Downtown District', image: '/comm_downtown.png' },
-  { name: 'Modern Residence', image: '/comm_modern.png' },
-  { name: 'Historic City', image: '/comm_historic.png' },
-  { name: 'Beach Front District', image: '/comm_beach.png' },
+  { id: 'downtown-district', name: 'Downtown District', image: '/comm_downtown.png' },
+  { id: 'modern-residence', name: 'Modern Residence', image: '/comm_modern.png' },
+  { id: 'historic-city', name: 'Historic City', image: '/comm_historic.png' },
+  { id: 'beach-front-district', name: 'Beach Front District', image: '/comm_beach.png' },
 ];
 
 export default function CommunityCarousel() {
@@ -41,35 +42,37 @@ export default function CommunityCarousel() {
           }}
         >
           {extendedCommunities.map((community, i) => (
-            <div
-              key={i}
-              style={{
-                width: '400px',
-                height: '60vh',
-                position: 'relative',
-                flexShrink: 0,
-                overflow: 'hidden',
-                borderRadius: '4px'
-              }}
-            >
-              <Image
-                src={community.image}
-                alt={community.name}
-                fill
-                style={{ objectFit: 'cover' }}
-              />
-              <div style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                width: '100%',
-                padding: '20px',
-                background: 'linear-gradient(transparent, rgba(0,0,0,0.8))',
-                textAlign: 'center'
-              }}>
-                <p style={{ fontSize: '0.9rem', fontWeight: 500, letterSpacing: '0.1em' }}>{community.name}</p>
+            <Link href={`/projects/${community.id}`} key={i}>
+              <div
+                style={{
+                  width: '400px',
+                  height: '60vh',
+                  position: 'relative',
+                  flexShrink: 0,
+                  overflow: 'hidden',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                <Image
+                  src={community.image}
+                  alt={community.name}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  width: '100%',
+                  padding: '20px',
+                  background: 'linear-gradient(transparent, rgba(0,0,0,0.8))',
+                  textAlign: 'center'
+                }}>
+                  <p style={{ fontSize: '0.9rem', fontWeight: 500, letterSpacing: '0.1em', color: '#fff' }}>{community.name}</p>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </motion.div>
       </div>
