@@ -45,68 +45,99 @@ export default function StorySection() {
   });
 
   return (
-    <section ref={containerRef} style={{ height: '300vh', background: '#000', position: 'relative' }}>
-      <div style={{ position: 'sticky', top: 0, height: '100vh', width: '100%', display: 'flex', alignItems: 'center', padding: '0 var(--section-padding)', overflow: 'hidden' }}>
-        <div style={{ width: '100%', maxWidth: '1400px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '100px', alignItems: 'center' }}>
-          
-          {/* Left Side: Text */}
-          <div style={{ height: '350px', position: 'relative' }}>
-            {stories.map((story, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ 
-                  opacity: activeIndex === i ? 1 : 0,
-                  y: activeIndex === i ? 0 : 20,
-                }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                style={{ 
-                  position: 'absolute', 
-                  top: 0, 
-                  left: 0, 
-                  width: '100%',
-                  pointerEvents: activeIndex === i ? 'auto' : 'none'
-                }}
-              >
-                <p style={{ fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.2em', color: '#fff', marginBottom: '1.5rem', textTransform: 'uppercase' }}>
-                  {story.title}
-                </p>
-                <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: '#fff', marginBottom: '2rem', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
-                  {story.headline}
-                </h2>
-                <p style={{ fontSize: '1.15rem', lineHeight: '1.7', color: 'rgba(255,255,255,0.6)', maxWidth: '500px' }}>
-                  {story.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Right Side: Image Container */}
-          <div style={{ position: 'relative', height: '600px', width: '100%', overflow: 'hidden', borderRadius: '4px' }}>
-             {stories.map((story, i) => (
+    <>
+      <section ref={containerRef} className="mobile-hide" style={{ height: '300vh', background: '#000', position: 'relative' }}>
+        <div style={{ position: 'sticky', top: 0, height: '100vh', width: '100%', display: 'flex', alignItems: 'center', padding: '0 var(--section-padding)', overflow: 'hidden' }}>
+          <div style={{ width: '100%', maxWidth: '1400px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '100px', alignItems: 'center' }}>
+            
+            {/* Left Side: Text */}
+            <div style={{ height: '350px', position: 'relative' }}>
+              {stories.map((story, i) => (
                 <motion.div
                   key={i}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ 
                     opacity: activeIndex === i ? 1 : 0,
-                    scale: activeIndex === i ? 1 : 1.1,
-                    filter: activeIndex === i ? 'blur(0px)' : 'blur(10px)'
+                    y: activeIndex === i ? 0 : 20,
                   }}
-                  transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ 
+                    position: 'absolute', 
+                    top: 0, 
+                    left: 0, 
+                    width: '100%',
+                    pointerEvents: activeIndex === i ? 'auto' : 'none'
+                  }}
                 >
-                  <Image 
-                    src={story.image}
-                    alt={story.headline}
-                    fill
-                    style={{ objectFit: 'cover' }}
-                  />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.2), transparent)' }}></div>
+                  <p style={{ fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.2em', color: '#fff', marginBottom: '1.5rem', textTransform: 'uppercase' }}>
+                    {story.title}
+                  </p>
+                  <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: '#fff', marginBottom: '2rem', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
+                    {story.headline}
+                  </h2>
+                  <p style={{ fontSize: '1.15rem', lineHeight: '1.7', color: 'rgba(255,255,255,0.6)', maxWidth: '500px' }}>
+                    {story.description}
+                  </p>
                 </motion.div>
-             ))}
-          </div>
+              ))}
+            </div>
 
+            {/* Right Side: Image Container */}
+            <div style={{ position: 'relative', height: '600px', width: '100%', overflow: 'hidden', borderRadius: '4px' }}>
+               {stories.map((story, i) => (
+                  <motion.div
+                    key={i}
+                    animate={{ 
+                      opacity: activeIndex === i ? 1 : 0,
+                      scale: activeIndex === i ? 1 : 1.1,
+                      filter: activeIndex === i ? 'blur(0px)' : 'blur(10px)'
+                    }}
+                    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                  >
+                    <Image 
+                      src={story.image}
+                      alt={story.headline}
+                      fill
+                      style={{ objectFit: 'cover' }}
+                    />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.2), transparent)' }}></div>
+                  </motion.div>
+               ))}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Mobile Stacked Layout (Visible on mobile only) */}
+      <div className="desktop-hide" style={{ background: '#000', padding: '80px var(--section-padding)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '80px' }}>
+          {stories.map((story, i) => (
+            <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+              <div>
+                <p style={{ fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.2em', color: '#fff', marginBottom: '1rem', textTransform: 'uppercase' }}>
+                  {story.title}
+                </p>
+                <h2 style={{ fontSize: 'clamp(1.8rem, 6vw, 2.5rem)', fontWeight: 800, color: '#fff', marginBottom: '1.5rem', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
+                  {story.headline}
+                </h2>
+                <p style={{ fontSize: '1.1rem', lineHeight: '1.7', color: 'rgba(255,255,255,0.6)' }}>
+                  {story.description}
+                </p>
+              </div>
+              <div style={{ position: 'relative', height: '300px', width: '100%', overflow: 'hidden', borderRadius: '4px' }}>
+                <Image 
+                  src={story.image}
+                  alt={story.headline}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    </section>
+    </>
   );
 }

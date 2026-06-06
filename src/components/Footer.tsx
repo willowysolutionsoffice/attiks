@@ -53,7 +53,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4rem', flex: '1 1 500px', justifyContent: 'flex-end' }}>
+          <div className="footer-links-container">
             {/* Pages */}
             <div style={{ minWidth: '100px' }}>
               <h4 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '1.5rem', color: '#fff' }}>Pages</h4>
@@ -120,19 +120,7 @@ export default function Footer() {
 
       {/* Bottom Section */}
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-        <div style={{
-          maxWidth: '1400px',
-          margin: '0 auto',
-          padding: '1.5rem var(--section-padding)',
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '1rem',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          fontSize: '0.75rem',
-          color: '#888',
-          fontWeight: 500
-        }}>
+        <div className="footer-bottom">
           <p>Images : Unsplash, Pexels</p>
           <p style={{ color: '#fff' }}>Visioned and Crafted by Willowy</p>
           <p>© All right reserved</p>

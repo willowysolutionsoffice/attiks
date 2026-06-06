@@ -53,7 +53,7 @@ export default function BlogPage() {
           />
 
           {/* Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px' }}>
+          <div className="blog-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px' }}>
             {articles.map((article, index) => (
               <div
                 key={index}

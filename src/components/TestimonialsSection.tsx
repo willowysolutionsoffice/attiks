@@ -40,7 +40,7 @@ export default function TestimonialsSection() {
   const current = testimonials[currentIndex];
 
   return (
-    <section className="section" style={{ height: '100vh', background: '#000', padding: '0 var(--section-padding)', display: 'flex', alignItems: 'center', scrollSnapAlign: 'start' }}>
+    <section className="section testimonials-section" style={{ height: '100vh', background: '#000', padding: '0 var(--section-padding)', display: 'flex', alignItems: 'center', scrollSnapAlign: 'start' }}>
       <div style={{ width: '100%', maxWidth: '1400px', margin: '0 auto' }}>
         
         <motion.div 
@@ -53,9 +53,9 @@ export default function TestimonialsSection() {
           <h2 style={{ fontSize: '1rem', letterSpacing: '0.4em', fontWeight: 700, color: '#fff' }}>TESTIMONIALS</h2>
         </motion.div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '120px', alignItems: 'center' }}>
+        <div className="grid-responsive-2" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '120px', alignItems: 'center' }}>
           {/* Image Part */}
-          <div style={{ position: 'relative', height: '550px', borderRadius: '0', overflow: 'hidden' }}>
+          <div className="testimonial-image-container">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -108,7 +108,7 @@ export default function TestimonialsSection() {
             </AnimatePresence>
 
             {/* Navigation Arrows */}
-            <div style={{ display: 'flex', gap: '1px', position: 'absolute', bottom: '-100px', right: '0' }}>
+            <div className="testimonial-nav">
                <button 
                  onClick={prevTestimonial}
                  style={{ 

@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function JourneyCTASection() {
   return (
-    <section className="section" style={{ background: '#000', padding: '0 var(--section-padding) 6rem var(--section-padding)', display: 'flex', justifyContent: 'center' }}>
+    <section className="section journey-cta-section" style={{ background: '#000', padding: '0 var(--section-padding) 6rem var(--section-padding)', display: 'flex', justifyContent: 'center' }}>
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -76,7 +76,7 @@ export default function JourneyCTASection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             viewport={{ once: true }}
-            style={{ fontSize: '4rem', color: '#fff', fontWeight: 600, lineHeight: '1.1', marginBottom: '3rem', maxWidth: '900px', letterSpacing: '-0.02em', textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}
+            style={{ fontSize: 'clamp(2.2rem, 7vw, 4rem)', color: '#fff', fontWeight: 600, lineHeight: '1.1', marginBottom: '3rem', maxWidth: '900px', letterSpacing: '-0.02em', textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}
           >
             BEGIN YOUR JOURNEY TO<br />TIMELESS LUXURY.
           </motion.h2>

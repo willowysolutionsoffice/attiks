@@ -6,7 +6,7 @@ import Image from 'next/image';
 export default function AboutPhilosophy() {
   return (
     <section className="section" style={{ height: 'auto', minHeight: '60vh', background: '#000', padding: '40px var(--section-padding) 80px', scrollSnapAlign: 'start' }}>
-      <div style={{ 
+      <div className="flex-responsive-row" style={{ 
         display: 'flex', 
         width: '100%', 
         alignItems: 'center',
@@ -14,7 +14,7 @@ export default function AboutPhilosophy() {
       }}>
         
         {/* Left Image Box */}
-        <div style={{ flex: 1.2, position: 'relative', height: '60vh', borderRadius: '4px', overflow: 'hidden' }}>
+        <div className="philosophy-image-container" style={{ borderRadius: '4px', overflow: 'hidden' }}>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}

@@ -98,7 +98,7 @@ export default function HeroSection() {
       </div>
 
       {/* Thumbnail Previews */}
-      <div style={{
+      <div className="mobile-hide" style={{
         position: 'absolute',
         bottom: '40px',
         right: '5%',

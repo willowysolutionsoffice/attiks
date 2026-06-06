@@ -25,7 +25,7 @@ export default function PressAndMediaSection() {
   const extendedArticles = [...articles, ...articles, ...articles, ...articles];
 
   return (
-    <section className="section" style={{ background: '#000', padding: '6rem var(--section-padding)' }}>
+    <section className="section press-media-section" style={{ background: '#000', padding: '6rem var(--section-padding)' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
         
         {/* Header */}
@@ -43,7 +43,7 @@ export default function PressAndMediaSection() {
 
         {/* Grid */}
         {/* Sliding Carousel */}
-        <div style={{ width: '100vw', marginLeft: 'calc(-50vw + 50%)', overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center' }}>
+        <div className="press-carousel-container">
           <motion.div
             animate={{
               x: [0, '-25%']
@@ -66,7 +66,7 @@ export default function PressAndMediaSection() {
             {extendedArticles.map((article, index) => (
               <div
                 key={index}
-                style={{ cursor: 'pointer', width: '400px', flexShrink: 0 }}
+                style={{ cursor: 'pointer', width: 'clamp(280px, 80vw, 400px)', flexShrink: 0 }}
                 onMouseEnter={(e) => {
                   const img = e.currentTarget.querySelector('img');
                   if (img) img.style.transform = 'scale(1.05)';

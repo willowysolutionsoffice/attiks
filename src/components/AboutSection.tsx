@@ -7,7 +7,7 @@ import Link from 'next/link';
 export default function AboutSection() {
   return (
     <section id="about-us" className="section" style={{ height: 'auto', minHeight: '60vh', background: '#000', padding: '80px var(--section-padding) 40px', scrollSnapAlign: 'start' }}>
-      <div style={{ display: 'flex', width: '100%', alignItems: 'center' }}>
+      <div className="flex-responsive-row" style={{ display: 'flex', width: '100%', alignItems: 'center' }}>
 
         {/* Left Content */}
         <div style={{
@@ -46,7 +46,7 @@ export default function AboutSection() {
         </div>
 
         {/* Right Image */}
-        <div style={{ flex: 1, position: 'relative', padding: '0 0 0 60px', height: 'calc(100vh - 240px)' }}>
+        <div className="about-image-container">
           <motion.div
             initial={{ opacity: 0, scale: 1.1 }}
             whileInView={{ opacity: 1, scale: 1 }}

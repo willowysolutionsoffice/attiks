@@ -21,7 +21,7 @@ export default function CommunityCarousel() {
         <h2 style={{ fontSize: '1.2rem', letterSpacing: '0.3em', fontWeight: 600 }}>OUR PROJECTS</h2>
       </div>
 
-      <div style={{ flex: 1, overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center' }}>
+      <div style={{ flex: 1, overflow: 'hidden', position: 'relative', display: 'flex', alignItems: 'center', width: '100%', maxWidth: '100%' }}>
         <motion.div
           animate={{
             x: [0, '-25%']
@@ -45,8 +45,8 @@ export default function CommunityCarousel() {
             <Link href={`/projects/${community.id}`} key={i}>
               <div
                 style={{
-                  width: '400px',
-                  height: '60vh',
+                  width: 'clamp(280px, 80vw, 400px)',
+                  height: 'clamp(320px, 55vh, 500px)',
                   position: 'relative',
                   flexShrink: 0,
                   overflow: 'hidden',

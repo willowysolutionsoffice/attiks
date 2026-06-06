@@ -26,7 +26,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
-            style={{ position: 'relative', width: '100%', height: '650px', overflow: 'hidden' }}
+            className="about-hero-image-container"
           >
             <Image 
               src="/team_photo.png"
@@ -43,10 +43,11 @@ export default function AboutPage() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
+            className="grid-responsive-2"
             style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '100px', marginTop: '100px', alignItems: 'start' }}
           >
             {/* Stats */}
-            <div style={{ display: 'flex', gap: '60px' }}>
+            <div className="stats-container" style={{ display: 'flex', gap: '60px' }}>
               <div>
                 <h3 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '12px', color: '#fff' }}>$250M+</h3>
                 <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.5)', textTransform: 'none', fontWeight: 400 }}>Luxury Property Sales</p>

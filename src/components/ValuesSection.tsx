@@ -37,7 +37,7 @@ export default function ValuesSection() {
           </h2>
         </motion.div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
+        <div className="grid-responsive-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
           {values.map((value, i) => (
             <motion.div
               key={i}
@@ -45,7 +45,7 @@ export default function ValuesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: i * 0.2 }}
               viewport={{ once: true }}
-              style={{ position: 'relative', height: '600px', overflow: 'hidden', cursor: 'pointer' }}
+              className="value-card"
             >
               <Image 
                 src={value.image}

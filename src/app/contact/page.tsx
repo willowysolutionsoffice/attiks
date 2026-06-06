@@ -24,9 +24,9 @@ export default function ContactPage() {
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '80px', alignItems: 'stretch' }}>
+          <div className="grid-responsive-2" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '80px', alignItems: 'stretch' }}>
             {/* Map Section */}
-            <div style={{ width: '100%', background: '#111', position: 'relative', borderRadius: '2px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.05)' }}>
+            <div className="contact-map-container">
               <iframe 
                 src="https://www.google.com/maps/d/embed?mid=1AGNpIWX6rbzzsTDXTef1uOw5ItpvBRRW&ehbc=2E312F" 
                 width="100%" 
@@ -64,7 +64,7 @@ export default function ContactPage() {
           </div>
 
           {/* Addresses Section */}
-          <div style={{ 
+          <div className="grid-responsive-3" style={{ 
             display: 'grid', 
             gridTemplateColumns: 'repeat(3, 1fr)', 
             gap: '60px', 

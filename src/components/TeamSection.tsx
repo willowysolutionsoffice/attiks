@@ -40,7 +40,7 @@ export default function TeamSection() {
           OUR TEAM
         </motion.h2>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem' }}>
+        <div className="grid-responsive-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem' }}>
           {teamMembers.map((member, index) => (
             <motion.div
               key={index}
