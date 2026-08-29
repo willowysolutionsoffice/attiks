@@ -46,7 +46,7 @@ export default function ContactPage() {
                 transition={{ duration: 0.6 }}
               >
                 <form style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }} onSubmit={(e) => e.preventDefault()}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                  <div className="form-name-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                     <div>
                       <label htmlFor="first-name" className="sr-only" style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0,0,0,0)' }}>First Name</label>
                       <input id="first-name" type="text" placeholder="First Name" autoComplete="given-name" style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1px solid rgba(255,255,255,0.2)', padding: '12px 0', color: '#fff', fontSize: '0.95rem', outline: 'none' }} />

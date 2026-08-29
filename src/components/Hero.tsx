@@ -55,13 +55,13 @@ const heroSlides = [
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Auto slide cycle every 7s
+  // Auto slide cycle every 4.5s with clean reset on slide change
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 7000);
+    }, 4500);
     return () => clearInterval(timer);
-  }, []);
+  }, [currentSlide]);
 
   const slide = heroSlides[currentSlide];
 
@@ -71,7 +71,7 @@ export default function Hero() {
         position: 'relative',
         width: '100%',
         height: '100vh',
-        minHeight: '650px',
+        minHeight: '600px',
         margin: 0,
         padding: 0,
         overflow: 'hidden',
@@ -80,58 +80,67 @@ export default function Hero() {
       }}
       aria-label="Hero Architectural Showcase"
     >
-      {/* Background Images with AnimatePresence */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={slide.id}
-          initial={{ scale: 1.05, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            zIndex: 1,
-          }}
-        >
-          <Image
-            src={slide.image}
-            alt={`${slide.headingTop} ${slide.headingBottom} - Attiks Architecture`}
-            fill
-            priority={currentSlide === 0}
-            fetchPriority={currentSlide === 0 ? "high" : "auto"}
-            sizes="100vw"
-            quality={80}
-            style={{ objectFit: 'cover' }}
-          />
-          {/* Cinematic Gradient Overlays for High Legibility */}
-          <div
+      {/* Preloaded Stacked Background Images with Instant Cross-Fade (Zero Buffering / Zero Black Gap) */}
+      {heroSlides.map((s, idx) => {
+        const isActive = idx === currentSlide;
+        return (
+          <motion.div
+            key={s.id}
+            initial={false}
+            animate={{
+              opacity: isActive ? 1 : 0,
+              scale: isActive ? 1 : 1.04,
+            }}
+            transition={{
+              opacity: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+              scale: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+            }}
             style={{
               position: 'absolute',
               inset: 0,
-              background:
-                'linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 35%, rgba(0,0,0,0.25) 60%, rgba(0,0,0,0.75) 100%)',
+              zIndex: isActive ? 2 : 1,
+              pointerEvents: 'none',
             }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background:
-                'radial-gradient(circle at 20% 70%, rgba(0,0,0,0.65) 0%, transparent 60%)',
-            }}
-          />
-        </motion.div>
-      </AnimatePresence>
+          >
+            <Image
+              src={s.image}
+              alt={`${s.headingTop} ${s.headingBottom} - Attiks Architecture`}
+              fill
+              priority
+              sizes="100vw"
+              quality={85}
+              style={{ objectFit: 'cover' }}
+            />
+            {/* Cinematic Gradient Overlays for High Legibility */}
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background:
+                  'linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.25) 35%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.85) 100%)',
+              }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background:
+                  'radial-gradient(circle at 20% 70%, rgba(0,0,0,0.65) 0%, transparent 60%)',
+              }}
+            />
+          </motion.div>
+        );
+      })}
 
       {/* ============================================================
-          MIDDLE / TOP-LEFT QUOTE OVERLAY
+          TOP-LEFT QUOTE OVERLAY
           ============================================================ */}
       <div
+        className="hero-quote-overlay"
         style={{
           position: 'absolute',
-          top: '130px',
-          left: 'clamp(24px, 4vw, 56px)',
+          top: '120px',
+          left: 'clamp(20px, 4vw, 56px)',
           zIndex: 10,
           maxWidth: '460px',
         }}
@@ -139,20 +148,20 @@ export default function Hero() {
         <AnimatePresence mode="wait">
           <motion.blockquote
             key={slide.quote}
-            initial={{ opacity: 0, y: -8 }}
+            initial={{ opacity: 0, y: -6 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 8 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, y: 6 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             style={{
               margin: 0,
               padding: 0,
               border: 'none',
               color: 'rgba(255, 255, 255, 0.92)',
-              fontSize: 'clamp(0.85rem, 1.1vw, 0.98rem)',
-              lineHeight: 1.55,
+              fontSize: 'clamp(0.82rem, 1.1vw, 0.98rem)',
+              lineHeight: 1.5,
               fontWeight: 400,
               letterSpacing: '0.01em',
-              textShadow: '0 2px 10px rgba(0,0,0,0.5)',
+              textShadow: '0 2px 10px rgba(0,0,0,0.6)',
             }}
           >
             &ldquo;{slide.quote}&rdquo;
@@ -164,30 +173,31 @@ export default function Hero() {
           BOTTOM HERO CONTENT: HEADLINES + CTA & RIGHT CALLOUT
           ============================================================ */}
       <div
+        className="hero-bottom-content"
         style={{
           position: 'absolute',
-          bottom: '56px',
+          bottom: '48px',
           left: '0',
           width: '100%',
-          padding: '0 clamp(24px, 4vw, 56px)',
+          padding: '0 clamp(20px, 4vw, 56px)',
           zIndex: 10,
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'flex-end',
           flexWrap: 'wrap',
-          gap: '32px',
+          gap: '24px',
           boxSizing: 'border-box',
         }}
       >
         {/* Left: Headline + Pill CTA Button */}
-        <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '750px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '750px', width: '100%' }}>
           <AnimatePresence mode="wait">
             <motion.div
               key={slide.headingTop + slide.headingBottom}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
             >
               <h1
                 style={{
@@ -195,31 +205,34 @@ export default function Hero() {
                   lineHeight: 0.95,
                   display: 'flex',
                   flexDirection: 'column',
-                  textShadow: '0 4px 24px rgba(0,0,0,0.6)',
+                  textShadow: '0 4px 24px rgba(0,0,0,0.7)',
                 }}
               >
                 <span
+                  className="hero-title-top"
                   style={{
                     fontFamily: 'var(--font-sans)',
-                    fontSize: 'clamp(3.6rem, 7.5vw, 6.8rem)',
+                    fontSize: 'clamp(2.2rem, 8.5vw, 6.8rem)',
                     fontWeight: 800,
                     color: '#ffffff',
                     letterSpacing: '-0.03em',
                     display: 'block',
+                    whiteSpace: 'nowrap',
                   }}
                 >
                   {slide.headingTop}
                 </span>
                 <span
-                  className="font-display"
+                  className="font-display hero-title-bottom"
                   style={{
-                    fontSize: 'clamp(3.6rem, 7.5vw, 6.8rem)',
+                    fontSize: 'clamp(2.2rem, 8.5vw, 6.8rem)',
                     fontWeight: 300,
                     fontStyle: 'italic',
                     color: '#ffffff',
                     letterSpacing: '-0.02em',
                     display: 'block',
-                    marginTop: '4px',
+                    marginTop: '2px',
+                    whiteSpace: 'nowrap',
                   }}
                 >
                   {slide.headingBottom}
@@ -229,49 +242,49 @@ export default function Hero() {
           </AnimatePresence>
 
           {/* Pill CTA Button */}
-          <div style={{ marginTop: '28px' }}>
+          <div className="hero-cta-btn" style={{ marginTop: '20px' }}>
             <Link
               href={slide.ctaHref}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '16px',
-                background: 'rgba(0, 0, 0, 0.45)',
+                gap: '14px',
+                background: 'rgba(0, 0, 0, 0.55)',
                 backdropFilter: 'blur(16px)',
                 WebkitBackdropFilter: 'blur(16px)',
-                border: '1px solid rgba(255, 255, 255, 0.4)',
+                border: '1px solid rgba(255, 255, 255, 0.45)',
                 borderRadius: '9999px',
-                padding: '8px 8px 8px 24px',
+                padding: '6px 6px 6px 20px',
                 color: '#ffffff',
                 textDecoration: 'none',
-                fontSize: 'clamp(0.95rem, 1.2vw, 1.05rem)',
+                fontSize: 'clamp(0.88rem, 1.1vw, 1.02rem)',
                 fontWeight: 500,
                 letterSpacing: '0.01em',
                 transition: 'background 0.3s ease, border-color 0.3s ease, transform 0.2s ease',
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(0, 0, 0, 0.7)';
+                (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(0, 0, 0, 0.8)';
                 (e.currentTarget as HTMLAnchorElement).style.borderColor = '#ffffff';
                 (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-2px)';
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(0, 0, 0, 0.45)';
-                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                (e.currentTarget as HTMLAnchorElement).style.background = 'rgba(0, 0, 0, 0.55)';
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(255, 255, 255, 0.45)';
                 (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)';
               }}
             >
               <span>{slide.ctaText}</span>
               <span
                 style={{
-                  width: '38px',
-                  height: '38px',
+                  width: '34px',
+                  height: '34px',
                   borderRadius: '50%',
                   background: '#ffffff',
                   color: '#000000',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '18px',
+                  fontSize: '16px',
                   fontWeight: 700,
                   lineHeight: 1,
                 }}
@@ -286,23 +299,24 @@ export default function Hero() {
         <AnimatePresence mode="wait">
           <motion.div
             key={slide.rightTitle}
-            initial={{ opacity: 0, x: 16 }}
+            initial={{ opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -16 }}
-            transition={{ duration: 0.6, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, x: -12 }}
+            transition={{ duration: 0.38, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+            className="hero-callout-card"
             style={{
               maxWidth: '360px',
               textAlign: 'left',
-              textShadow: '0 2px 14px rgba(0,0,0,0.6)',
+              textShadow: '0 2px 14px rgba(0,0,0,0.7)',
             }}
           >
             <h2
               style={{
                 color: '#ffffff',
-                fontSize: 'clamp(1.2rem, 1.8vw, 1.55rem)',
+                fontSize: 'clamp(1.1rem, 1.7vw, 1.5rem)',
                 fontWeight: 700,
                 letterSpacing: '-0.01em',
-                marginBottom: '8px',
+                marginBottom: '6px',
                 textTransform: 'none',
               }}
             >
@@ -311,8 +325,8 @@ export default function Hero() {
             <p
               style={{
                 color: 'rgba(255, 255, 255, 0.88)',
-                fontSize: 'clamp(0.85rem, 1.05vw, 0.95rem)',
-                lineHeight: 1.55,
+                fontSize: 'clamp(0.82rem, 1.0vw, 0.92rem)',
+                lineHeight: 1.5,
                 fontWeight: 400,
                 margin: 0,
               }}
@@ -324,42 +338,45 @@ export default function Hero() {
       </div>
 
       {/* ============================================================
-          BOTTOM CENTER PAGINATION PILL
+          RIGHT SIDE VERTICAL PAGINATION DOTS
           ============================================================ */}
       <div
+        className="hero-pagination-pill"
         style={{
           position: 'absolute',
-          bottom: '24px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: 'rgba(0, 0, 0, 0.45)',
-          backdropFilter: 'blur(14px)',
-          WebkitBackdropFilter: 'blur(14px)',
+          right: 'clamp(16px, 3vw, 40px)',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          background: 'rgba(0, 0, 0, 0.4)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
           border: '1px solid rgba(255, 255, 255, 0.2)',
-          padding: '8px 18px',
+          padding: '10px 6px',
           borderRadius: '9999px',
           zIndex: 20,
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           gap: '8px',
-          boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
+          boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
         }}
       >
         {heroSlides.map((s, idx) => (
           <button
             key={s.id}
             type="button"
+            className={`hero-dot${idx === currentSlide ? ' active' : ''}`}
             onClick={() => setCurrentSlide(idx)}
             aria-label={`Go to slide ${idx + 1}: ${s.headingTop} ${s.headingBottom}`}
             style={{
               background: idx === currentSlide ? '#ffffff' : 'rgba(255, 255, 255, 0.35)',
               border: 'none',
-              width: idx === currentSlide ? '20px' : '6px',
-              height: '6px',
+              width: '6px',
+              height: idx === currentSlide ? '18px' : '6px',
               borderRadius: '3px',
               cursor: 'pointer',
               padding: 0,
-              transition: 'all 0.3s ease',
+              transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           />
         ))}

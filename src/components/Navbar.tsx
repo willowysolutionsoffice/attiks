@@ -92,7 +92,7 @@ export default function Navbar() {
               alt="Attiks Architecture Logo"
               width={160}
               height={40}
-              style={{ objectFit: 'contain', height: '40px', width: 'auto' }}
+              style={{ objectFit: 'contain', height: 'clamp(28px, 6vw, 36px)', width: 'auto' }}
               priority
             />
           </Link>

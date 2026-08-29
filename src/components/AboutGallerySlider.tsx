@@ -203,6 +203,7 @@ export default function AboutGallerySlider() {
 
         {/* Bottom Controls Row: Arrow Left | Count | Arrow Right | View All */}
         <div
+          className="gallery-controls-row"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -245,6 +246,12 @@ export default function AboutGallerySlider() {
         @media (max-width: 768px) {
           .gallery-grid {
             grid-template-columns: 1fr !important;
+          }
+          .gallery-controls-row {
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 20px !important;
+            text-align: center !important;
           }
         }
       `}</style>

@@ -149,7 +149,7 @@ export default function Testimonials() {
         </div>
 
         {/* Indicator dots */}
-        <div style={{ display: 'flex', gap: '8px', marginTop: '36px' }}>
+        <div style={{ display: 'flex', gap: '6px', marginTop: '28px' }}>
           {testimonials.map((_, idx) => (
             <button
               key={idx}
@@ -157,14 +157,14 @@ export default function Testimonials() {
               onClick={() => setCurrent(idx)}
               aria-label={`Go to testimonial ${idx + 1}`}
               style={{
-                width: idx === current ? '24px' : '8px',
-                height: '8px',
-                borderRadius: '4px',
-                background: idx === current ? '#000000' : 'rgba(0,0,0,0.2)',
+                width: idx === current ? '16px' : '6px',
+                height: '4px',
+                borderRadius: '2px',
+                background: idx === current ? '#000000' : 'rgba(0,0,0,0.25)',
                 border: 'none',
                 cursor: 'pointer',
                 padding: 0,
-                transition: 'all 0.3s ease',
+                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
               }}
             />
           ))}
