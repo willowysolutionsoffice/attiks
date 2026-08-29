@@ -1,0 +1,584 @@
+{
+  "projects": [
+    {
+      "id": "tech-park",
+      "title": "Greenfield Tech Park",
+      "category": "commercial",
+      "location": "Kochi, Kerala",
+      "year": "2024",
+      "image": "/uploads/img_1787988715620_hero-69owPQkk.jpg",
+      "description": "A sprawling commercial campus designed to integrate natural ventilation, courtyards, and landscape elements into a modern workplace environment.",
+      "highlights": [
+        "Passive Cooling Courtyards",
+        "High-Performance Double Glazing",
+        "Contextual Timber Screens"
+      ],
+      "gallery": [
+        "/architecture.webp",
+        "/comm_modern.webp",
+        "/interior.webp",
+        "/comm_downtown.webp",
+        "/uploads/img_1787988721974_Ref.jpg"
+      ],
+      "scope": "Masterplanning & Architecture",
+      "area": "180,000 sq.ft",
+      "status": "published",
+      "featured": true
+    },
+    {
+      "id": "coastal-villa",
+      "title": "Coastal Villa",
+      "category": "residential",
+      "location": "Varkala, Kerala",
+      "year": "2024",
+      "image": "/coastal_palace.webp",
+      "description": "A private residence that responds to its coastal context with open plans, timber screens, and seamless indoor-outdoor living.",
+      "highlights": [
+        "Panoramic Ocean Vistas",
+        "Locally Sourced Laterite",
+        "Natural Sea Breeze Corridors"
+      ],
+      "scope": "Residential Architecture & Landscape",
+      "area": "6,200 sq.ft",
+      "status": "published",
+      "featured": true
+    },
+    {
+      "id": "arts-center",
+      "title": "Kerala Arts Center",
+      "category": "cultural",
+      "location": "Thrissur, Kerala",
+      "year": "2023",
+      "image": "/comm_modern.webp",
+      "description": "A cultural institution celebrating regional arts through a series of interconnected galleries, performance spaces, and sculpture gardens.",
+      "highlights": [
+        "Acoustic Auditorium",
+        "Open-Air Amphitheater",
+        "Daylight-Filtered Galleries"
+      ],
+      "scope": "Institutional & Cultural Campus",
+      "area": "45,000 sq.ft",
+      "status": "published",
+      "featured": true
+    },
+    {
+      "id": "beach-resort",
+      "title": "Bayshore Resort",
+      "category": "hospitality",
+      "location": "Kovalam, Kerala",
+      "year": "2023",
+      "image": "/comm_beach.webp",
+      "description": "A beachfront resort drawing from Kerala's vernacular architecture with sloping roofs, open verandahs, and lush tropical landscaping.",
+      "highlights": [
+        "Vernacular Sloping Roofs",
+        "Private Plunge Pools",
+        "Eco-Sensitive Coastline Footprint"
+      ],
+      "scope": "Hospitality Architecture & Interiors",
+      "area": "72,000 sq.ft",
+      "status": "published",
+      "featured": true
+    },
+    {
+      "id": "heritage-school",
+      "title": "Heritage Academy",
+      "category": "institutional",
+      "location": "Palakkad, Kerala",
+      "year": "2023",
+      "image": "/comm_historic.webp",
+      "description": "An educational campus that reinterprets traditional Kerala architectural motifs within a contemporary institutional framework.",
+      "highlights": [
+        "Shaded Verandah Corridors",
+        "Central Amphitheater Plaza",
+        "Solar-Optimized Classrooms"
+      ],
+      "scope": "Educational Campus Masterplan",
+      "area": "95,000 sq.ft",
+      "status": "published",
+      "featured": false
+    },
+    {
+      "id": "lakeside-residence",
+      "title": "Lakeside Residence",
+      "category": "residential",
+      "location": "Alleppey, Kerala",
+      "year": "2022",
+      "image": "/forest.webp",
+      "description": "A lakeside dwelling designed around the relationship between water, light, and lush vegetation.",
+      "highlights": [
+        "Direct Waterbody Interaction",
+        "Cantilevered Viewing Decks",
+        "Subtle Teak & Stone Materiality"
+      ],
+      "scope": "Bespoke Private Residence",
+      "area": "5,400 sq.ft",
+      "status": "published",
+      "featured": false
+    },
+    {
+      "id": "corporate-hq",
+      "title": "Indus Corporate HQ",
+      "category": "commercial",
+      "location": "Trivandrum, Kerala",
+      "year": "2022",
+      "image": "/comm_downtown.webp",
+      "description": "A landmark corporate headquarters integrating passive cooling strategies with a bold contemporary expression.",
+      "highlights": [
+        "Terraced Green Facade",
+        "Net-Zero Energy Goals",
+        "Collaborative Atrium Hub"
+      ],
+      "scope": "Commercial Headquarters",
+      "area": "110,000 sq.ft",
+      "status": "published",
+      "featured": false
+    },
+    {
+      "id": "gallery-interior",
+      "title": "Gallery Interior",
+      "category": "interior",
+      "location": "Kochi, Kerala",
+      "year": "2024",
+      "image": "/interior.webp",
+      "description": "A minimalist gallery interior designed to showcase contemporary Indian art with precision lighting and neutral materiality.",
+      "highlights": [
+        "Museum-Grade Lighting",
+        "Micro-Cement Continuous Flooring",
+        "Acoustic Wall Panels"
+      ],
+      "scope": "Interior Architecture & Curation",
+      "area": "3,800 sq.ft",
+      "status": "published",
+      "featured": false
+    },
+    {
+      "id": "wellness-retreat",
+      "title": "Wellness Retreat",
+      "category": "hospitality",
+      "location": "Wayanad, Kerala",
+      "year": "2023",
+      "image": "/living_room.webp",
+      "description": "An Ayurvedic wellness retreat nestled in the Western Ghats, using local stone, timber, and bamboo in a sustainable construction.",
+      "highlights": [
+        "Mountain Ridge Contouring",
+        "Thermal Mass Laterite Walls",
+        "Rainwater Harvest Reservoirs"
+      ],
+      "scope": "Eco-Resort & Spa Campus",
+      "area": "38,000 sq.ft",
+      "status": "published",
+      "featured": false
+    },
+    {
+      "id": "museum-extension",
+      "title": "Museum Extension",
+      "category": "cultural",
+      "location": "Kozhikode, Kerala",
+      "year": "2022",
+      "image": "/penthouse.webp",
+      "description": "An extension to an existing museum creating a dialogue between the old structure and new contemporary galleries.",
+      "highlights": [
+        "Heritage Transition Bridge",
+        "Climate-Controlled Archives",
+        "Sculptural Corten Steel Entry"
+      ],
+      "scope": "Public Civic Architecture",
+      "area": "24,000 sq.ft",
+      "status": "published",
+      "featured": false
+    },
+    {
+      "id": "urban-apartments",
+      "title": "Urban Commons",
+      "category": "residential",
+      "location": "Kochi, Kerala",
+      "year": "2024",
+      "image": "/villa_showcase.webp",
+      "description": "A multi-family residential development emphasizing shared green spaces, community living, and contextual urbanism.",
+      "highlights": [
+        "Sky Gardens on Every Level",
+        "Community Gathering Courtyards",
+        "Modular Flexible Layouts"
+      ],
+      "scope": "Multi-Family Residential",
+      "area": "88,000 sq.ft",
+      "status": "draft",
+      "featured": false
+    },
+    {
+      "id": "research-lab",
+      "title": "Marine Research Lab",
+      "category": "institutional",
+      "location": "Mangalore",
+      "year": "2024",
+      "image": "/hero.webp",
+      "description": "A marine research facility designed to withstand coastal conditions while providing state-of-the-art laboratory environments.",
+      "highlights": [
+        "Saline-Resistant Facade",
+        "Specialized Wet Labs",
+        "Rooftop Weather Observatory"
+      ],
+      "scope": "Specialized Institutional Facility",
+      "area": "52,000 sq.ft",
+      "status": "draft",
+      "featured": false
+    }
+  ],
+  "testimonials": [
+    {
+      "id": "testi-1",
+      "quote": "Attiks Architecture creates architecture that responds thoughtfully to context, material, climate and the experience of space.",
+      "author": "Arjun Menon",
+      "designation": "Director, Greenfield Developments"
+    },
+    {
+      "id": "testi-2",
+      "quote": "Their ability to translate complex requirements into elegant, timeless forms is what sets them apart. Every detail is considered.",
+      "author": "Priya Nair",
+      "designation": "Founder, Bayshore Hospitality"
+    },
+    {
+      "id": "testi-3",
+      "quote": "Working with the Attiks team was a deeply collaborative experience. They brought genuine vision and sensitivity to our project.",
+      "author": "Ravi Shankar",
+      "designation": "Trustee, Kerala Arts Foundation"
+    }
+  ],
+  "services": [
+    {
+      "id": "srv-1",
+      "title": "Architectural Design",
+      "category": "Core Service",
+      "description": "Comprehensive master planning, residential, commercial, and institutional building design.",
+      "featured": true
+    },
+    {
+      "id": "srv-2",
+      "title": "Interior Architecture",
+      "category": "Interiors",
+      "description": "Bespoke spatial design, custom furniture curation, material selection, and ambient lighting.",
+      "featured": true
+    },
+    {
+      "id": "srv-3",
+      "title": "Landscape Architecture",
+      "category": "Environment",
+      "description": "Contextual outdoor spaces integrating natural flora, waterbodies, and passive cooling courtyards.",
+      "featured": true
+    },
+    {
+      "id": "srv-4",
+      "title": "Heritage Conservation",
+      "category": "Restoration",
+      "description": "Restoration and contemporary adaptive reuse of traditional Kerala architecture and structures.",
+      "featured": false
+    }
+  ],
+  "team": [
+    {
+      "id": "team-1",
+      "name": "Ar. Anoop Kumar",
+      "role": "Principal Architect & Founder",
+      "bio": "Leading practice vision with over 18 years of experience in tropical and modern architecture.",
+      "image": "/images/hero-1.webp",
+      "experience": "18+ Years"
+    },
+    {
+      "id": "team-2",
+      "name": "Ar. Meera Ravindran",
+      "role": "Senior Project Lead",
+      "bio": "Specialist in sustainable residential designs, timber details, and passive solar planning.",
+      "image": "/images/hero-2.webp",
+      "experience": "12+ Years"
+    },
+    {
+      "id": "team-3",
+      "name": "Karan Sharma",
+      "role": "Head of Interiors & Detailing",
+      "bio": "Focuses on luxury hospitality and minimalist high-end residential interiors.",
+      "image": "/images/hero-3.webp",
+      "experience": "10+ Years"
+    }
+  ],
+  "blog": [
+    {
+      "id": "post-1",
+      "title": "Passive Cooling Strategies in Tropical Architecture",
+      "slug": "passive-cooling-tropical-architecture",
+      "summary": "How courtyard ventilation and thermal mass laterite reduce energy footprints in humid climates.",
+      "content": "Detailed study on tropical building orientation, natural breeze corridors, and timber louvers.",
+      "author": "Ar. Anoop Kumar",
+      "publishedAt": "2026-07-15",
+      "status": "published",
+      "image": "/architecture.webp"
+    },
+    {
+      "id": "post-2",
+      "title": "Material Honesty: Laterite, Teak, and Micro-Cement",
+      "slug": "material-honesty-laterite-teak-cement",
+      "summary": "Exploring contextual materiality and tactile longevity in modern Kerala homes.",
+      "content": "In-depth analysis of locally sourced stone, reclaimed teakwood, and seamless floor finishes.",
+      "author": "Ar. Meera Ravindran",
+      "publishedAt": "2026-08-02",
+      "status": "published",
+      "image": "/coastal_palace.webp"
+    }
+  ],
+  "leads": [
+    {
+      "id": "lead-101",
+      "name": "Siddharth Menon",
+      "email": "siddharth@example.com",
+      "phone": "+91 98470 12345",
+      "service": "Architectural Design",
+      "message": "Looking to design a 5,000 sq.ft lakeside residential villa in Alleppey.",
+      "status": "new",
+      "createdAt": "2026-08-24 14:30"
+    },
+    {
+      "id": "lead-102",
+      "name": "Dr. Ananya Roy",
+      "email": "ananya.roy@example.com",
+      "phone": "+91 94471 98765",
+      "service": "Interior Architecture",
+      "message": "Require interior renovation for our boutique heritage resort in Fort Kochi.",
+      "status": "contacted",
+      "createdAt": "2026-08-22 10:15"
+    }
+  ],
+  "media": [
+    {
+      "id": "med-1787987643025",
+      "fileName": "img_1787987643023_Presentation_Online__Certificate.png",
+      "url": "/uploads/img_1787987643023_Presentation_Online__Certificate.png",
+      "sizeBytes": 1096969,
+      "format": "image/png",
+      "dimensions": "1920x1080",
+      "altText": "img_1787987643023_Presentation_Online__Certificate.png",
+      "uploadedAt": "2026-08-29"
+    },
+    {
+      "id": "med-1787987636232",
+      "fileName": "img_1787987636229_bIQT0k_munnar-marathon.jpg",
+      "url": "/uploads/img_1787987636229_bIQT0k_munnar-marathon.jpg",
+      "sizeBytes": 275978,
+      "format": "image/jpeg",
+      "dimensions": "1920x1080",
+      "altText": "img_1787987636229_bIQT0k_munnar-marathon.jpg",
+      "uploadedAt": "2026-08-29"
+    },
+    {
+      "id": "med-1787987622509",
+      "fileName": "img_1787987622505_bIQT0O_munnar-marathon.jpg",
+      "url": "/uploads/img_1787987622505_bIQT0O_munnar-marathon.jpg",
+      "sizeBytes": 307447,
+      "format": "image/jpeg",
+      "dimensions": "1920x1080",
+      "altText": "img_1787987622505_bIQT0O_munnar-marathon.jpg",
+      "uploadedAt": "2026-08-29"
+    },
+    {
+      "id": "med-1787987622462",
+      "fileName": "img_1787987622028_bIQT0k_munnar-marathon.jpg",
+      "url": "/uploads/img_1787987622028_bIQT0k_munnar-marathon.jpg",
+      "sizeBytes": 275978,
+      "format": "image/jpeg",
+      "dimensions": "1920x1080",
+      "altText": "img_1787987622028_bIQT0k_munnar-marathon.jpg",
+      "uploadedAt": "2026-08-29"
+    },
+    {
+      "id": "med-1787987622043",
+      "fileName": "img_1787987622024_bIcTyU_munnar-marathon.jpg",
+      "url": "/uploads/img_1787987622024_bIcTyU_munnar-marathon.jpg",
+      "sizeBytes": 146964,
+      "format": "image/jpeg",
+      "dimensions": "1920x1080",
+      "altText": "img_1787987622024_bIcTyU_munnar-marathon.jpg",
+      "uploadedAt": "2026-08-29"
+    },
+    {
+      "id": "med-1",
+      "fileName": "architecture.webp",
+      "url": "/architecture.webp",
+      "sizeBytes": 420000,
+      "format": "image/webp",
+      "dimensions": "1920x1080",
+      "altText": "Greenfield Tech Park Campus",
+      "uploadedAt": "2026-01-10"
+    },
+    {
+      "id": "med-2",
+      "fileName": "coastal_palace.webp",
+      "url": "/coastal_palace.webp",
+      "sizeBytes": 680000,
+      "format": "image/webp",
+      "dimensions": "2048x1365",
+      "altText": "Varkala Coastal Villa View",
+      "uploadedAt": "2026-02-14"
+    },
+    {
+      "id": "med-3",
+      "fileName": "comm_modern.webp",
+      "url": "/comm_modern.webp",
+      "sizeBytes": 850000,
+      "format": "image/webp",
+      "dimensions": "1920x1200",
+      "altText": "Kerala Arts Center Entrance",
+      "uploadedAt": "2026-03-05"
+    },
+    {
+      "id": "med-4",
+      "fileName": "large_raw_hero.png",
+      "url": "/large_raw_hero.png",
+      "sizeBytes": 3450000,
+      "format": "image/png",
+      "dimensions": "3840x2160",
+      "altText": "Uncompressed Hero Render",
+      "uploadedAt": "2026-04-12"
+    }
+  ],
+  "users": [
+    {
+      "id": "usr-1",
+      "name": "Admin User",
+      "email": "admin@attiks.in",
+      "role": "Admin",
+      "status": "active",
+      "lastActive": "Just now"
+    },
+    {
+      "id": "usr-2",
+      "name": "Content Editor",
+      "email": "editor@attiks.in",
+      "role": "Editor",
+      "status": "active",
+      "lastActive": "2 hours ago"
+    },
+    {
+      "id": "usr-3",
+      "name": "Design Reviewer",
+      "email": "viewer@attiks.in",
+      "role": "Viewer",
+      "status": "active",
+      "lastActive": "Yesterday"
+    }
+  ],
+  "roles": [
+    {
+      "id": "role-admin",
+      "role": "Admin",
+      "description": "Unrestricted access to all modules, settings, users, and delete privileges.",
+      "permissions": [
+        "dashboard:read",
+        "projects:write",
+        "projects:delete",
+        "content:write",
+        "media:write",
+        "users:write",
+        "settings:write"
+      ]
+    },
+    {
+      "id": "role-editor",
+      "role": "Editor",
+      "description": "Can manage projects, services, blog, media, and leads. Cannot modify users or site settings.",
+      "permissions": [
+        "dashboard:read",
+        "projects:write",
+        "content:write",
+        "media:write",
+        "leads:read"
+      ]
+    },
+    {
+      "id": "role-viewer",
+      "role": "Viewer",
+      "description": "Read-only access across the dashboard and analytics.",
+      "permissions": [
+        "dashboard:read",
+        "projects:read",
+        "content:read",
+        "media:read",
+        "leads:read"
+      ]
+    }
+  ],
+  "settings": {
+    "siteTitle": "ATTIXS | Modern Architectural Masterpieces",
+    "tagline": "Contextual, Enduring Architecture Shaped by Climate and Material",
+    "contactEmail": "info@attiks.in",
+    "contactPhone": "+91-0483-2941308",
+    "address": "#1/523, Krishna Building, NH 66, Azhinhilam PO, Calicut, Kerala",
+    "enableLeadsNotification": true,
+    "maintenanceMode": false
+  },
+  "activityLog": [
+    {
+      "id": "act-1787988728714",
+      "user": "Admin",
+      "action": "Updated project \"Greenfield Tech Park\"",
+      "timestamp": "8/29/2026, 1:02:08 PM"
+    },
+    {
+      "id": "act-1787987754322",
+      "user": "Admin",
+      "action": "Deleted project \"technopark\"",
+      "timestamp": "8/29/2026, 12:45:54 PM"
+    },
+    {
+      "id": "act-1787987648150",
+      "user": "Admin",
+      "action": "Created project \"technopark\"",
+      "timestamp": "8/29/2026, 12:44:08 PM"
+    },
+    {
+      "id": "act-1787987643026",
+      "user": "Admin",
+      "action": "Uploaded image file \"img_1787987643023_Presentation_Online__Certificate.png\"",
+      "timestamp": "8/29/2026, 12:44:03 PM"
+    },
+    {
+      "id": "act-1787987636233",
+      "user": "Admin",
+      "action": "Uploaded image file \"img_1787987636229_bIQT0k_munnar-marathon.jpg\"",
+      "timestamp": "8/29/2026, 12:43:56 PM"
+    },
+    {
+      "id": "act-1787987622541",
+      "user": "Admin",
+      "action": "Uploaded image file \"img_1787987622505_bIQT0O_munnar-marathon.jpg\"",
+      "timestamp": "8/29/2026, 12:43:42 PM"
+    },
+    {
+      "id": "act-1787987622463",
+      "user": "Admin",
+      "action": "Uploaded image file \"img_1787987622028_bIQT0k_munnar-marathon.jpg\"",
+      "timestamp": "8/29/2026, 12:43:42 PM"
+    },
+    {
+      "id": "act-1787987622044",
+      "user": "Admin",
+      "action": "Uploaded image file \"img_1787987622024_bIcTyU_munnar-marathon.jpg\"",
+      "timestamp": "8/29/2026, 12:43:42 PM"
+    },
+    {
+      "id": "act-1",
+      "user": "Admin User",
+      "action": "Created project \"Greenfield Tech Park\"",
+      "timestamp": "2026-08-25 16:30"
+    },
+    {
+      "id": "act-2",
+      "user": "Content Editor",
+      "action": "Updated blog post \"Passive Cooling Strategies\"",
+      "timestamp": "2026-08-25 14:10"
+    },
+    {
+      "id": "act-3",
+      "user": "Admin User",
+      "action": "Replied to lead enquiry from Siddharth Menon",
+      "timestamp": "2026-08-24 17:45"
+    }
+  ]
+}

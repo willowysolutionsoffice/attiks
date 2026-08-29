@@ -12,19 +12,24 @@ export default function Footer() {
           {/* Left Column - Subscription */}
           <div style={{ flex: '1 1 350px', maxWidth: '450px' }}>
             <Image
-              src="/images/logo-at.png"
-              alt="Attixs Architecture Logo"
+              src="/images/logo-light.png"
+              alt="Attiks Architecture Logo"
               width={160}
-              height={50}
-              style={{ objectFit: 'contain', height: '40px', width: 'auto', marginBottom: '1.5rem', filter: 'invert(1)' }}
+              height={40}
+              style={{ objectFit: 'contain', height: '40px', width: 'auto', marginBottom: '1.5rem' }}
             />
             <p style={{ fontSize: '0.85rem', color: '#ccc', marginBottom: '2rem', lineHeight: '1.6' }}>
-              Subscribe for priority access to our finest listings and<br />timeless real estate wisdom.
+              Subscribe for priority access to our finest architectural milestones and timeless design insights.
             </p>
-            <div style={{ display: 'flex', width: '100%' }}>
+            <form style={{ display: 'flex', width: '100%' }} onSubmit={(e) => e.preventDefault()}>
+              <label htmlFor="footer-email-input" className="sr-only" style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0,0,0,0)' }}>
+                Email Address
+              </label>
               <input
+                id="footer-email-input"
                 type="email"
                 placeholder="Your Email Address"
+                autoComplete="email"
                 style={{
                   flex: 1,
                   background: '#1a1a1a',
@@ -32,43 +37,45 @@ export default function Footer() {
                   padding: '14px 16px',
                   color: '#fff',
                   fontSize: '0.85rem',
-                  outline: 'none'
+                  outline: 'none',
                 }}
               />
-              <button style={{
-                background: '#fff',
-                color: '#000',
-                border: 'none',
-                padding: '14px 24px',
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'background 0.3s ease'
-              }}
-                onMouseEnter={(e) => e.currentTarget.style.background = '#e0e0e0'}
-                onMouseLeave={(e) => e.currentTarget.style.background = '#fff'}
+              <button
+                type="submit"
+                style={{
+                  background: '#fff',
+                  color: '#000',
+                  border: 'none',
+                  padding: '14px 24px',
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'background 0.3s ease',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.background = '#e0e0e0')}
+                onMouseLeave={(e) => (e.currentTarget.style.background = '#fff')}
               >
                 Get Notified
               </button>
-            </div>
+            </form>
           </div>
 
           <div className="footer-links-container">
             {/* Pages */}
             <div style={{ minWidth: '100px' }}>
-              <h4 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '1.5rem', color: '#fff' }}>Pages</h4>
+              <h3 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '1.5rem', color: '#fff', textTransform: 'uppercase' }}>Pages</h3>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {[
                   { name: 'HOME', path: '/' },
                   { name: 'ABOUT', path: '/about' },
-                  { name: 'PROPERTIES', path: '/projects' },
-                  { name: 'BLOG', path: '/blog' },
+                  { name: 'PROJECTS', path: '/projects' },
+                  { name: 'MEDIA', path: '/blog' },
                   { name: 'CONTACT', path: '/contact' }
                 ].map((item) => (
                   <li key={item.name}>
                     <Link href={item.path} style={{ color: '#ccc', fontSize: '0.75rem', fontWeight: 500, textDecoration: 'none', transition: 'color 0.3s ease' }}
-                      onMouseEnter={(e) => e.currentTarget.style.color = '#fff'}
-                      onMouseLeave={(e) => e.currentTarget.style.color = '#ccc'}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = '#fff')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = '#ccc')}
                     >
                       {item.name}
                     </Link>
@@ -79,13 +86,16 @@ export default function Footer() {
 
             {/* Socials */}
             <div style={{ minWidth: '100px' }}>
-              <h4 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '1.5rem', color: '#fff' }}>Socials</h4>
+              <h3 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '1.5rem', color: '#fff', textTransform: 'uppercase' }}>Socials</h3>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {['INSTAGRAM', 'LINKEDIN', 'TWITTER', 'FACEBOOK'].map((item) => (
                   <li key={item}>
-                    <a href="#" style={{ color: '#ccc', fontSize: '0.75rem', fontWeight: 500, textDecoration: 'none', transition: 'color 0.3s ease' }}
-                      onMouseEnter={(e) => e.currentTarget.style.color = '#fff'}
-                      onMouseLeave={(e) => e.currentTarget.style.color = '#ccc'}
+                    <a
+                      href="#"
+                      rel="noopener noreferrer"
+                      style={{ color: '#ccc', fontSize: '0.75rem', fontWeight: 500, textDecoration: 'none', transition: 'color 0.3s ease' }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = '#fff')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = '#ccc')}
                     >
                       {item}
                     </a>
@@ -97,17 +107,17 @@ export default function Footer() {
             {/* Contact */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', minWidth: '220px', maxWidth: '300px' }}>
               <div>
-                <h4 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#fff' }}>Phone</h4>
+                <h3 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#fff', textTransform: 'uppercase' }}>Phone</h3>
                 <p style={{ color: '#ccc', fontSize: '0.75rem', fontWeight: 500 }}>+91 0483 2941308</p>
                 <p style={{ color: '#ccc', fontSize: '0.75rem', fontWeight: 500 }}>+91 8589 022307</p>
               </div>
               <div>
-                <h4 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#fff' }}>Email</h4>
+                <h3 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#fff', textTransform: 'uppercase' }}>Email</h3>
                 <p style={{ color: '#ccc', fontSize: '0.75rem', fontWeight: 500, textTransform: 'uppercase' }}>INFO@ATTIKS.IN</p>
                 <p style={{ color: '#ccc', fontSize: '0.75rem', fontWeight: 500, textTransform: 'uppercase' }}>HELLO@ATTIKS.AE</p>
               </div>
               <div>
-                <h4 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#fff' }}>Locations</h4>
+                <h3 style={{ fontSize: '0.85rem', fontWeight: 600, marginBottom: '0.5rem', color: '#fff', textTransform: 'uppercase' }}>Locations</h3>
                 <p style={{ color: '#ccc', fontSize: '0.75rem', fontWeight: 500, lineHeight: '1.6', textTransform: 'uppercase' }}>
                   Calicut | Bangalore | Dubai
                 </p>
@@ -121,9 +131,9 @@ export default function Footer() {
       {/* Bottom Section */}
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="footer-bottom">
-          <p>Images : Unsplash, Pexels</p>
+          <p>Attiks Architecture Practice</p>
           <p style={{ color: '#fff' }}>Visioned and Crafted by Willowy</p>
-          <p>© All right reserved</p>
+          <p>&copy; {new Date().getFullYear()} All rights reserved</p>
         </div>
       </div>
     </footer>

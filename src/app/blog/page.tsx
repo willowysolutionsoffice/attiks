@@ -8,99 +8,105 @@ import PageHeader from '@/components/PageHeader';
 const articles = [
   {
     category: 'Article',
-    title: 'The Rise of Modern Minimalist Homes in Luxury Real Estate',
-    image: '/interior.png'
+    title: 'The Rise of Modern Minimalist Architecture in Tropical Climates',
+    image: '/interior.webp'
   },
   {
     category: 'Insight',
-    title: 'Why Emotional Connections Are the Key to Selling Luxury Homes',
-    image: '/story_discussion.png'
+    title: 'Why Material Honesty and Context Define Enduring Spaces',
+    image: '/story_discussion.webp'
+  },
+  {
+    category: 'Case Study',
+    title: 'Inside a Modern Kerala Villa Designed for Passive Ventilation',
+    image: '/villa_showcase.webp'
   },
   {
     category: 'Article',
-    title: 'Inside a $10M Modern Villa Designed for Elevated Living',
-    image: '/villa_showcase.png'
-  },
-  {
-    category: 'Article',
-    title: 'Staging Secrets Every Seller of Luxury Homes Should Know',
-    image: '/architecture.png'
+    title: 'Courtyard Dynamics: Balancing Daylight and Thermal Comfort',
+    image: '/architecture.webp'
   },
   {
     category: 'Insight',
-    title: 'How Location Shapes the True Value of Prestigious Properties',
-    image: '/forest.png'
+    title: 'How Regional Geology and Climate Shape Modern Foundations',
+    image: '/forest.webp'
   },
   {
-    category: 'Insight',
-    title: 'Top Luxury Market Trends to Watch in 2025 and Beyond',
-    image: '/penthouse.png'
+    category: 'Feature',
+    title: 'Sustainable Luxury: Integrating Laterite, Timber, and Concrete',
+    image: '/penthouse.webp'
   }
 ];
 
 export default function BlogPage() {
   return (
-    <main style={{ background: '#000', minHeight: '100vh', color: '#fff', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ background: '#000', minHeight: '100vh', color: '#fff', display: 'flex', flexDirection: 'column' }}>
       <Navbar />
 
-      <section style={{ padding: '160px var(--section-padding) 120px', flex: 1 }}>
-        <div style={{ maxWidth: '100%', margin: '0 auto' }}>
+      <main style={{ flex: 1 }}>
+        <section style={{ padding: '160px var(--section-padding) 120px' }}>
+          <div style={{ maxWidth: '100%', margin: '0 auto' }}>
 
-          {/* Header */}
-          <PageHeader 
-            label="Blog"
-            title={<>REFINED REAL ESTATE<br />INSIGHTS</>}
-          />
+            {/* Header */}
+            <PageHeader 
+              label="Media &amp; Insights"
+              title={<>REFINED ARCHITECTURAL<br />DISCOURSE</>}
+            />
 
-          {/* Grid */}
-          <div className="blog-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '18px' }}>
-            {articles.map((article, index) => (
-              <div
-                key={index}
-                style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column' }}
-              >
-                <div style={{
-                  position: 'relative',
-                  width: '100%',
-                  aspectRatio: '1/1.2',
-                  marginBottom: '20px',
-                  overflow: 'hidden'
-                }}>
-                  <Image
-                    src={article.image}
-                    alt={article.title}
-                    fill
-                    className="property-card-img"
-                    style={{ objectFit: 'cover' }}
-                  />
-                </div>
-                <p style={{
-                  fontSize: '0.95rem',
-                  color: '#fff',
-                  marginBottom: '1rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.01em'
-                }}>
-                  {article.category}
-                </p>
-                <h3 style={{
-                  fontSize: '1.35rem',
-                  color: '#fff',
-                  fontWeight: 600,
-                  lineHeight: '1.25',
-                  letterSpacing: '-0.01em',
-                  textTransform: 'none'
-                }}>
-                  {article.title}
-                </h3>
-              </div>
-            ))}
+            {/* Grid */}
+            <div className="blog-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
+              {articles.map((article, index) => (
+                <article
+                  key={index}
+                  style={{ display: 'flex', flexDirection: 'column' }}
+                >
+                  <div style={{
+                    position: 'relative',
+                    width: '100%',
+                    aspectRatio: '1/1.15',
+                    marginBottom: '20px',
+                    overflow: 'hidden',
+                    background: '#111',
+                    borderRadius: '2px',
+                  }}>
+                    <Image
+                      src={article.image}
+                      alt={article.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="property-card-img"
+                      style={{ objectFit: 'cover' }}
+                    />
+                  </div>
+                  <p style={{
+                    fontSize: '0.82rem',
+                    color: '#C4703F',
+                    marginBottom: '0.75rem',
+                    fontWeight: 600,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase'
+                  }}>
+                    {article.category}
+                  </p>
+                  <h2 style={{
+                    fontSize: '1.25rem',
+                    color: '#fff',
+                    fontWeight: 600,
+                    lineHeight: '1.3',
+                    letterSpacing: '-0.01em',
+                    textTransform: 'none'
+                  }}>
+                    {article.title}
+                  </h2>
+                </article>
+              ))}
+            </div>
+
           </div>
-
-        </div>
-      </section>
+        </section>
+      </main>
 
       <Footer />
-    </main>
+    </div>
   );
 }

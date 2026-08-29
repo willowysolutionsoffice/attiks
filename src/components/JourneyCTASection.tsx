@@ -4,11 +4,11 @@ import Link from 'next/link';
 
 export default function JourneyCTASection() {
   return (
-    <section className="section journey-cta-section" style={{ background: '#000', padding: '0 var(--section-padding) 6rem var(--section-padding)', display: 'flex', justifyContent: 'center' }}>
+    <section className="section journey-cta-section" style={{ background: '#000', padding: '0 var(--section-padding) 6rem var(--section-padding)', display: 'flex', justifyContent: 'center' }} aria-labelledby="journey-cta-heading">
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.7 }}
         viewport={{ once: true }}
         style={{
           position: 'relative',
@@ -25,15 +25,12 @@ export default function JourneyCTASection() {
         }}
       >
         {/* Background Video */}
-        {/* We use a placeholder image as a poster, and point source to a dummy mp4. 
-            Once you have the 5-second video, you can place it in the public folder 
-            and update the src attribute below. */}
         <video
           autoPlay
           loop
           muted
           playsInline
-          poster="/story_discussion.png"
+          poster="/story_discussion.webp"
           style={{
             position: 'absolute',
             top: 0,
@@ -44,6 +41,7 @@ export default function JourneyCTASection() {
             zIndex: 0,
             opacity: 0.6
           }}
+          aria-hidden="true"
         >
           <source src="/luxury_bg_video.mp4" type="video/mp4" />
         </video>
@@ -57,34 +55,35 @@ export default function JourneyCTASection() {
           height: '100%',
           background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%)',
           zIndex: 1
-        }}></div>
+        }} aria-hidden="true"></div>
 
         {/* Content */}
         <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
             viewport={{ once: true }}
             style={{ fontSize: '1.1rem', color: '#fff', fontWeight: 500, marginBottom: '1.5rem', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}
           >
-            Start the Projct
+            Start the Project
           </motion.p>
 
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            id="journey-cta-heading"
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
             viewport={{ once: true }}
             style={{ fontSize: 'clamp(2.2rem, 7vw, 4rem)', color: '#fff', fontWeight: 600, lineHeight: '1.1', marginBottom: '3rem', maxWidth: '900px', letterSpacing: '-0.02em', textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}
           >
-            BEGIN YOUR JOURNEY TO<br />TIMELESS LUXURY.
+            BEGIN YOUR JOURNEY TO<br />TIMELESS ARCHITECTURE.
           </motion.h2>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ duration: 0.6, delay: 0.35 }}
             viewport={{ once: true }}
           >
             <Link

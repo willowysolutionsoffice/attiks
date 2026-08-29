@@ -12,75 +12,75 @@ import Footer from '@/components/Footer';
 
 export default function AboutPage() {
   return (
-    <main style={{ background: '#000', minHeight: '100vh', color: '#fff' }}>
+    <div style={{ background: '#000', minHeight: '100vh', color: '#fff' }}>
       <Navbar />
 
-      <section style={{ padding: '160px var(--section-padding) 80px' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <PageHeader 
-            label="About us"
-            title={<>CRAFTING LUXURY<br />WITH INTENT</>}
-          />
-
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="about-hero-image-container"
-          >
-            <Image 
-              src="/team_photo.png"
-              alt="Attixs Architecture Team"
-              fill
-              style={{ objectFit: 'cover' }}
-              priority
+      <main>
+        <section style={{ padding: '160px var(--section-padding) 80px' }} aria-labelledby="about-hero-heading">
+          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+            <PageHeader 
+              label="About us"
+              title={<>CRAFTING ARCHITECTURE<br />WITH INTENT</>}
             />
-          </motion.div>
 
-          {/* Stats and Description Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="grid-responsive-2"
-            style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '100px', marginTop: '100px', alignItems: 'start' }}
-          >
-            {/* Stats */}
-            <div className="stats-container" style={{ display: 'flex', gap: '60px' }}>
-              <div>
-                <h3 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '12px', color: '#fff' }}>$250M+</h3>
-                <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.5)', textTransform: 'none', fontWeight: 400 }}>Luxury Property Sales</p>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.15 }}
+              className="about-hero-image-container"
+            >
+              <Image 
+                src="/team_photo.webp"
+                alt="Attiks Architecture Team and Studio"
+                fill
+                sizes="100vw"
+                style={{ objectFit: 'cover' }}
+                priority
+              />
+            </motion.div>
+
+            {/* Stats and Description Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="grid-responsive-2"
+              style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '100px', marginTop: '100px', alignItems: 'start' }}
+            >
+              {/* Stats */}
+              <div className="stats-container" style={{ display: 'flex', gap: '60px' }}>
+                <div>
+                  <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '12px', color: '#fff', textTransform: 'none' }}>50+</h2>
+                  <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', textTransform: 'none', fontWeight: 400 }}>Masterpieces Delivered</p>
+                </div>
+                <div>
+                  <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '12px', color: '#fff', textTransform: 'none' }}>12+</h2>
+                  <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', textTransform: 'none', fontWeight: 400 }}>Years of Practice</p>
+                </div>
+                <div>
+                  <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '12px', color: '#fff', textTransform: 'none' }}>98%</h2>
+                  <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', textTransform: 'none', fontWeight: 400 }}>Client Satisfaction</p>
+                </div>
               </div>
+
+              {/* Description */}
               <div>
-                <h3 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '12px', color: '#fff' }}>12+</h3>
-                <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.5)', textTransform: 'none', fontWeight: 400 }}>Years of Experience</p>
+                <p style={{ fontSize: '1.15rem', lineHeight: '1.7', color: 'rgba(255,255,255,0.85)', textTransform: 'none', fontWeight: 400 }}>
+                  At the heart of Attiks is a commitment to excellence, climate responsiveness, and timeless design. We do not just construct buildings — we curate contextual spatial experiences tailored to each client&apos;s vision. With a deep understanding of local materiality and modern structural precision, we bring a collaborative, world-class approach to every commission.
+                </p>
               </div>
-              <div>
-                <h3 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '12px', color: '#fff' }}>98%</h3>
-                <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.5)', textTransform: 'none', fontWeight: 400 }}>Client Satisfaction</p>
-              </div>
-            </div>
+            </motion.div>
+          </div>
+        </section>
 
-            {/* Description */}
-            <div>
-              <p style={{ fontSize: '1.15rem', lineHeight: '1.7', color: 'rgba(255,255,255,0.85)', textTransform: 'none', fontWeight: 400 }}>
-                At the heart of our brand is a commitment to excellence, discretion, and timeless design. We don&apos;t just sell properties — we curate experiences tailored to each client&apos;s vision of luxury living. With a deep understanding of high-end markets and a passion for architectural beauty, we bring a personalized, world-class approach to every transaction.
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      <StorySection />
-
-      <ValuesSection />
-
-      <TeamSection />
-
-      <JourneyCTASection />
+        <StorySection />
+        <ValuesSection />
+        <TeamSection />
+        <JourneyCTASection />
+      </main>
 
       <Footer />
-    </main>
+    </div>
   );
 }
