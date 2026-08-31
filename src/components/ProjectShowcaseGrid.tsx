@@ -6,11 +6,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Project } from '@/data/projects';
 
-export default function ProjectShowcaseGrid() {
-  const [projects, setProjects] = useState<Project[]>([]);
+export default function ProjectShowcaseGrid({ initialProjects }: { initialProjects?: Project[] }) {
+  const [projects, setProjects] = useState<Project[]>(() => {
+    if (initialProjects && initialProjects.length > 0) {
+      const featured = initialProjects.filter((p) => p.featured || p.status === 'published');
+      return featured.slice(0, 6);
+    }
+    return [];
+  });
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   useEffect(() => {
+    if (initialProjects && initialProjects.length > 0) {
+      return;
+    }
     async function loadShowcaseProjects() {
       try {
         const res = await fetch('/api/projects');
@@ -24,7 +33,7 @@ export default function ProjectShowcaseGrid() {
       }
     }
     loadShowcaseProjects();
-  }, []);
+  }, [initialProjects]);
 
   return (
     <section
