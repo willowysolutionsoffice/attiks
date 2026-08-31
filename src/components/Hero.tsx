@@ -183,53 +183,31 @@ export default function Hero({ projects }: { projects?: Project[] }) {
           top: '120px',
           left: 'clamp(20px, 4vw, 56px)',
           zIndex: 10,
-          maxWidth: 'clamp(280px, 85vw, 600px)',
+          maxWidth: 'clamp(280px, 50vw, 480px)',
         }}
       >
         <AnimatePresence mode="wait">
-          <motion.div
+          <motion.blockquote
             key={slide.quote}
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
+              margin: 0,
+              padding: 0,
+              border: 'none',
+              color: 'rgba(255, 255, 255, 0.85)',
+              fontSize: 'clamp(0.78rem, 1.0vw, 0.92rem)',
+              lineHeight: 1.5,
+              fontWeight: 400,
+              letterSpacing: slide.isQuote ? '0.01em' : '0.1em',
+              textShadow: '0 2px 10px rgba(0,0,0,0.6)',
+              textTransform: slide.isQuote ? 'none' : 'uppercase',
             }}
           >
-            <span
-              style={{
-                fontSize: 'clamp(0.7rem, 0.9vw, 0.85rem)',
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: '0.22em',
-                color: 'var(--color-accent, #C4703F)',
-                textShadow: '0 1px 4px rgba(0,0,0,0.6)',
-              }}
-            >
-              {slide.isQuote ? 'Vision' : 'Project Highlights'}
-            </span>
-            <blockquote
-              style={{
-                margin: 0,
-                padding: 0,
-                border: 'none',
-                color: 'rgba(255, 255, 255, 0.95)',
-                fontSize: 'clamp(0.95rem, 1.3vw, 1.35rem)',
-                lineHeight: 1.4,
-                fontWeight: slide.isQuote ? 300 : 400,
-                fontFamily: slide.isQuote ? 'var(--font-canela)' : 'var(--font-sans)',
-                fontStyle: slide.isQuote ? 'italic' : 'normal',
-                letterSpacing: slide.isQuote ? '0.02em' : '0.12em',
-                textShadow: '0 2px 12px rgba(0,0,0,0.7)',
-                textTransform: slide.isQuote ? 'none' : 'uppercase',
-              }}
-            >
-              {slide.isQuote ? `“${slide.quote}”` : slide.quote}
-            </blockquote>
-          </motion.div>
+            {slide.isQuote ? `"${slide.quote}"` : slide.quote}
+          </motion.blockquote>
         </AnimatePresence>
       </div>
 
@@ -357,60 +335,33 @@ export default function Hero({ projects }: { projects?: Project[] }) {
           </div>
         </div>
 
-        {/* Right: Architecture Callout Card */}
+        {/* Right: Description Only */}
         <AnimatePresence mode="wait">
-          <motion.div
-            key={slide.rightTitle}
+          <motion.p
+            key={slide.rightDesc}
             initial={{ opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -12 }}
             transition={{ duration: 0.38, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
             className="hero-callout-card"
             style={{
-              maxWidth: '320px',
+              maxWidth: '300px',
               textAlign: 'left',
-              textShadow: '0 2px 14px rgba(0,0,0,0.7)',
+              textShadow: '0 2px 12px rgba(0,0,0,0.7)',
+              color: 'rgba(255, 255, 255, 0.75)',
+              fontSize: 'clamp(0.75rem, 0.88vw, 0.84rem)',
+              lineHeight: 1.55,
+              fontWeight: 300,
+              margin: 0,
+              display: '-webkit-box',
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical' as const,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
             }}
           >
-            <span
-              style={{
-                display: 'block',
-                color: 'rgba(255, 255, 255, 0.6)',
-                fontSize: 'clamp(0.65rem, 0.8vw, 0.75rem)',
-                fontWeight: 500,
-                textTransform: 'uppercase',
-                letterSpacing: '0.18em',
-                marginBottom: '8px',
-              }}
-            >
-              {slide.rightTitle}
-            </span>
-            <div
-              style={{
-                width: '28px',
-                height: '1px',
-                background: 'var(--color-accent, #C4703F)',
-                marginBottom: '10px',
-                opacity: 0.8,
-              }}
-            />
-            <p
-              style={{
-                color: 'rgba(255, 255, 255, 0.78)',
-                fontSize: 'clamp(0.75rem, 0.88vw, 0.84rem)',
-                lineHeight: 1.55,
-                fontWeight: 300,
-                margin: 0,
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}
-            >
-              {slide.rightDesc}
-            </p>
-          </motion.div>
+            {slide.rightDesc}
+          </motion.p>
         </AnimatePresence>
       </div>
 
