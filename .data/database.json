@@ -192,6 +192,41 @@
         "/uploads/img_1788005359569_039.png",
         "/uploads/img_1788005360242_45.png"
       ]
+    },
+    {
+      "id": "al-jamia-campus",
+      "title": "Al Jamia Knowledge World",
+      "category": "institutional",
+      "location": "Malappuram, Kerala",
+      "year": "2025",
+      "image": "/uploads/img_1788005358786_53.png",
+      "description": "Al Jamia Knowledge World is a sprawling educational campus designed by Attiks Architecture for the Al Jamia educational institutions in Malappuram, Kerala.\n\nThe campus encompasses the Al Jamia Arts & Science School and supporting institutional facilities, conceived as a cohesive architectural landscape that responds to the tropical climate and pedagogical vision of the institution.\n\nThe design integrates skylights, bridged circulation, and open courtyards to create learning environments that are naturally lit, well-ventilated, and deeply connected to their surroundings. Every space — from classrooms to transitional corridors — is crafted to foster curiosity, collaboration, and a sense of belonging.\n\nRecognised by the grand jury's shortlisted entries for notable architectural achievements, the project represents Attiks Architecture's commitment to meaningful institutional design.",
+      "highlights": [
+        "Al Jamia Arts & Science School Campus",
+        "Grand Jury Shortlisted Design",
+        "Climate-Responsive Institutional Architecture"
+      ],
+      "gallery": [
+        "/uploads/img_1788005339901_bridge_003.png",
+        "/uploads/img_1788005344511_SKYLIGHT_002.png",
+        "/uploads/img_1788005341307_SKYLIGHT_003.png",
+        "/uploads/img_1788005342244_51.png",
+        "/uploads/img_1788005347099_class_room_02.png",
+        "/uploads/img_1788005350665_SKYLIGHT_001.png",
+        "/uploads/img_1788005353893_011.png",
+        "/uploads/img_1788005347594_012.png",
+        "/uploads/img_1788005348897_42.png",
+        "/uploads/img_1788005357131_43.png",
+        "/uploads/img_1788005358504_47.png",
+        "/uploads/img_1788005358786_53.png",
+        "/uploads/img_1788005354958_014.png",
+        "/uploads/img_1788005355331_037.png",
+        "/uploads/img_1788005359569_039.png"
+      ],
+      "scope": "Institutional Campus Masterplan & Architecture",
+      "area": "95,000 sq.ft",
+      "status": "published",
+      "featured": true
     }
   ],
   "testimonials": [
