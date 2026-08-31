@@ -367,32 +367,42 @@ export default function Hero({ projects }: { projects?: Project[] }) {
             transition={{ duration: 0.38, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
             className="hero-callout-card"
             style={{
-              maxWidth: '360px',
+              maxWidth: '320px',
               textAlign: 'left',
               textShadow: '0 2px 14px rgba(0,0,0,0.7)',
             }}
           >
-            <h2
+            <span
               style={{
-                color: '#ffffff',
-                fontSize: 'clamp(1.1rem, 1.7vw, 1.5rem)',
-                fontWeight: 700,
-                letterSpacing: '-0.01em',
-                marginBottom: '6px',
-                textTransform: 'none',
+                display: 'block',
+                color: 'rgba(255, 255, 255, 0.6)',
+                fontSize: 'clamp(0.65rem, 0.8vw, 0.75rem)',
+                fontWeight: 500,
+                textTransform: 'uppercase',
+                letterSpacing: '0.18em',
+                marginBottom: '8px',
               }}
             >
               {slide.rightTitle}
-            </h2>
+            </span>
+            <div
+              style={{
+                width: '28px',
+                height: '1px',
+                background: 'var(--color-accent, #C4703F)',
+                marginBottom: '10px',
+                opacity: 0.8,
+              }}
+            />
             <p
               style={{
-                color: 'rgba(255, 255, 255, 0.88)',
-                fontSize: 'clamp(0.82rem, 1.0vw, 0.92rem)',
-                lineHeight: 1.5,
-                fontWeight: 400,
+                color: 'rgba(255, 255, 255, 0.78)',
+                fontSize: 'clamp(0.75rem, 0.88vw, 0.84rem)',
+                lineHeight: 1.55,
+                fontWeight: 300,
                 margin: 0,
                 display: '-webkit-box',
-                WebkitLineClamp: 3,
+                WebkitLineClamp: 2,
                 WebkitBoxOrient: 'vertical',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
