@@ -345,13 +345,13 @@ export default function Hero({ projects }: { projects?: Project[] }) {
             transition={{ duration: 0.38, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
             className="hero-callout-card"
             style={{
-              maxWidth: '300px',
+              maxWidth: 'clamp(320px, 30vw, 440px)',
               textAlign: 'left',
-              textShadow: '0 2px 12px rgba(0,0,0,0.7)',
-              color: 'rgba(255, 255, 255, 0.75)',
-              fontSize: 'clamp(0.85rem, 1.0vw, 0.95rem)',
-              lineHeight: 1.55,
-              fontWeight: 300,
+              textShadow: '0 2px 14px rgba(0,0,0,0.8)',
+              color: 'rgba(255, 255, 255, 0.85)',
+              fontSize: 'clamp(0.95rem, 1.15vw, 1.1rem)',
+              lineHeight: 1.6,
+              fontWeight: 350,
               margin: 0,
               display: '-webkit-box',
               WebkitLineClamp: 3,
