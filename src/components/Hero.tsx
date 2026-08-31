@@ -349,7 +349,7 @@ export default function Hero({ projects }: { projects?: Project[] }) {
               textAlign: 'left',
               textShadow: '0 2px 12px rgba(0,0,0,0.7)',
               color: 'rgba(255, 255, 255, 0.75)',
-              fontSize: 'clamp(0.75rem, 0.88vw, 0.84rem)',
+              fontSize: 'clamp(0.85rem, 1.0vw, 0.95rem)',
               lineHeight: 1.55,
               fontWeight: 300,
               margin: 0,
