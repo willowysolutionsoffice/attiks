@@ -1,17 +1,41 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import LeadCaptureModal from '@/components/LeadCaptureModal';
 import { categories, Category, Project } from '@/data/projects';
 
 export default function ProjectsClientPage({ initialProjects }: { initialProjects: Project[] }) {
+  const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [allProjects] = useState<Project[]>(initialProjects);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+
+  // Lead capture modal state
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  const handleProjectClick = useCallback((project: Project) => {
+    setSelectedProject(project);
+    setModalOpen(true);
+  }, []);
+
+  const handleModalClose = useCallback(() => {
+    setModalOpen(false);
+    setSelectedProject(null);
+  }, []);
+
+  const handleModalSuccess = useCallback(() => {
+    if (selectedProject) {
+      router.push(`/projects/${selectedProject.id}`);
+    }
+    setModalOpen(false);
+    setSelectedProject(null);
+  }, [selectedProject, router]);
 
   const filteredProjects = selectedCategory
     ? allProjects.filter((p) => p.category === selectedCategory)
@@ -154,8 +178,16 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                       exit={{ opacity: 0, scale: 0.97 }}
                       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <Link
-                        href={`/projects/${project.id}`}
+                      <div
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => handleProjectClick(project)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleProjectClick(project);
+                          }
+                        }}
                         style={{
                           position: 'relative',
                           display: 'block',
@@ -164,6 +196,7 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                           overflow: 'hidden',
                           background: '#111111',
                           textDecoration: 'none',
+                          cursor: 'pointer',
                         }}
                         className="project-grid-card"
                         onMouseEnter={() => setHoveredId(project.id)}
@@ -225,7 +258,7 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                             {project.title}
                           </h2>
                         </div>
-                      </Link>
+                      </div>
                     </motion.div>
                   );
                 })}
@@ -236,6 +269,15 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
       </main>
 
       <Footer />
+
+      {/* Lead Capture Modal */}
+      <LeadCaptureModal
+        isOpen={modalOpen}
+        onClose={handleModalClose}
+        onSubmitSuccess={handleModalSuccess}
+        projectTitle={selectedProject?.title || ''}
+        projectId={selectedProject?.id || ''}
+      />
 
       <style jsx>{`
         @media (max-width: 1024px) {
@@ -252,3 +294,4 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
     </div>
   );
 }
+
