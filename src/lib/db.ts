@@ -324,7 +324,8 @@ function ensureDbDirectoryExists() {
 }
 
 export function readDatabase(): DatabaseSchema {
-  if (dbCache) {
+  // Bypass cache in development mode to pick up manual edits to database.json immediately
+  if (dbCache && process.env.NODE_ENV === 'production') {
     return dbCache;
   }
   try {

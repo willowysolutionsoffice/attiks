@@ -24,9 +24,9 @@ export default function Home() {
   return (
     <main>
       <Navbar />
-      <Hero />
+      <Hero projects={initialProjects} />
       <AboutSection />
-      <AboutGallerySlider />
+      <AboutGallerySlider projects={initialProjects} />
       <ProjectShowcaseGrid initialProjects={initialProjects} />
       <Testimonials />
       <Footer />

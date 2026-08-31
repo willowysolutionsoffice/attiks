@@ -4,8 +4,9 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { Project } from '@/data/projects';
 
-const galleryImages = [
+const fallbackGalleryImages = [
   { src: '/architecture.webp', alt: 'Greenfield Tech Park, Kochi', title: 'Greenfield Tech Park', location: 'Kochi, Kerala' },
   { src: '/coastal_palace.webp', alt: 'Coastal Villa, Varkala', title: 'Coastal Villa', location: 'Varkala, Kerala' },
   { src: '/comm_modern.webp', alt: 'Kerala Arts Center, Thrissur', title: 'Kerala Arts Center', location: 'Thrissur, Kerala' },
@@ -57,7 +58,7 @@ function ArrowBtn({ onClick, direction, label }: { onClick: () => void; directio
   );
 }
 
-function GalleryCard({ img }: { img: typeof galleryImages[0] }) {
+function GalleryCard({ img }: { img: { src: string; alt: string; title: string; location: string } }) {
   const [hovered, setHovered] = useState(false);
   return (
     <div
@@ -104,6 +105,7 @@ function GalleryCard({ img }: { img: typeof galleryImages[0] }) {
               textAlign: 'center',
               padding: '24px',
               boxSizing: 'border-box',
+              zIndex: 10,
             }}
           >
             <p
@@ -136,20 +138,80 @@ function GalleryCard({ img }: { img: typeof galleryImages[0] }) {
   );
 }
 
-export default function AboutGallerySlider() {
+export default function AboutGallerySlider({ projects }: { projects?: Project[] }) {
+  const activeProjects = projects
+    ? projects.filter((p) => p.status !== 'draft')
+    : [];
+
+  const galleryItems = (() => {
+    if (activeProjects.length === 0) {
+      return fallbackGalleryImages;
+    }
+
+    const items: { src: string; alt: string; title: string; location: string }[] = [];
+    
+    // First take cover image of all projects
+    activeProjects.forEach((p) => {
+      if (p.image) {
+        items.push({
+          src: p.image,
+          alt: `${p.title} Cover`,
+          title: p.title,
+          location: p.location,
+        });
+      }
+    });
+
+    // Then interleave gallery images from each project
+    let maxGalleryLength = 0;
+    activeProjects.forEach((p) => {
+      if (p.gallery && p.gallery.length > maxGalleryLength) {
+        maxGalleryLength = p.gallery.length;
+      }
+    });
+
+    for (let i = 0; i < maxGalleryLength; i++) {
+      activeProjects.forEach((p) => {
+        if (p.gallery && p.gallery[i]) {
+          const imgSrc = p.gallery[i];
+          if (imgSrc !== p.image) {
+            items.push({
+              src: imgSrc,
+              alt: `${p.title} Gallery Image ${i + 1}`,
+              title: p.title,
+              location: p.location,
+            });
+          }
+        }
+      });
+    }
+
+    // Deduplicate images
+    const uniqueItems: typeof items = [];
+    const seenSrcs = new Set<string>();
+    items.forEach((item) => {
+      if (item.src && !seenSrcs.has(item.src)) {
+        seenSrcs.add(item.src);
+        uniqueItems.push(item);
+      }
+    });
+
+    return uniqueItems.length > 0 ? uniqueItems : fallbackGalleryImages;
+  })();
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % galleryImages.length);
+    setCurrentIndex((prev) => (prev + 1) % galleryItems.length);
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+    setCurrentIndex((prev) => (prev - 1 + galleryItems.length) % galleryItems.length);
   };
 
   const currentImages = [
-    galleryImages[currentIndex % galleryImages.length],
-    galleryImages[(currentIndex + 1) % galleryImages.length],
+    galleryItems[currentIndex % galleryItems.length],
+    galleryItems[(currentIndex + 1) % galleryItems.length],
   ];
 
   return (
@@ -216,7 +278,7 @@ export default function AboutGallerySlider() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <ArrowBtn onClick={handlePrev} direction="prev" label="Previous projects" />
             <span style={{ fontSize: '0.82rem', color: '#888', letterSpacing: '0.06em', minWidth: '56px', textAlign: 'center' }}>
-              {String(currentIndex + 1).padStart(2, '0')} / {String(galleryImages.length).padStart(2, '0')}
+              {String(currentIndex + 1).padStart(2, '0')} / {String(galleryItems.length).padStart(2, '0')}
             </span>
             <ArrowBtn onClick={handleNext} direction="next" label="Next projects" />
           </div>

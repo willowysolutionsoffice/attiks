@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Project } from '@/data/projects';
 
 const heroSlides = [
   {
-    id: 1,
+    id: '1',
     image: '/villa_showcase.webp',
     quote: 'According to Vitruvius, the architect should strive to fulfill each of these three attributes — firmness, commodity, and delight.',
+    isQuote: true,
     headingTop: 'Building',
     headingBottom: 'Beyond',
     rightTitle: 'Architecture can mean',
@@ -18,9 +20,10 @@ const heroSlides = [
     ctaHref: '/projects',
   },
   {
-    id: 2,
+    id: '2',
     image: '/architecture.webp',
     quote: 'Architecture is the learned game, correct and magnificent, of forms assembled in the light.',
+    isQuote: true,
     headingTop: 'Crafting',
     headingBottom: 'Spaces',
     rightTitle: 'Enduring & Contextual',
@@ -29,9 +32,10 @@ const heroSlides = [
     ctaHref: '/projects',
   },
   {
-    id: 3,
+    id: '3',
     image: '/coastal_palace.webp',
     quote: 'Form follows function — that has been misunderstood. Form and function should be one, joined in a spiritual union.',
+    isQuote: true,
     headingTop: 'Timeless',
     headingBottom: 'Living',
     rightTitle: 'Harmonious Design',
@@ -40,9 +44,10 @@ const heroSlides = [
     ctaHref: '/projects',
   },
   {
-    id: 4,
+    id: '4',
     image: '/forest.webp',
     quote: 'The dialogue between built structures and untouched nature produces architecture that matures with grace.',
+    isQuote: true,
     headingTop: 'Rooted in',
     headingBottom: 'Nature',
     rightTitle: 'Vernacular Craft',
@@ -52,18 +57,54 @@ const heroSlides = [
   },
 ];
 
-export default function Hero() {
+export default function Hero({ projects }: { projects?: Project[] }) {
+  const activeProjects = projects
+    ? projects.filter((p) => p.status !== 'draft')
+    : [];
+
+  const slides = activeProjects.length > 0
+    ? activeProjects.map((p) => {
+        // Split title into headingTop and headingBottom
+        const words = p.title.trim().split(/\s+/);
+        let headingTop = p.title;
+        let headingBottom = '';
+        if (words.length > 1) {
+          const mid = Math.ceil(words.length / 2);
+          headingTop = words.slice(0, mid).join(' ');
+          headingBottom = words.slice(mid).join(' ');
+        } else {
+          headingBottom = p.category.charAt(0).toUpperCase() + p.category.slice(1);
+        }
+
+        return {
+          id: p.id,
+          image: p.image || '/architecture.webp',
+          quote: p.highlights && p.highlights.length > 0
+            ? p.highlights.join(' • ')
+            : `${p.category} • ${p.location} • ${p.year}`,
+          isQuote: false,
+          headingTop,
+          headingBottom,
+          rightTitle: p.scope || (p.category.charAt(0).toUpperCase() + p.category.slice(1)),
+          rightDesc: p.description,
+          ctaText: 'View project',
+          ctaHref: `/projects/${p.id}`,
+        };
+      })
+    : heroSlides;
+
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Auto slide cycle every 4.5s with clean reset on slide change
   useEffect(() => {
+    if (slides.length <= 1) return;
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 4500);
     return () => clearInterval(timer);
-  }, [currentSlide]);
+  }, [currentSlide, slides.length]);
 
-  const slide = heroSlides[currentSlide];
+  const slide = slides[currentSlide] || slides[0];
 
   return (
     <section
@@ -81,7 +122,7 @@ export default function Hero() {
       aria-label="Hero Architectural Showcase"
     >
       {/* Preloaded Stacked Background Images with Instant Cross-Fade (Zero Buffering / Zero Black Gap) */}
-      {heroSlides.map((s, idx) => {
+      {slides.map((s, idx) => {
         const isActive = idx === currentSlide;
         return (
           <motion.div
@@ -133,7 +174,7 @@ export default function Hero() {
       })}
 
       {/* ============================================================
-          TOP-LEFT QUOTE OVERLAY
+          TOP-LEFT QUOTE / SPEC OVERLAY
           ============================================================ */}
       <div
         className="hero-quote-overlay"
@@ -142,30 +183,53 @@ export default function Hero() {
           top: '120px',
           left: 'clamp(20px, 4vw, 56px)',
           zIndex: 10,
-          maxWidth: '460px',
+          maxWidth: 'clamp(280px, 85vw, 600px)',
         }}
       >
         <AnimatePresence mode="wait">
-          <motion.blockquote
+          <motion.div
             key={slide.quote}
-            initial={{ opacity: 0, y: -6 }}
+            initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 6 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             style={{
-              margin: 0,
-              padding: 0,
-              border: 'none',
-              color: 'rgba(255, 255, 255, 0.92)',
-              fontSize: 'clamp(0.82rem, 1.1vw, 0.98rem)',
-              lineHeight: 1.5,
-              fontWeight: 400,
-              letterSpacing: '0.01em',
-              textShadow: '0 2px 10px rgba(0,0,0,0.6)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '8px',
             }}
           >
-            &ldquo;{slide.quote}&rdquo;
-          </motion.blockquote>
+            <span
+              style={{
+                fontSize: 'clamp(0.7rem, 0.9vw, 0.85rem)',
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                letterSpacing: '0.22em',
+                color: 'var(--color-accent, #C4703F)',
+                textShadow: '0 1px 4px rgba(0,0,0,0.6)',
+              }}
+            >
+              {slide.isQuote ? 'Vision' : 'Project Highlights'}
+            </span>
+            <blockquote
+              style={{
+                margin: 0,
+                padding: 0,
+                border: 'none',
+                color: 'rgba(255, 255, 255, 0.95)',
+                fontSize: 'clamp(0.95rem, 1.3vw, 1.35rem)',
+                lineHeight: 1.4,
+                fontWeight: slide.isQuote ? 300 : 400,
+                fontFamily: slide.isQuote ? 'var(--font-canela)' : 'var(--font-sans)',
+                fontStyle: slide.isQuote ? 'italic' : 'normal',
+                letterSpacing: slide.isQuote ? '0.02em' : '0.12em',
+                textShadow: '0 2px 12px rgba(0,0,0,0.7)',
+                textTransform: slide.isQuote ? 'none' : 'uppercase',
+              }}
+            >
+              {slide.isQuote ? `“${slide.quote}”` : slide.quote}
+            </blockquote>
+          </motion.div>
         </AnimatePresence>
       </div>
 
@@ -212,12 +276,11 @@ export default function Hero() {
                   className="hero-title-top"
                   style={{
                     fontFamily: 'var(--font-sans)',
-                    fontSize: 'clamp(2.2rem, 8.5vw, 6.8rem)',
+                    fontSize: 'clamp(2.0rem, 6.0vw, 4.2rem)',
                     fontWeight: 800,
                     color: '#ffffff',
                     letterSpacing: '-0.03em',
                     display: 'block',
-                    whiteSpace: 'nowrap',
                   }}
                 >
                   {slide.headingTop}
@@ -225,14 +288,13 @@ export default function Hero() {
                 <span
                   className="font-display hero-title-bottom"
                   style={{
-                    fontSize: 'clamp(2.2rem, 8.5vw, 6.8rem)',
+                    fontSize: 'clamp(2.0rem, 6.0vw, 4.2rem)',
                     fontWeight: 300,
                     fontStyle: 'italic',
                     color: '#ffffff',
                     letterSpacing: '-0.02em',
                     display: 'block',
                     marginTop: '2px',
-                    whiteSpace: 'nowrap',
                   }}
                 >
                   {slide.headingBottom}
@@ -329,6 +391,11 @@ export default function Hero() {
                 lineHeight: 1.5,
                 fontWeight: 400,
                 margin: 0,
+                display: '-webkit-box',
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
               }}
             >
               {slide.rightDesc}
@@ -361,7 +428,7 @@ export default function Hero() {
           boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
         }}
       >
-        {heroSlides.map((s, idx) => (
+        {slides.map((s, idx) => (
           <button
             key={s.id}
             type="button"
