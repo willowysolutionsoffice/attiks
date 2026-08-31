@@ -2,8 +2,6 @@ import { readDatabase } from '@/lib/db';
 import { projects as seedProjects } from '@/data/projects';
 import ProjectsClientPage from './ProjectsClientPage';
 
-export const unstable_instant = { prefetch: 'static' };
-
 export default async function ProjectsPage() {
   let allProjects = seedProjects;
   try {

@@ -6,8 +6,6 @@ import Footer from '@/components/Footer';
 import { readDatabase } from '@/lib/db';
 import { projects as fallbackProjects, Project } from '@/data/projects';
 
-export const unstable_instant = { prefetch: 'static' };
-
 function getProject(id: string): Project | undefined {
   try {
     const db = readDatabase();

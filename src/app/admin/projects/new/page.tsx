@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Save, Upload, Trash2, Image as ImageIcon } from 'lucide-react';
@@ -18,7 +18,7 @@ export default function NewProjectPage() {
     title: '',
     category: 'residential',
     location: '',
-    year: String(new Date().getFullYear()),
+    year: '2026',
     image: '/architecture.webp',
     scope: 'Architecture & Design',
     area: '',
@@ -28,6 +28,13 @@ export default function NewProjectPage() {
     status: 'published',
     featured: false,
   });
+
+  useEffect(() => {
+    setFormValues((prev) => ({
+      ...prev,
+      year: String(new Date().getFullYear()),
+    }));
+  }, []);
 
   async function handleMainImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];

@@ -1,9 +1,16 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Footer() {
+  const [currentYear, setCurrentYear] = useState<number>(2026);
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
+
   return (
     <footer className="relative-content" style={{ background: '#000', borderTop: '1px solid rgba(255,255,255,0.1)', color: '#fff', scrollSnapAlign: 'end' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '5rem var(--section-padding)' }}>
@@ -133,7 +140,7 @@ export default function Footer() {
         <div className="footer-bottom">
           <p>Attiks Architecture Practice</p>
           <p style={{ color: '#fff' }}>Visioned and Crafted by Willowy</p>
-          <p>&copy; {new Date().getFullYear()} All rights reserved</p>
+          <p>&copy; {currentYear} All rights reserved</p>
         </div>
       </div>
     </footer>

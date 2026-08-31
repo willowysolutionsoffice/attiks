@@ -6,8 +6,6 @@ import Footer from '@/components/Footer';
 import { readDatabase } from '@/lib/db';
 import { projects as seedProjects } from '@/data/projects';
 
-export const unstable_instant = { prefetch: 'static' };
-
 const AboutGallerySlider = dynamic(() => import('@/components/AboutGallerySlider'));
 const ProjectShowcaseGrid = dynamic(() => import('@/components/ProjectShowcaseGrid'));
 const Testimonials = dynamic(() => import('@/components/Testimonials'));

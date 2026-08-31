@@ -3,8 +3,6 @@ import Footer from '@/components/Footer';
 import Image from 'next/image';
 import PageHeader from '@/components/PageHeader';
 
-export const unstable_instant = { prefetch: 'static' };
-
 const articles = [
   {
     category: 'Article',
