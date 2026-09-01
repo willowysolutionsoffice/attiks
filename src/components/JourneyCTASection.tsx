@@ -76,7 +76,7 @@ export default function JourneyCTASection() {
               textTransform: 'uppercase'
             }}
           >
-            05 / Start The Project
+            04 / Start The Project
           </motion.p>
 
           <motion.h2

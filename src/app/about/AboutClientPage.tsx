@@ -6,7 +6,6 @@ import { motion } from 'framer-motion';
 import PageHeader from '@/components/PageHeader';
 import StorySection from '@/components/StorySection';
 import ValuesSection from '@/components/ValuesSection';
-import TeamSection from '@/components/TeamSection';
 import JourneyCTASection from '@/components/JourneyCTASection';
 import Footer from '@/components/Footer';
 
@@ -76,7 +75,6 @@ export default function AboutClientPage() {
 
         <StorySection />
         <ValuesSection />
-        <TeamSection />
         <JourneyCTASection />
       </main>
 
