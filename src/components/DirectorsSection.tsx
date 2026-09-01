@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 import LeadCaptureModal from '@/components/LeadCaptureModal';
 
 export interface Director {
@@ -73,6 +73,49 @@ export const defaultDirectors: Director[] = [
   },
 ];
 
+function ArrowBtn({ onClick, direction, label }: { onClick: () => void; direction: 'prev' | 'next'; label: string }) {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        width: '46px',
+        height: '46px',
+        borderRadius: '50%',
+        border: '1.5px solid #000000',
+        background: hovered ? '#000000' : 'transparent',
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        transition: 'background 0.25s ease, border-color 0.25s ease',
+        flexShrink: 0,
+      }}
+    >
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 18 18"
+        fill="none"
+        stroke={hovered ? '#ffffff' : '#000000'}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        style={{ transition: 'stroke 0.25s ease' }}
+      >
+        {direction === 'prev'
+          ? <path d="M11 4 L6 9 L11 14" />
+          : <path d="M7 4 L12 9 L7 14" />
+        }
+      </svg>
+    </button>
+  );
+}
+
 interface DirectorsSectionProps {
   directors?: Director[];
   eyebrow?: string;
@@ -82,29 +125,33 @@ interface DirectorsSectionProps {
 
 export default function DirectorsSection({
   directors = defaultDirectors,
-  eyebrow = '04 / Leadership',
+  eyebrow = 'Leadership',
   title = 'Meet Our Directors',
   description = 'A dedicated circle of principal architects, structural visionaries, and spatial innovators guiding every commission.',
 }: DirectorsSectionProps) {
   const [activeHoverId, setActiveHoverId] = useState<string | null>(null);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [selectedDirector, setSelectedDirector] = useState<Director | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const carouselRef = useRef<HTMLDivElement | null>(null);
 
-  const scrollLeft = () => {
+  const totalCards = directors.length;
+
+  const handlePrev = () => {
     if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: -360, behavior: 'smooth' });
+      carouselRef.current.scrollBy({ left: -340, behavior: 'smooth' });
     }
+    setCurrentSlideIndex((prev) => (prev - 1 + totalCards) % totalCards);
   };
 
-  const scrollRight = () => {
+  const handleNext = () => {
     if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: 360, behavior: 'smooth' });
+      carouselRef.current.scrollBy({ left: 340, behavior: 'smooth' });
     }
+    setCurrentSlideIndex((prev) => (prev + 1) % totalCards);
   };
 
   const handleCardClick = (director: Director) => {
-    // Toggle active on mobile/click
     if (activeHoverId === director.id) {
       setActiveHoverId(null);
     } else {
@@ -134,47 +181,46 @@ export default function DirectorsSection({
       style={{
         position: 'relative',
         background: '#ffffff',
-        padding: 'clamp(80px, 8vw, 140px) 0',
+        padding: '50px clamp(24px, 5vw, 64px) 70px',
         color: '#111111',
         width: '100%',
         overflow: 'hidden',
         boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
       }}
       aria-labelledby="directors-heading"
     >
-      {/* Top Header Section */}
       <div
         style={{
-          maxWidth: '1400px',
+          width: '100%',
+          maxWidth: '1600px',
           margin: '0 auto',
-          padding: '0 var(--section-padding)',
-          marginBottom: 'clamp(40px, 5vw, 64px)',
-          boxSizing: 'border-box',
+          position: 'relative',
         }}
       >
-        <p
-          style={{
-            fontFamily: 'var(--font-primary)',
-            fontSize: 'clamp(15px, 1vw, 17px)',
-            letterSpacing: '0.12em',
-            color: '#777777',
-            marginBottom: '16px',
-            textTransform: 'uppercase',
-            fontWeight: 600,
-          }}
-        >
-          {eyebrow}
-        </p>
-
+        {/* Top Header Section */}
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-end',
-            flexWrap: 'wrap',
-            gap: '24px',
+            marginBottom: '36px',
+            boxSizing: 'border-box',
           }}
         >
+          <p
+            style={{
+              fontFamily: 'var(--font-primary)',
+              fontSize: 'clamp(15px, 1vw, 17px)',
+              letterSpacing: '0.12em',
+              color: '#777777',
+              marginBottom: '14px',
+              textTransform: 'uppercase',
+              fontWeight: 600,
+            }}
+          >
+            {eyebrow}
+          </p>
+
           <div>
             <motion.h2
               id="directors-heading"
@@ -203,9 +249,9 @@ export default function DirectorsSection({
                   fontSize: 'clamp(18px, 1.15vw, 20px)',
                   color: '#555555',
                   lineHeight: 1.6,
-                  marginTop: '16px',
+                  marginTop: '14px',
                   marginBottom: 0,
-                  maxWidth: '680px',
+                  maxWidth: '720px',
                   fontWeight: 350,
                 }}
               >
@@ -214,256 +260,228 @@ export default function DirectorsSection({
             )}
           </div>
         </div>
-      </div>
 
-      {/* ============================================================
-          HORIZONTAL CAROUSEL TRACK WITH FLOATING CIRCULAR ARROWS
-          ============================================================ */}
-      <div style={{ position: 'relative', width: '100%' }}>
-        {/* Navigation Left Arrow */}
-        <button
-          type="button"
-          onClick={scrollLeft}
-          aria-label="Previous directors"
-          className="director-nav-btn director-nav-left"
-          style={{
-            position: 'absolute',
-            left: 'clamp(16px, 3vw, 40px)',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            zIndex: 20,
-            width: '48px',
-            height: '48px',
-            borderRadius: '50%',
-            background: '#ffffff',
-            border: '1px solid rgba(0, 0, 0, 0.08)',
-            boxShadow: '0 6px 20px rgba(0, 0, 0, 0.12)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            transition: 'all 0.25s ease',
-          }}
-        >
-          <ChevronLeft size={22} color="#000000" strokeWidth={2} />
-        </button>
+        {/* ============================================================
+            HORIZONTAL CAROUSEL TRACK (EXACT 1600PX BOUNDARY)
+            ============================================================ */}
+        <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
+          <div
+            ref={carouselRef}
+            className="directors-track"
+            style={{
+              display: 'flex',
+              gap: '24px',
+              overflowX: 'auto',
+              scrollSnapType: 'x mandatory',
+              scrollBehavior: 'smooth',
+              padding: '12px 0 28px 0',
+              boxSizing: 'border-box',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
+          >
+            {directors.map((director) => {
+              const isActive = activeHoverId === director.id;
 
-        {/* Navigation Right Arrow */}
-        <button
-          type="button"
-          onClick={scrollRight}
-          aria-label="Next directors"
-          className="director-nav-btn director-nav-right"
-          style={{
-            position: 'absolute',
-            right: 'clamp(16px, 3vw, 40px)',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            zIndex: 20,
-            width: '48px',
-            height: '48px',
-            borderRadius: '50%',
-            background: '#ffffff',
-            border: '1px solid rgba(0, 0, 0, 0.08)',
-            boxShadow: '0 6px 20px rgba(0, 0, 0, 0.12)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            transition: 'all 0.25s ease',
-          }}
-        >
-          <ChevronRight size={22} color="#000000" strokeWidth={2} />
-        </button>
-
-        {/* Carousel Scroll Track */}
-        <div
-          ref={carouselRef}
-          className="directors-track"
-          style={{
-            display: 'flex',
-            gap: 'clamp(20px, 2.2vw, 32px)',
-            overflowX: 'auto',
-            scrollSnapType: 'x mandatory',
-            scrollBehavior: 'smooth',
-            padding: '24px clamp(24px, 4vw, 56px) 36px',
-            boxSizing: 'border-box',
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-          }}
-        >
-          {directors.map((director, index) => {
-            const isActive = activeHoverId === director.id;
-
-            return (
-              <div
-                key={director.id}
-                onMouseEnter={() => setActiveHoverId(director.id)}
-                onMouseLeave={() => setActiveHoverId(null)}
-                onClick={() => handleCardClick(director)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleCardClick(director);
-                  }
-                }}
-                className={`director-card-container ${isActive ? 'is-active' : ''}`}
-                style={{
-                  position: 'relative',
-                  flex: '0 0 clamp(290px, 23vw, 340px)',
-                  height: 'clamp(470px, 58vh, 530px)',
-                  borderRadius: '28px',
-                  background: '#ffffff',
-                  boxShadow: isActive
-                    ? '0 20px 48px rgba(0, 0, 0, 0.14), 0 4px 12px rgba(0, 0, 0, 0.06)'
-                    : '0 12px 36px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.03)',
-                  border: '1px solid rgba(0, 0, 0, 0.04)',
-                  padding: '10px',
-                  boxSizing: 'border-box',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  scrollSnapAlign: 'start',
-                  transform: isActive ? 'translateY(-4px)' : 'translateY(0)',
-                  transition: 'all 0.55s cubic-bezier(0.16, 1, 0.3, 1)',
-                  overflow: 'hidden',
-                }}
-              >
-                {/* Portrait Image Container */}
+              return (
                 <div
+                  key={director.id}
+                  onMouseEnter={() => setActiveHoverId(director.id)}
+                  onMouseLeave={() => setActiveHoverId(null)}
+                  onClick={() => handleCardClick(director)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleCardClick(director);
+                    }
+                  }}
+                  className={`director-card-container ${isActive ? 'is-active' : ''}`}
                   style={{
                     position: 'relative',
-                    width: '100%',
-                    height: isActive ? '50%' : '100%',
-                    borderRadius: isActive ? '20px' : '20px',
-                    overflow: 'hidden',
-                    background: '#1a1a1a',
-                    flexShrink: 0,
-                    transition: 'height 0.55s cubic-bezier(0.16, 1, 0.3, 1)',
-                  }}
-                >
-                  <Image
-                    src={director.image}
-                    alt={`${director.name} — ${director.role}`}
-                    fill
-                    sizes="(max-width: 768px) 80vw, (max-width: 1200px) 30vw, 22vw"
-                    style={{
-                      objectFit: 'cover',
-                      objectPosition: director.objectPosition || 'center 20%',
-                      transform: isActive ? 'scale(1.03)' : 'scale(1)',
-                      transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-                    }}
-                  />
-                </div>
-
-                {/* Info Panel Reveal (Exact Reference Layout) */}
-                <div
-                  style={{
-                    flex: 1,
+                    flex: '0 0 clamp(290px, calc((100% - 72px) / 4), 380px)',
+                    height: 'clamp(460px, 56vh, 520px)',
+                    borderRadius: '28px',
+                    background: '#ffffff',
+                    boxShadow: 'none',
+                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                    padding: '10px',
+                    boxSizing: 'border-box',
+                    cursor: 'pointer',
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    padding: '14px 8px 6px',
-                    opacity: isActive ? 1 : 0,
-                    transform: isActive ? 'translateY(0)' : 'translateY(12px)',
-                    transition: 'opacity 0.45s ease 0.06s, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.06s',
-                    pointerEvents: isActive ? 'auto' : 'none',
+                    scrollSnapAlign: 'start',
+                    transform: isActive ? 'translateY(-2px)' : 'translateY(0)',
+                    transition: 'all 0.55s cubic-bezier(0.16, 1, 0.3, 1)',
+                    overflow: 'hidden',
                   }}
                 >
-                  {/* Name & Bio */}
-                  <div>
-                    <h3
-                      style={{
-                        fontFamily: 'var(--font-primary)',
-                        fontSize: 'clamp(1.35rem, 1.5vw, 1.55rem)',
-                        fontWeight: 700,
-                        color: '#000000',
-                        margin: 0,
-                        letterSpacing: '-0.02em',
-                        lineHeight: 1.2,
-                        textTransform: 'none',
-                      }}
-                    >
-                      {director.name}
-                    </h3>
-                    <p
-                      style={{
-                        fontFamily: 'var(--font-primary)',
-                        fontSize: 'clamp(14px, 0.95vw, 15px)',
-                        color: '#555555',
-                        lineHeight: 1.45,
-                        margin: '6px 0 0 0',
-                        fontWeight: 400,
-                        textTransform: 'none',
-                      }}
-                    >
-                      {director.description}
-                    </p>
-                  </div>
-
-                  {/* Bottom Actions Row: Tag on left, Button on right */}
+                  {/* Portrait Image Container */}
                   <div
                     style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      gap: '10px',
-                      marginTop: '10px',
-                      paddingTop: '8px',
+                      position: 'relative',
+                      width: '100%',
+                      height: isActive ? '50%' : '100%',
+                      borderRadius: '20px',
+                      overflow: 'hidden',
+                      background: '#1a1a1a',
+                      flexShrink: 0,
+                      transition: 'height 0.55s cubic-bezier(0.16, 1, 0.3, 1)',
                     }}
                   >
-                    {/* Category Pill Tag */}
-                    <span
+                    <Image
+                      src={director.image}
+                      alt={`${director.name} — ${director.role}`}
+                      fill
+                      sizes="(max-width: 768px) 80vw, (max-width: 1200px) 30vw, 25vw"
                       style={{
-                        background: '#f2f2f2',
-                        color: '#333333',
-                        padding: '6px 14px',
-                        borderRadius: '9999px',
-                        fontSize: '13px',
-                        fontWeight: 600,
-                        fontFamily: 'var(--font-primary)',
-                        letterSpacing: '0.01em',
-                        textTransform: 'none',
-                        display: 'inline-block',
+                        objectFit: 'cover',
+                        objectPosition: director.objectPosition || 'center 20%',
+                        transform: isActive ? 'scale(1.03)' : 'scale(1)',
+                        transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
                       }}
-                    >
-                      {director.category}
-                    </span>
+                    />
+                  </div>
 
-                    {/* View Profile CTA Button */}
-                    <button
-                      type="button"
-                      onClick={(e) => handleViewProfile(e, director)}
+                  {/* Info Panel Reveal (Exact Reference Layout) */}
+                  <div
+                    style={{
+                      flex: 1,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      padding: '14px 8px 6px',
+                      opacity: isActive ? 1 : 0,
+                      transform: isActive ? 'translateY(0)' : 'translateY(12px)',
+                      transition: 'opacity 0.45s ease 0.06s, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.06s',
+                      pointerEvents: isActive ? 'auto' : 'none',
+                    }}
+                  >
+                    {/* Name & Bio */}
+                    <div>
+                      <h3
+                        style={{
+                          fontFamily: 'var(--font-primary)',
+                          fontSize: 'clamp(1.35rem, 1.5vw, 1.55rem)',
+                          fontWeight: 700,
+                          color: '#000000',
+                          margin: 0,
+                          letterSpacing: '-0.02em',
+                          lineHeight: 1.2,
+                          textTransform: 'none',
+                        }}
+                      >
+                        {director.name}
+                      </h3>
+                      <p
+                        style={{
+                          fontFamily: 'var(--font-primary)',
+                          fontSize: 'clamp(14px, 0.95vw, 15px)',
+                          color: '#555555',
+                          lineHeight: 1.45,
+                          margin: '6px 0 0 0',
+                          fontWeight: 400,
+                          textTransform: 'none',
+                        }}
+                      >
+                        {director.description}
+                      </p>
+                    </div>
+
+                    {/* Bottom Actions Row: Tag on left, Button on right */}
+                    <div
                       style={{
-                        background: '#555555',
-                        color: '#ffffff',
-                        border: 'none',
-                        padding: '8px 18px',
-                        borderRadius: '9999px',
-                        fontSize: '13px',
-                        fontWeight: 600,
-                        fontFamily: 'var(--font-primary)',
-                        cursor: 'pointer',
-                        transition: 'background 0.25s ease, transform 0.2s ease',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = '#000000';
-                        e.currentTarget.style.transform = 'scale(1.04)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = '#555555';
-                        e.currentTarget.style.transform = 'scale(1)';
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: '10px',
+                        marginTop: '10px',
+                        paddingTop: '8px',
                       }}
                     >
-                      View Profile
-                    </button>
+                      {/* Category Pill Tag */}
+                      <span
+                        style={{
+                          background: '#f2f2f2',
+                          color: '#333333',
+                          padding: '6px 14px',
+                          borderRadius: '9999px',
+                          fontSize: '13px',
+                          fontWeight: 600,
+                          fontFamily: 'var(--font-primary)',
+                          letterSpacing: '0.01em',
+                          textTransform: 'none',
+                          display: 'inline-block',
+                        }}
+                      >
+                        {director.category}
+                      </span>
+
+                      {/* View Profile CTA Button */}
+                      <button
+                        type="button"
+                        onClick={(e) => handleViewProfile(e, director)}
+                        style={{
+                          background: '#555555',
+                          color: '#ffffff',
+                          border: 'none',
+                          padding: '8px 18px',
+                          borderRadius: '9999px',
+                          fontSize: '13px',
+                          fontWeight: 600,
+                          fontFamily: 'var(--font-primary)',
+                          cursor: 'pointer',
+                          transition: 'background 0.25s ease, transform 0.2s ease',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = '#000000';
+                          e.currentTarget.style.transform = 'scale(1.04)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = '#555555';
+                          e.currentTarget.style.transform = 'scale(1)';
+                        }}
+                      >
+                        View Profile
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ============================================================
+            BOTTOM CONTROLS ROW (EXACT SAME AS ABOUTGALLERYSLIDER ABOVE)
+            ============================================================ */}
+        <div
+          className="directors-slider-controls"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            marginTop: '24px',
+            paddingTop: '8px',
+          }}
+        >
+          {/* Bottom Left Arrow Controls & Counter */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <ArrowBtn onClick={handlePrev} direction="prev" label="Previous directors" />
+            <span
+              style={{
+                fontSize: 'clamp(18px, 1.1vw, 20px)',
+                color: '#444444',
+                letterSpacing: '0.04em',
+                minWidth: '64px',
+                textAlign: 'center',
+                fontFamily: 'var(--font-primary)',
+              }}
+            >
+              {String(currentSlideIndex + 1).padStart(2, '0')} / {String(totalCards).padStart(2, '0')}
+            </span>
+            <ArrowBtn onClick={handleNext} direction="next" label="Next directors" />
+          </div>
         </div>
       </div>
 
@@ -481,14 +499,11 @@ export default function DirectorsSection({
           display: none;
         }
 
-        .director-nav-btn:hover {
-          transform: translateY(-50%) scale(1.08) !important;
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18) !important;
-        }
-
         @media (max-width: 768px) {
-          .director-nav-btn {
-            display: none !important;
+          .directors-slider-controls {
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 16px !important;
           }
           .director-card-container {
             flex: 0 0 82vw !important;
