@@ -1,25 +1,71 @@
+/* ========================================================
+   CANELA (SELF-HOSTED WEBFONTS)
+   ======================================================== */
+@font-face {
+  font-family: 'Canela';
+  src: url('/fonts/Canela-LightItalic.woff2') format('woff2');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Canela';
+  src: url('/fonts/Canela-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Canela';
+  src: url('/fonts/Canela-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Canela';
+  src: url('/fonts/Canela-LightItalic.woff2') format('woff2');
+  font-weight: 400 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ========================================================
+   NEUE HAAS GROTESK (SELF-HOSTED WEBFONTS)
+   ======================================================== */
 @font-face {
   font-family: 'Neue Haas Grotesk';
+  src: url('/fonts/NeueHaasDisplayLight.woff') format('woff');
+  font-weight: 300;
   font-style: normal;
-  font-weight: 300 700;
   font-display: swap;
-  src: local('Neue Haas Grotesk Display Pro'), local('Neue Haas Grotesk Text Pro'), local('Neue Haas Grotesk'), local('Haas Neue Grotesk');
 }
 
 @font-face {
-  font-family: 'Canela';
-  font-style: italic;
-  font-weight: 300 700;
+  font-family: 'Neue Haas Grotesk';
+  src: url('/fonts/NeueHaasDisplayRoman.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
   font-display: swap;
-  src: local('Canela Light Italic'), local('Canela Italic'), local('Canela Deck Italic'), local('Canela');
 }
 
 @font-face {
-  font-family: 'Canela';
+  font-family: 'Neue Haas Grotesk';
+  src: url('/fonts/NeueHaasDisplayMediu.woff') format('woff');
+  font-weight: 500 600;
   font-style: normal;
-  font-weight: 300 700;
   font-display: swap;
-  src: local('Canela Regular'), local('Canela Text'), local('Canela Medium'), local('Canela');
+}
+
+@font-face {
+  font-family: 'Neue Haas Grotesk';
+  src: url('/fonts/NeueHaasDisplayBold.woff') format('woff');
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
 }
 
 :root {
@@ -27,9 +73,9 @@
   --foreground: #111111;
   --accent: #111111;
   --overlay: rgba(0, 0, 0, 0.4);
-  --font-primary: "Neue Haas Grotesk", "Haas Neue Grotesk", sans-serif;
-  --font-sans: "Neue Haas Grotesk", "Haas Neue Grotesk", sans-serif;
-  --font-canela: "Canela", serif;
+  --font-primary: "Neue Haas Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Neue Haas Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-canela: "Canela", Georgia, "Times New Roman", serif;
   --color-black: #0A0A0A;
   --color-surface: #FFFFFF;
   --color-text: #1A1A1A;

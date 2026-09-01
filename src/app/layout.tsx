@@ -117,6 +117,27 @@ export default function RootLayout({
       <head>
         <link
           rel="preload"
+          href="/fonts/Canela-LightItalic.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/NeueHaasDisplayRoman.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/NeueHaasDisplayBold.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
           href="/villa_showcase.webp"
           as="image"
           type="image/webp"
