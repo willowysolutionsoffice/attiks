@@ -1,53 +1,103 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
-import { Project } from '@/data/projects';
+import LeadCaptureModal from '@/components/LeadCaptureModal';
 
-export default function ProjectShowcaseGrid({ initialProjects }: { initialProjects?: Project[] }) {
-  const [projects, setProjects] = useState<Project[]>(() => {
-    if (initialProjects && initialProjects.length > 0) {
-      const featured = initialProjects.filter((p) => p.featured || p.status === 'published');
-      return featured.slice(0, 6);
-    }
-    return [];
-  });
+export interface EventItem {
+  id: string;
+  title: string;
+  category: string;
+  date: string;
+  location: string;
+  image: string;
+}
+
+const initialEvents: EventItem[] = [
+  {
+    id: 'e-1',
+    title: 'Kochi-Muziris Biennale Architectural Pavilion',
+    category: 'exhibition',
+    date: '2026',
+    location: 'Kochi, Kerala',
+    image: '/architecture.webp',
+  },
+  {
+    id: 'e-2',
+    title: 'Vernacular Masonry & Climate Symposium',
+    category: 'symposium',
+    date: '2026',
+    location: 'Calicut, Kerala',
+    image: '/value_people.webp',
+  },
+  {
+    id: 'e-3',
+    title: 'Monsoon Living & Tropical Spatial Design',
+    category: 'workshop',
+    date: '2025',
+    location: 'Varkala, Kerala',
+    image: '/coastal_palace.webp',
+  },
+  {
+    id: 'e-4',
+    title: 'Sustainable Timber & Earth Construction Lab',
+    category: 'research',
+    date: '2025',
+    location: 'Wayanad, Kerala',
+    image: '/forest.webp',
+  },
+  {
+    id: 'e-5',
+    title: 'Contemporary Urban Infill Showcase',
+    category: 'panel discussion',
+    date: '2025',
+    location: 'Thrissur, Kerala',
+    image: '/comm_modern.webp',
+  },
+  {
+    id: 'e-6',
+    title: 'Coastal Topography & Horizon Architecture',
+    category: 'installation',
+    date: '2024',
+    location: 'Kovalam, Kerala',
+    image: '/comm_beach.webp',
+  },
+];
+
+export default function ProjectShowcaseGrid({ customEvents }: { initialProjects?: any; customEvents?: EventItem[] }) {
+  const events = customEvents && customEvents.length > 0 ? customEvents : initialEvents;
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
-  useEffect(() => {
-    if (initialProjects && initialProjects.length > 0) {
-      return;
-    }
-    async function loadShowcaseProjects() {
-      try {
-        const res = await fetch('/api/projects');
-        const data = await res.json();
-        if (data.success && Array.isArray(data.projects) && data.projects.length > 0) {
-          const featured = data.projects.filter((p: any) => p.featured || p.status === 'published');
-          setProjects(featured.slice(0, 6));
-        }
-      } catch (err) {
-        console.error('Failed to load showcase projects:', err);
-      }
-    }
-    loadShowcaseProjects();
-  }, [initialProjects]);
+  const handleCardClick = (event: EventItem) => {
+    setSelectedEvent(event);
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+    setSelectedEvent(null);
+  };
+
+  const handleModalSuccess = () => {
+    setModalOpen(false);
+    setSelectedEvent(null);
+  };
 
   return (
     <section
       style={{
         position: 'relative',
         background: '#ffffff',
-        padding: '60px clamp(24px, 4vw, 56px) 100px',
-        minHeight: '100vh',
+        padding: '20px clamp(24px, 5vw, 64px) 100px',
         width: '100%',
         display: 'flex',
         alignItems: 'center',
         boxSizing: 'border-box',
       }}
-      aria-labelledby="selected-works-heading"
+      aria-label="Events & Studio Gallery Showcase"
     >
       <div
         style={{
@@ -56,64 +106,7 @@ export default function ProjectShowcaseGrid({ initialProjects }: { initialProjec
           margin: '0 auto',
         }}
       >
-        {/* Lead-in Header */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '36px',
-          }}
-        >
-          <h2
-            id="selected-works-heading"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-              fontSize: '1rem',
-              fontWeight: 600,
-              color: '#000000',
-              margin: 0,
-              letterSpacing: '-0.01em',
-              textTransform: 'none',
-            }}
-          >
-            <span
-              style={{
-                width: '7px',
-                height: '7px',
-                borderRadius: '50%',
-                background: '#000000',
-                display: 'inline-block',
-              }}
-              aria-hidden="true"
-            />
-            Selected Works
-          </h2>
-
-          <Link
-            href="/projects"
-            style={{
-              fontSize: '0.92rem',
-              fontWeight: 600,
-              color: '#000000',
-              textDecoration: 'none',
-              letterSpacing: '-0.01em',
-              transition: 'opacity 0.2s ease',
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.opacity = '0.55';
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.opacity = '1';
-            }}
-          >
-            all projects &rsaquo;
-          </Link>
-        </div>
-
-        {/* 3x2 Grid */}
+        {/* Clean 3x2 Grid matching reference card layout */}
         <div
           style={{
             display: 'grid',
@@ -121,108 +114,138 @@ export default function ProjectShowcaseGrid({ initialProjects }: { initialProjec
             gap: '20px',
             width: '100%',
           }}
-          className="showcase-3x2-grid"
+          className="events-gallery-grid"
         >
-          {projects.map((project, idx) => {
-            const isHovered = hoveredId === project.id;
+          {events.map((event, idx) => {
+            const isHovered = hoveredId === event.id;
             return (
               <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 20 }}
+                key={event.id}
+                initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{
-                  duration: 0.5,
-                  delay: idx * 0.06,
+                  duration: 0.45,
+                  delay: idx * 0.04,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                viewport={{ once: true, margin: '-40px' }}
+                viewport={{ once: true, margin: '-20px' }}
+                role="button"
+                tabIndex={0}
+                onClick={() => handleCardClick(event)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleCardClick(event);
+                  }
+                }}
+                style={{
+                  position: 'relative',
+                  width: '100%',
+                  aspectRatio: '16 / 10.5',
+                  overflow: 'hidden',
+                  background: '#151515',
+                  cursor: 'pointer',
+                }}
+                onMouseEnter={() => setHoveredId(event.id)}
+                onMouseLeave={() => setHoveredId(null)}
               >
-                <Link
-                  href={`/projects/${project.id}`}
+                <Image
+                  src={event.image}
+                  alt={event.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   style={{
-                    position: 'relative',
-                    display: 'block',
-                    width: '100%',
-                    aspectRatio: '16 / 10.5',
-                    overflow: 'hidden',
-                    background: '#111111',
-                    textDecoration: 'none',
+                    objectFit: 'cover',
+                    transform: isHovered ? 'scale(1.04)' : 'scale(1)',
+                    transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
                   }}
-                  className="showcase-item"
-                  onMouseEnter={() => setHoveredId(project.id)}
-                  onMouseLeave={() => setHoveredId(null)}
-                >
-                  <Image
-                    src={project.image || '/architecture.webp'}
-                    alt={`${project.title} - ${project.category} in ${project.location}`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    style={{
-                      objectFit: 'cover',
-                      transform: isHovered ? 'scale(1.08)' : 'scale(1)',
-                      transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-                    }}
-                    className="showcase-img"
-                  />
+                />
 
-                  {/* Hover Overlay Displaying Project Name & Details */}
-                  <div
+                {/* Bottom Gradient for Legibility (Shows on Hover) */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 45%, transparent 100%)',
+                    pointerEvents: 'none',
+                    opacity: isHovered ? 1 : 0,
+                    transition: 'opacity 0.35s ease',
+                  }}
+                />
+
+                {/* Bottom-Left Minimal Typography (Visible ONLY on Hover) */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    padding: 'clamp(14px, 2.5vw, 22px)',
+                    zIndex: 5,
+                    pointerEvents: 'none',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '3px',
+                    opacity: isHovered ? 1 : 0,
+                    transform: isHovered ? 'translateY(0)' : 'translateY(8px)',
+                    transition: 'opacity 0.35s ease, transform 0.35s ease',
+                  }}
+                >
+                  <p
                     style={{
-                      position: 'absolute',
-                      inset: 0,
-                      background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 100%)',
-                      opacity: isHovered ? 1 : 0,
-                      transition: 'opacity 0.35s ease-in-out',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'flex-end',
-                      padding: '24px 20px',
-                      boxSizing: 'border-box',
-                      zIndex: 5,
-                      pointerEvents: 'none',
+                      color: 'rgba(255, 255, 255, 0.95)',
+                      fontSize: 'clamp(18px, 1.1vw, 20px)',
+                      fontWeight: 500,
+                      letterSpacing: '0.01em',
+                      textTransform: 'none',
+                      margin: 0,
+                      fontFamily: 'var(--font-primary)',
+                      textShadow: '0 2px 8px rgba(0,0,0,0.6)',
                     }}
-                    className="showcase-overlay"
                   >
-                    <p
-                      style={{
-                        color: 'rgba(255, 255, 255, 0.85)',
-                        fontSize: '0.78rem',
-                        letterSpacing: '0.08em',
-                        textTransform: 'uppercase',
-                        marginBottom: '6px',
-                        fontWeight: 500,
-                      }}
-                    >
-                      {project.location} &bull; {project.category}
-                    </p>
-                    <h3
-                      style={{
-                        color: '#ffffff',
-                        fontSize: '1.2rem',
-                        fontWeight: 600,
-                        margin: 0,
-                        textTransform: 'none',
-                      }}
-                    >
-                      {project.title}
-                    </h3>
-                  </div>
-                </Link>
+                    {event.location} &bull; {event.category.charAt(0).toUpperCase() + event.category.slice(1)}
+                  </p>
+                  <h3
+                    style={{
+                      color: '#ffffff',
+                      fontSize: 'clamp(1.3rem, 1.6vw, 1.6rem)',
+                      fontWeight: 700,
+                      margin: 0,
+                      letterSpacing: '-0.02em',
+                      fontFamily: 'var(--font-primary)',
+                      textShadow: '0 2px 12px rgba(0,0,0,0.7)',
+                      lineHeight: 1.25,
+                      textTransform: 'none',
+                    }}
+                  >
+                    {event.title}
+                  </h3>
+                </div>
               </motion.div>
             );
           })}
         </div>
       </div>
 
+      {/* Lead Capture Modal */}
+      <LeadCaptureModal
+        isOpen={modalOpen}
+        onClose={handleModalClose}
+        onSubmitSuccess={handleModalSuccess}
+        projectTitle={selectedEvent?.title || ''}
+        projectId={selectedEvent?.id || ''}
+      />
+
       <style jsx>{`
         @media (max-width: 1024px) {
-          .showcase-3x2-grid {
+          .events-gallery-grid {
             grid-template-columns: repeat(2, 1fr) !important;
+            gap: 16px !important;
           }
         }
         @media (max-width: 640px) {
-          .showcase-3x2-grid {
+          .events-gallery-grid {
             grid-template-columns: 1fr !important;
+            gap: 18px !important;
           }
         }
       `}</style>

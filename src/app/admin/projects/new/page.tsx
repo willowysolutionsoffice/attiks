@@ -42,22 +42,18 @@ export default function NewProjectPage() {
 
     setUploadingMain(true);
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const data = await res.json();
-      if (res.ok && data.url) {
-        setFormValues((prev) => ({ ...prev, image: data.url }));
-      }
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          setFormValues((prev) => ({ ...prev, image: event.target!.result as string }));
+        }
+        setUploadingMain(false);
+      };
+      reader.readAsDataURL(file);
     } catch (err) {
-      console.error('Failed to upload main image:', err);
-    } finally {
+      console.error('Failed to read image:', err);
       setUploadingMain(false);
+    } finally {
       e.target.value = '';
     }
   }
@@ -69,34 +65,31 @@ export default function NewProjectPage() {
     setUploadingGallery(true);
     try {
       const newUrls: string[] = [];
+      let processed = 0;
       for (let i = 0; i < files.length; i++) {
-        const formData = new FormData();
-        formData.append('file', files[i]);
-
-        const res = await fetch('/api/upload', {
-          method: 'POST',
-          body: formData,
-        });
-
-        const data = await res.json();
-        if (res.ok && data.url) {
-          newUrls.push(data.url);
-        }
-      }
-
-      if (newUrls.length > 0) {
-        setFormValues((prev) => {
-          const currentGallery = prev.gallery
-            ? prev.gallery.split('\n').map((g) => g.trim()).filter((g) => g.length > 0)
-            : [];
-          const updated = [...currentGallery, ...newUrls].join('\n');
-          return { ...prev, gallery: updated };
-        });
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          if (event.target?.result) {
+            newUrls.push(event.target.result as string);
+          }
+          processed++;
+          if (processed === files.length) {
+            setFormValues((prev) => {
+              const currentGallery = prev.gallery
+                ? prev.gallery.split('\n').map((g) => g.trim()).filter((g) => g.length > 0)
+                : [];
+              const updated = [...currentGallery, ...newUrls].join('\n');
+              return { ...prev, gallery: updated };
+            });
+            setUploadingGallery(false);
+          }
+        };
+        reader.readAsDataURL(files[i]);
       }
     } catch (err) {
-      console.error('Failed to upload gallery images:', err);
-    } finally {
+      console.error('Failed to read gallery images:', err);
       setUploadingGallery(false);
+    } finally {
       e.target.value = '';
     }
   }
@@ -114,8 +107,11 @@ export default function NewProjectPage() {
     setSubmitting(true);
 
     try {
-      const payload = {
+      const id = formValues.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `proj-${Date.now()}`;
+      const newProject = {
         ...formValues,
+        id,
+        category: formValues.category as any,
         highlights: formValues.highlights
           ? formValues.highlights.split('\n').map((h) => h.trim()).filter((h) => h.length > 0)
           : [],
@@ -124,15 +120,12 @@ export default function NewProjectPage() {
           : [],
       };
 
-      const res = await fetch('/api/projects', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+      const saved = localStorage.getItem('attiks_admin_projects');
+      const existing = saved ? JSON.parse(saved) : [];
+      const updated = [newProject, ...existing];
+      localStorage.setItem('attiks_admin_projects', JSON.stringify(updated));
 
-      if (res.ok) {
-        router.push('/admin/projects');
-      }
+      router.push('/admin/projects');
     } catch (err) {
       console.error('Failed to create project:', err);
     } finally {

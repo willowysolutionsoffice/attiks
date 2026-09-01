@@ -23,7 +23,7 @@ export default function Navbar() {
         window.requestAnimationFrame(() => {
           const currentScrollPos = window.scrollY;
 
-          setScrolled(currentScrollPos > 50);
+          setScrolled(currentScrollPos > 40);
 
           if (currentScrollPos < 15) {
             setVisible(true);
@@ -67,49 +67,133 @@ export default function Navbar() {
           top: 0,
           left: 0,
           width: '100%',
-          height: '80px',
-          background: isSolid ? '#000000' : 'transparent',
+          height: 'clamp(84px, 6vw, 96px)',
+          background: isSolid ? 'rgba(5, 5, 5, 0.96)' : 'rgba(5, 5, 5, 0.85)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
           transform: visible || menuOpen ? 'translateY(0)' : 'translateY(-100%)',
-          transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease',
+          transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, border-color 0.3s ease',
           zIndex: 1000,
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '0 clamp(24px, 4vw, 56px)',
+          padding: '0 clamp(28px, 5vw, 72px)',
           boxSizing: 'border-box',
         }}
         aria-label="Main Navigation"
       >
-        <div className="nav-logo">
+        {/* Left Side Logo (Bold & Prominent) */}
+        <div className="nav-logo" style={{ display: 'flex', alignItems: 'center' }}>
           <Link
             href="/"
-            style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              textDecoration: 'none',
+              color: 'inherit',
+              transition: 'opacity 0.25s ease',
+            }}
             onClick={() => setMenuOpen(false)}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.75')}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
             aria-label="Attiks Architecture Home"
           >
             <Image
-              src="/images/logo-light.png"
+              src="/images/traingle.png"
               alt="Attiks Architecture Logo"
               width={160}
-              height={40}
-              style={{ objectFit: 'contain', height: 'clamp(28px, 6vw, 36px)', width: 'auto' }}
+              height={48}
+              style={{
+                objectFit: 'contain',
+                height: 'clamp(36px, 3.2vw, 48px)',
+                width: 'auto',
+                display: 'block',
+              }}
               priority
             />
           </Link>
         </div>
 
-        {/* Desktop Links */}
-        <div className="nav-links mobile-hide" style={{ display: 'flex', gap: 'clamp(24px, 3.5vw, 44px)', alignItems: 'center' }}>
-          <Link href="/projects" className="nav-link" style={{ fontSize: '15px', letterSpacing: '0.02em', color: '#ffffff', textDecoration: 'none' }}>
+        {/* Desktop Navigation Links (Title Case, High-Legibility) */}
+        <div
+          className="nav-links mobile-hide"
+          style={{
+            display: 'flex',
+            gap: 'clamp(36px, 3.8vw, 56px)',
+            alignItems: 'center',
+          }}
+        >
+          <Link
+            href="/projects"
+            className="nav-link"
+            style={{
+              fontSize: 'clamp(18px, 1.25vw, 20px)',
+              letterSpacing: '0.01em',
+              color: '#ffffff',
+              textDecoration: 'none',
+              textTransform: 'none',
+              fontWeight: 450,
+              fontFamily: 'var(--font-primary)',
+              transition: 'opacity 0.25s ease, transform 0.25s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.55')}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+          >
             Projects
           </Link>
-          <Link href="/about" className="nav-link" style={{ fontSize: '15px', letterSpacing: '0.02em', color: '#ffffff', textDecoration: 'none' }}>
+          <Link
+            href="/about"
+            className="nav-link"
+            style={{
+              fontSize: 'clamp(18px, 1.25vw, 20px)',
+              letterSpacing: '0.01em',
+              color: '#ffffff',
+              textDecoration: 'none',
+              textTransform: 'none',
+              fontWeight: 450,
+              fontFamily: 'var(--font-primary)',
+              transition: 'opacity 0.25s ease, transform 0.25s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.55')}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+          >
             About
           </Link>
-          <Link href="/blog" className="nav-link" style={{ fontSize: '15px', letterSpacing: '0.02em', color: '#ffffff', textDecoration: 'none' }}>
+          <Link
+            href="/blog"
+            className="nav-link"
+            style={{
+              fontSize: 'clamp(18px, 1.25vw, 20px)',
+              letterSpacing: '0.01em',
+              color: '#ffffff',
+              textDecoration: 'none',
+              textTransform: 'none',
+              fontWeight: 450,
+              fontFamily: 'var(--font-primary)',
+              transition: 'opacity 0.25s ease, transform 0.25s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.55')}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+          >
             Media
           </Link>
-          <Link href="/contact" className="nav-link" style={{ fontSize: '15px', letterSpacing: '0.02em', color: '#ffffff', textDecoration: 'none' }}>
+          <Link
+            href="/contact"
+            className="nav-link"
+            style={{
+              fontSize: 'clamp(18px, 1.25vw, 20px)',
+              letterSpacing: '0.01em',
+              color: '#ffffff',
+              textDecoration: 'none',
+              textTransform: 'none',
+              fontWeight: 450,
+              fontFamily: 'var(--font-primary)',
+              transition: 'opacity 0.25s ease, transform 0.25s ease',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.55')}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+          >
             Contact
           </Link>
         </div>
@@ -121,25 +205,110 @@ export default function Navbar() {
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
-          style={{ color: '#fff', background: 'none', border: 'none', cursor: 'pointer', padding: '8px' }}
+          style={{
+            color: '#fff',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          {menuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </nav>
 
       {/* Mobile Menu Overlay */}
-      <div className={`mobile-menu-overlay ${menuOpen ? 'open' : ''}`} aria-hidden={!menuOpen}>
-        <div className="mobile-menu-links">
-          <Link href="/projects" className="mobile-menu-link" onClick={() => setMenuOpen(false)}>
+      <div
+        className={`mobile-menu-overlay ${menuOpen ? 'open' : ''}`}
+        aria-hidden={!menuOpen}
+        style={{
+          position: 'fixed',
+          inset: 0,
+          background: '#050505',
+          zIndex: 999,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          opacity: menuOpen ? 1 : 0,
+          pointerEvents: menuOpen ? 'auto' : 'none',
+          transition: 'opacity 0.35s ease',
+        }}
+      >
+        <div
+          className="mobile-menu-links"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '28px',
+            textAlign: 'center',
+          }}
+        >
+          <Link
+            href="/projects"
+            className="mobile-menu-link"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              textTransform: 'none',
+              fontSize: 'clamp(2.0rem, 6vw, 2.8rem)',
+              fontWeight: 400,
+              color: '#ffffff',
+              textDecoration: 'none',
+              fontFamily: 'var(--font-primary)',
+              letterSpacing: '0.01em',
+            }}
+          >
             Projects
           </Link>
-          <Link href="/about" className="mobile-menu-link" onClick={() => setMenuOpen(false)}>
+          <Link
+            href="/about"
+            className="mobile-menu-link"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              textTransform: 'none',
+              fontSize: 'clamp(2.0rem, 6vw, 2.8rem)',
+              fontWeight: 400,
+              color: '#ffffff',
+              textDecoration: 'none',
+              fontFamily: 'var(--font-primary)',
+              letterSpacing: '0.01em',
+            }}
+          >
             About
           </Link>
-          <Link href="/blog" className="mobile-menu-link" onClick={() => setMenuOpen(false)}>
+          <Link
+            href="/blog"
+            className="mobile-menu-link"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              textTransform: 'none',
+              fontSize: 'clamp(2.0rem, 6vw, 2.8rem)',
+              fontWeight: 400,
+              color: '#ffffff',
+              textDecoration: 'none',
+              fontFamily: 'var(--font-primary)',
+              letterSpacing: '0.01em',
+            }}
+          >
             Media
           </Link>
-          <Link href="/contact" className="mobile-menu-link" onClick={() => setMenuOpen(false)}>
+          <Link
+            href="/contact"
+            className="mobile-menu-link"
+            onClick={() => setMenuOpen(false)}
+            style={{
+              textTransform: 'none',
+              fontSize: 'clamp(2.0rem, 6vw, 2.8rem)',
+              fontWeight: 400,
+              color: '#ffffff',
+              textDecoration: 'none',
+              fontFamily: 'var(--font-primary)',
+              letterSpacing: '0.01em',
+            }}
+          >
             Contact
           </Link>
         </div>

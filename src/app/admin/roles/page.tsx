@@ -1,85 +1,53 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Shield, Check, Lock } from 'lucide-react';
-import { RolePermission } from '@/lib/db';
+import DynamicAdminManager from '@/components/admin/DynamicAdminManager';
+import { Column } from '@/components/admin/DataTable';
+import { FieldDef } from '@/components/admin/FormModal';
+import { RolePermission } from '@/data/projects';
+
+const initialRoles: RolePermission[] = [
+  {
+    id: 'role-1',
+    role: 'Admin',
+    description: 'Full studio access across all projects, team, media, and site settings.',
+    permissions: ['all:manage', 'projects:write', 'team:write', 'media:write'],
+  },
+  {
+    id: 'role-2',
+    role: 'Editor',
+    description: 'Can curate project details, media gallery, and journal essays.',
+    permissions: ['projects:write', 'media:write', 'blog:write'],
+  },
+  {
+    id: 'role-3',
+    role: 'Viewer',
+    description: 'Read-only viewing of dashboard analytics, project lists, and client inquiries.',
+    permissions: ['projects:read', 'leads:read'],
+  },
+];
+
+const COLUMNS: Column<RolePermission>[] = [
+  { key: 'role', label: 'Role Title', sortable: true, render: 'badge' },
+  { key: 'description', label: 'Description', render: 'truncate' },
+];
+
+const FIELDS: FieldDef[] = [
+  { key: 'role', label: 'Role Title', type: 'select', options: ['Admin', 'Editor', 'Viewer'] },
+  { key: 'description', label: 'Description', type: 'textarea', placeholder: 'Permission description...' },
+];
 
 export default function RolesAdminPage() {
-  const [roles, setRoles] = useState<RolePermission[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadRoles() {
-      try {
-        const res = await fetch('/api/roles');
-        const data = await res.json();
-        if (data.success) setRoles(data.roles);
-      } catch (err) {
-        console.error('Failed to load RBAC roles:', err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadRoles();
-  }, []);
-
-  const allModules = [
-    { key: 'dashboard:read', label: 'View Dashboard & Analytics' },
-    { key: 'projects:write', label: 'Create & Edit Projects' },
-    { key: 'projects:delete', label: 'Delete Projects' },
-    { key: 'content:write', label: 'Manage Services & Team' },
-    { key: 'media:write', label: 'Upload & Audit Media Assets' },
-    { key: 'users:write', label: 'Manage System User Accounts' },
-    { key: 'settings:write', label: 'Update Site & System Settings' },
-  ];
-
   return (
-    <div>
-      <div className="admin-page-header">
-        <div>
-          <h1 className="admin-page-title">Role-Based Access Control (RBAC)</h1>
-          <p className="admin-page-subtitle">Permissions matrix defining access control levels for Admin, Editor, and Viewer roles</p>
-        </div>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem', marginBottom: '2rem' }}>
-        {loading ? (
-          Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="admin-skeleton" style={{ height: 160 }} />
-          ))
-        ) : (
-          roles.map((r) => (
-            <div key={r.id} className="admin-table-wrap" style={{ padding: '1.5rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.5rem' }}>
-                <Shield size={18} style={{ color: r.role === 'Admin' ? 'var(--admin-accent)' : r.role === 'Editor' ? 'var(--admin-gold)' : 'var(--admin-text-muted)' }} />
-                <span style={{ fontSize: '1.1rem', fontWeight: 500 }}>{r.role}</span>
-              </div>
-              <p style={{ fontSize: '0.8rem', color: 'var(--admin-text-muted)', marginBottom: '1.25rem', lineHeight: 1.5 }}>
-                {r.description}
-              </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                {allModules.map((mod) => {
-                  const hasPerm = r.permissions.includes(mod.key);
-                  return (
-                    <div key={mod.key} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.78rem' }}>
-                      <span>{mod.label}</span>
-                      {hasPerm ? (
-                        <span style={{ color: 'var(--admin-success)', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                          <Check size={13} /> Granted
-                        </span>
-                      ) : (
-                        <span style={{ color: 'var(--admin-text-muted)', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                          <Lock size={12} /> Restricted
-                        </span>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          ))
-        )}
-      </div>
-    </div>
+    <DynamicAdminManager<RolePermission>
+      title="Roles &amp; Permissions"
+      subtitle="Security authorization levels for studio members"
+      storageKey="attiks_admin_roles"
+      initialData={initialRoles}
+      columns={COLUMNS}
+      fields={FIELDS}
+      idPrefix="role-"
+      exportFileName="roles.json"
+      addLabel="Define Role"
+    />
   );
 }

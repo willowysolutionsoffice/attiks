@@ -12,8 +12,7 @@ interface Testimonial {
   designation: string;
 }
 
-const seededTestimonials: Testimonial[] = initialTestimonials.map((t, i) => ({
-  id: `t-${i}`,
+const seededTestimonials: Testimonial[] = initialTestimonials.map((t) => ({
   ...t,
 }));
 

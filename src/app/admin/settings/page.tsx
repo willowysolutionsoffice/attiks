@@ -2,35 +2,22 @@
 
 import { useEffect, useState } from 'react';
 import { Save, CheckCircle } from 'lucide-react';
-import { SiteSettings } from '@/lib/db';
+import { siteSettings as defaultSettings, SiteSettings } from '@/data/projects';
 
 export default function SettingsAdminPage() {
-  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [savedSuccess, setSavedSuccess] = useState(false);
-  const [settings, setSettings] = useState<SiteSettings>({
-    siteTitle: '',
-    tagline: '',
-    contactEmail: '',
-    contactPhone: '',
-    address: '',
-    enableLeadsNotification: true,
-    maintenanceMode: false,
-  });
+  const [settings, setSettings] = useState<SiteSettings>(defaultSettings);
 
   useEffect(() => {
-    async function loadSettings() {
-      try {
-        const res = await fetch('/api/settings');
-        const data = await res.json();
-        if (data.success) setSettings(data.settings);
-      } catch (err) {
-        console.error('Failed to load settings:', err);
-      } finally {
-        setLoading(false);
+    try {
+      const saved = localStorage.getItem('attiks_admin_settings');
+      if (saved) {
+        setSettings(JSON.parse(saved));
       }
+    } catch {
+      // fallback
     }
-    loadSettings();
   }, []);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -39,30 +26,14 @@ export default function SettingsAdminPage() {
     setSavedSuccess(false);
 
     try {
-      const res = await fetch('/api/settings', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(settings),
-      });
-
-      if (res.ok) {
-        setSavedSuccess(true);
-        setTimeout(() => setSavedSuccess(false), 3500);
-      }
+      localStorage.setItem('attiks_admin_settings', JSON.stringify(settings));
+      setSavedSuccess(true);
+      setTimeout(() => setSavedSuccess(false), 3500);
     } catch (err) {
       console.error('Failed to save settings:', err);
     } finally {
       setSubmitting(false);
     }
-  }
-
-  if (loading) {
-    return (
-      <div style={{ maxWidth: 720, margin: '0 auto', padding: '2rem 0' }}>
-        <div className="admin-skeleton" style={{ height: 40, width: 240, marginBottom: 20 }} />
-        <div className="admin-skeleton" style={{ height: 320, width: '100%' }} />
-      </div>
-    );
   }
 
   return (
@@ -77,7 +48,7 @@ export default function SettingsAdminPage() {
       {savedSuccess && (
         <div className="admin-table-wrap" style={{ padding: '0.875rem 1.25rem', marginBottom: '1.25rem', borderColor: 'var(--admin-success)', background: 'rgba(76,175,125,0.12)', color: 'var(--admin-success)', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
           <CheckCircle size={16} />
-          <span>Site settings successfully updated and saved to backend database!</span>
+          <span>Site settings successfully updated and saved!</span>
         </div>
       )}
 
@@ -141,7 +112,7 @@ export default function SettingsAdminPage() {
               checked={settings.enableLeadsNotification}
               onChange={(e) => setSettings({ ...settings, enableLeadsNotification: e.target.checked })}
             />
-            <span>Enable instant email notifications for new website enquiries</span>
+            <span>Enable instant notifications for new website enquiries</span>
           </label>
 
           <label style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', cursor: 'pointer', fontSize: '0.85rem' }}>

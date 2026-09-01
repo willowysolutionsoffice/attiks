@@ -13,26 +13,29 @@ export default function PageHeader({ label, title }: PageHeaderProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
-      style={{ marginBottom: '2rem', paddingLeft: '0.5%' }}
+      style={{ marginBottom: 'clamp(32px, 4vw, 48px)' }}
     >
       <p style={{
-        fontSize: '0.75rem',
-        fontWeight: 500,
-        color: '#fff',
-        marginBottom: '1rem',
-        letterSpacing: '0.05em',
+        fontFamily: 'var(--font-primary)',
+        fontSize: 'clamp(15px, 1vw, 17px)',
+        fontWeight: 600,
+        color: '#777777',
+        marginBottom: '16px',
+        letterSpacing: '0.12em',
         textTransform: 'uppercase',
-        opacity: 0.8
       }}>
         {label}
       </p>
       <h1 style={{
-        fontSize: 'clamp(2.2rem, 4.5vw, 3.2rem)',
-        fontWeight: 500,
-        color: '#fff',
-        lineHeight: '1.0',
-        letterSpacing: '-0.03em',
-        textTransform: 'uppercase'
+        fontSize: 'clamp(2.5rem, 4.5vw, 3.8rem)',
+        fontWeight: 300,
+        fontStyle: 'italic',
+        fontFamily: 'var(--font-canela), serif',
+        color: '#000000',
+        lineHeight: 1.15,
+        letterSpacing: '-0.025em',
+        textTransform: 'none',
+        margin: 0,
       }}>
         {title}
       </h1>

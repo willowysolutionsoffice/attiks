@@ -120,8 +120,8 @@ export default function Testimonials() {
                   margin: 0,
                   padding: 0,
                   border: 'none',
-                  fontSize: 'clamp(1.18rem, 1.7vw, 1.52rem)',
-                  lineHeight: 1.38,
+                  fontSize: 'clamp(20px, 1.8vw, 26px)',
+                  lineHeight: 1.45,
                   fontWeight: 400,
                   color: '#111111',
                   letterSpacing: '-0.015em',
@@ -135,7 +135,7 @@ export default function Testimonials() {
               <cite
                 style={{
                   fontStyle: 'normal',
-                  fontSize: 'clamp(1.05rem, 1.3vw, 1.22rem)',
+                  fontSize: 'clamp(18px, 1.25vw, 20px)',
                   fontWeight: 500,
                   color: '#111111',
                   letterSpacing: '-0.01em',

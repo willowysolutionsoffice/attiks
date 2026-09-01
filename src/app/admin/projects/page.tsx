@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Plus, Edit2, Trash2, Search, Download, CheckCircle, Eye, EyeOff } from 'lucide-react';
 import ConfirmDialog from '@/components/admin/ConfirmDialog';
 import StatusBadge from '@/components/admin/StatusBadge';
-import { Project } from '@/data/projects';
+import { projects as initialProjects, Project } from '@/data/projects';
 
 export default function ProjectsAdminPage() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -14,15 +14,16 @@ export default function ProjectsAdminPage() {
   const [categoryFilter, setCategoryFilter] = useState('');
   const [deleteTarget, setDeleteTarget] = useState<Project | null>(null);
 
-  async function loadProjects() {
+  function loadProjects() {
     try {
-      const res = await fetch('/api/projects');
-      const data = await res.json();
-      if (data.success) {
-        setProjects(data.projects);
+      const saved = localStorage.getItem('attiks_admin_projects');
+      if (saved) {
+        setProjects(JSON.parse(saved));
+      } else {
+        setProjects(initialProjects);
       }
-    } catch (err) {
-      console.error('Failed to load projects from backend API:', err);
+    } catch {
+      setProjects(initialProjects);
     } finally {
       setLoading(false);
     }
@@ -32,35 +33,26 @@ export default function ProjectsAdminPage() {
     loadProjects();
   }, []);
 
+  function saveProjects(newProjects: Project[]) {
+    setProjects(newProjects);
+    try {
+      localStorage.setItem('attiks_admin_projects', JSON.stringify(newProjects));
+    } catch (e) {
+      console.error('Failed to save to localStorage:', e);
+    }
+  }
+
   async function handleDelete() {
     if (!deleteTarget) return;
-    try {
-      const res = await fetch(`/api/projects/${deleteTarget.id}`, { method: 'DELETE' });
-      if (res.ok) {
-        setProjects((prev) => prev.filter((p) => p.id !== deleteTarget.id));
-      }
-    } catch (err) {
-      console.error('Failed to delete project:', err);
-    }
+    const updated = projects.filter((p) => p.id !== deleteTarget.id);
+    saveProjects(updated);
     setDeleteTarget(null);
   }
 
   async function togglePublish(project: Project & { status?: string }) {
     const newStatus = project.status === 'draft' ? 'published' : 'draft';
-    try {
-      const res = await fetch(`/api/projects/${project.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus }),
-      });
-      if (res.ok) {
-        setProjects((prev) =>
-          prev.map((p) => (p.id === project.id ? { ...p, status: newStatus } : p))
-        );
-      }
-    } catch (err) {
-      console.error('Failed to toggle project status:', err);
-    }
+    const updated = projects.map((p) => (p.id === project.id ? { ...p, status: newStatus as any } : p));
+    saveProjects(updated);
   }
 
   function handleExport() {

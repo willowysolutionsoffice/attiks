@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function JourneyCTASection() {
   return (
-    <section className="section journey-cta-section" style={{ background: '#000', padding: '0 var(--section-padding) 6rem var(--section-padding)', display: 'flex', justifyContent: 'center' }} aria-labelledby="journey-cta-heading">
+    <section className="section journey-cta-section" style={{ background: '#ffffff', padding: '0 var(--section-padding) clamp(80px, 8vw, 140px) var(--section-padding)', display: 'flex', justifyContent: 'center' }} aria-labelledby="journey-cta-heading">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -17,6 +17,7 @@ export default function JourneyCTASection() {
           height: '75vh',
           minHeight: '550px',
           overflow: 'hidden',
+          borderRadius: '4px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -43,7 +44,7 @@ export default function JourneyCTASection() {
           }}
           aria-hidden="true"
         >
-          <source src="/luxury_bg_video.mp4" type="video/mp4" />
+          <source src="/85348-590746467_medium.mp4" type="video/mp4" />
         </video>
 
         {/* Gradient Overlay for better readability */}
@@ -53,20 +54,29 @@ export default function JourneyCTASection() {
           left: 0,
           width: '100%',
           height: '100%',
-          background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%)',
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.75) 100%)',
           zIndex: 1
         }} aria-hidden="true"></div>
 
         {/* Content */}
-        <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 24px' }}>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
             viewport={{ once: true }}
-            style={{ fontSize: '1.1rem', color: '#fff', fontWeight: 500, marginBottom: '1.5rem', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}
+            style={{
+              fontFamily: 'var(--font-primary)',
+              fontSize: 'clamp(15px, 1vw, 17px)',
+              color: 'rgba(255,255,255,0.85)',
+              fontWeight: 600,
+              letterSpacing: '0.12em',
+              marginBottom: '16px',
+              textShadow: '0 2px 4px rgba(0,0,0,0.5)',
+              textTransform: 'uppercase'
+            }}
           >
-            Start the Project
+            05 / Start The Project
           </motion.p>
 
           <motion.h2
@@ -75,9 +85,21 @@ export default function JourneyCTASection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.25 }}
             viewport={{ once: true }}
-            style={{ fontSize: 'clamp(2.2rem, 7vw, 4rem)', color: '#fff', fontWeight: 600, lineHeight: '1.1', marginBottom: '3rem', maxWidth: '900px', letterSpacing: '-0.02em', textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}
+            style={{
+              fontSize: 'clamp(2.5rem, 4.5vw, 3.8rem)',
+              color: '#ffffff',
+              fontWeight: 300,
+              fontFamily: 'var(--font-canela), serif',
+              fontStyle: 'italic',
+              lineHeight: 1.15,
+              marginBottom: '3rem',
+              maxWidth: '920px',
+              letterSpacing: '-0.025em',
+              textShadow: '0 2px 10px rgba(0,0,0,0.4)',
+              textTransform: 'none'
+            }}
           >
-            BEGIN YOUR JOURNEY TO<br />TIMELESS ARCHITECTURE.
+            Begin your journey to<br />timeless architecture.
           </motion.h2>
 
           <motion.div
@@ -89,24 +111,26 @@ export default function JourneyCTASection() {
             <Link
               href="/contact"
               style={{
-                background: '#fff',
-                color: '#000',
+                background: '#ffffff',
+                color: '#000000',
                 border: 'none',
-                padding: '14px 32px',
-                fontSize: '1rem',
+                padding: '16px 36px',
+                fontSize: 'clamp(18px, 1.15vw, 20px)',
                 fontWeight: 600,
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
                 display: 'inline-block',
-                textDecoration: 'none'
+                textDecoration: 'none',
+                borderRadius: '4px',
+                textTransform: 'none',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.transform = 'scale(1.04)';
                 e.currentTarget.style.background = '#f0f0f0';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.background = '#fff';
+                e.currentTarget.style.background = '#ffffff';
               }}
             >
               Contact us

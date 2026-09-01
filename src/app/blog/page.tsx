@@ -38,21 +38,21 @@ const articles = [
 
 export default function BlogPage() {
   return (
-    <div style={{ background: '#000', minHeight: '100vh', color: '#fff', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ background: '#ffffff', minHeight: '100vh', color: '#111111', display: 'flex', flexDirection: 'column' }}>
       <Navbar />
 
       <main style={{ flex: 1 }}>
         <section style={{ padding: '160px var(--section-padding) 120px' }}>
-          <div style={{ maxWidth: '100%', margin: '0 auto' }}>
+          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
 
             {/* Header */}
             <PageHeader 
               label="Media &amp; Insights"
-              title={<>REFINED ARCHITECTURAL<br />DISCOURSE</>}
+              title={<>Refined architectural<br />discourse</>}
             />
 
             {/* Grid */}
-            <div className="blog-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
+            <div className="blog-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }}>
               {articles.map((article, index) => (
                 <article
                   key={index}
@@ -64,8 +64,9 @@ export default function BlogPage() {
                     aspectRatio: '1/1.15',
                     marginBottom: '20px',
                     overflow: 'hidden',
-                    background: '#111',
-                    borderRadius: '2px',
+                    background: '#f0f0f0',
+                    borderRadius: '4px',
+                    border: '1px solid #e5e5e5'
                   }}>
                     <Image
                       src={article.image}
@@ -77,21 +78,21 @@ export default function BlogPage() {
                     />
                   </div>
                   <p style={{
-                    fontSize: '0.82rem',
-                    color: '#C4703F',
+                    fontSize: 'clamp(18px, 1.1vw, 20px)',
+                    color: '#666666',
                     marginBottom: '0.75rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase'
+                    fontWeight: 500,
+                    letterSpacing: '0.02em',
+                    textTransform: 'none'
                   }}>
                     {article.category}
                   </p>
                   <h2 style={{
-                    fontSize: '1.25rem',
-                    color: '#fff',
+                    fontSize: 'clamp(1.3rem, 1.6vw, 1.6rem)',
+                    color: '#000000',
                     fontWeight: 600,
-                    lineHeight: '1.3',
-                    letterSpacing: '-0.01em',
+                    lineHeight: '1.35',
+                    letterSpacing: '-0.02em',
                     textTransform: 'none'
                   }}>
                     {article.title}

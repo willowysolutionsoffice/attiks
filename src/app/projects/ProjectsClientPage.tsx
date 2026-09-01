@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import LeadCaptureModal from '@/components/LeadCaptureModal';
@@ -94,8 +95,8 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                 flexWrap: 'wrap',
                 justifyContent: 'center',
                 alignItems: 'center',
-                gap: '12px 18px',
-                fontSize: 'clamp(0.95rem, 1.35vw, 1.2rem)',
+                gap: '14px 22px',
+                fontSize: 'clamp(18px, 1.25vw, 20px)',
                 color: '#222222',
                 letterSpacing: '0.01em',
                 fontWeight: 400,
@@ -105,8 +106,9 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
             >
               {categories.map((cat, index) => {
                 const isSelected = selectedCategory === cat.value;
+                const formattedLabel = cat.label.charAt(0).toUpperCase() + cat.label.slice(1);
                 return (
-                  <div key={cat.value} style={{ display: 'inline-flex', alignItems: 'center', gap: '18px' }}>
+                  <div key={cat.value} style={{ display: 'inline-flex', alignItems: 'center', gap: '22px' }}>
                     <button
                       type="button"
                       onClick={() =>
@@ -120,12 +122,12 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                         cursor: 'pointer',
                         fontSize: 'inherit',
                         fontFamily: 'inherit',
-                        color: isSelected ? '#000000' : '#444444',
+                        color: isSelected ? '#000000' : '#555555',
                         fontWeight: isSelected ? 700 : 400,
                         textDecoration: isSelected ? 'underline' : 'none',
                         textUnderlineOffset: '6px',
                         transition: 'color 0.2s ease, opacity 0.2s ease',
-                        textTransform: 'lowercase',
+                        textTransform: 'none',
                       }}
                       onMouseEnter={(e) => {
                         if (!isSelected) (e.currentTarget as HTMLButtonElement).style.opacity = '0.6';
@@ -134,10 +136,10 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                         if (!isSelected) (e.currentTarget as HTMLButtonElement).style.opacity = '1';
                       }}
                     >
-                      {cat.label}
+                      {formattedLabel}
                     </button>
                     {index < categories.length - 1 && (
-                      <span style={{ color: '#888888', userSelect: 'none', fontSize: '1rem' }} aria-hidden="true">.</span>
+                      <span style={{ color: '#888888', userSelect: 'none', fontSize: '1.2rem' }} aria-hidden="true">&bull;</span>
                     )}
                   </div>
                 );
@@ -176,7 +178,7 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                       initial={{ opacity: 0, scale: 0.97 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.97 }}
-                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                     >
                       <div
                         role="button"
@@ -195,7 +197,6 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                           aspectRatio: '16 / 10.5',
                           overflow: 'hidden',
                           background: '#111111',
-                          textDecoration: 'none',
                           cursor: 'pointer',
                         }}
                         className="project-grid-card"
@@ -209,49 +210,64 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           style={{
                             objectFit: 'cover',
-                            transform: isHovered ? 'scale(1.08)' : 'scale(1)',
+                            transform: isHovered ? 'scale(1.04)' : 'scale(1)',
                             transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
                           }}
                           className="project-grid-img"
                         />
 
-                        {/* Gradient Overlay & Hover Details (Displays Name on Hover) */}
+                        {/* Bottom Gradient Overlay (Visible on Hover) */}
                         <div
                           style={{
                             position: 'absolute',
                             inset: 0,
-                            background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 100%)',
+                            background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 45%, transparent 100%)',
                             opacity: isHovered ? 1 : 0,
-                            transition: 'opacity 0.35s ease-in-out',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'flex-end',
-                            padding: '24px 20px',
-                            boxSizing: 'border-box',
-                            zIndex: 5,
+                            transition: 'opacity 0.35s ease',
                             pointerEvents: 'none',
                           }}
-                          className="project-grid-overlay"
+                        />
+
+                        {/* Bottom-Left Reference Typography (Visible on Hover) */}
+                        <div
+                          style={{
+                            position: 'absolute',
+                            bottom: 0,
+                            left: 0,
+                            padding: 'clamp(14px, 2.5vw, 22px)',
+                            zIndex: 5,
+                            pointerEvents: 'none',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '3px',
+                            opacity: isHovered ? 1 : 0,
+                            transform: isHovered ? 'translateY(0)' : 'translateY(8px)',
+                            transition: 'opacity 0.35s ease, transform 0.35s ease',
+                          }}
                         >
                           <p
                             style={{
-                              color: 'rgba(255, 255, 255, 0.85)',
-                              fontSize: '0.78rem',
-                              letterSpacing: '0.08em',
-                              textTransform: 'uppercase',
-                              marginBottom: '6px',
+                              color: 'rgba(255, 255, 255, 0.95)',
+                              fontSize: 'clamp(18px, 1.1vw, 20px)',
                               fontWeight: 500,
+                              letterSpacing: '0.01em',
+                              textTransform: 'none',
+                              margin: 0,
+                              fontFamily: 'var(--font-primary)',
+                              textShadow: '0 2px 8px rgba(0,0,0,0.6)',
                             }}
                           >
-                            {project.location} &bull; {project.category}
+                            {project.location} &bull; {project.category.charAt(0).toUpperCase() + project.category.slice(1)}
                           </p>
                           <h2
                             style={{
                               color: '#ffffff',
-                              fontSize: '1.25rem',
-                              fontWeight: 600,
+                              fontSize: 'clamp(1.35rem, 1.6vw, 1.65rem)',
+                              fontWeight: 700,
                               margin: 0,
-                              letterSpacing: '-0.01em',
+                              letterSpacing: '-0.02em',
+                              fontFamily: 'var(--font-primary)',
+                              textShadow: '0 2px 12px rgba(0,0,0,0.7)',
                               textTransform: 'none',
                             }}
                           >

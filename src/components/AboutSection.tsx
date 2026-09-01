@@ -38,10 +38,10 @@ export default function AboutSection() {
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
           style={{
-            fontSize: '0.78rem',
-            letterSpacing: '0.18em',
-            textTransform: 'uppercase',
-            color: '#888888',
+            fontSize: 'clamp(18px, 1.1vw, 20px)',
+            letterSpacing: '0.04em',
+            textTransform: 'none',
+            color: '#666666',
             margin: '0 0 18px 0',
             fontWeight: 500,
           }}
@@ -92,7 +92,7 @@ export default function AboutSection() {
           transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
           style={{
-            fontSize: 'clamp(1.05rem, 1.5vw, 1.28rem)',
+            fontSize: 'clamp(18px, 1.35vw, 22px)',
             lineHeight: 1.55,
             fontWeight: 400,
             color: '#222222',
@@ -116,7 +116,7 @@ export default function AboutSection() {
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               style={{
                 overflow: 'hidden',
-                fontSize: 'clamp(0.98rem, 1.3vw, 1.15rem)',
+                fontSize: 'clamp(18px, 1.2vw, 20px)',
                 lineHeight: 1.65,
                 fontWeight: 400,
                 color: '#555555',
@@ -150,7 +150,7 @@ export default function AboutSection() {
               padding: 0,
               color: '#000000',
               cursor: 'pointer',
-              fontSize: '0.95rem',
+              fontSize: 'clamp(18px, 1.15vw, 20px)',
               fontWeight: 600,
               letterSpacing: '0.01em',
               textDecoration: 'underline',
@@ -160,20 +160,20 @@ export default function AboutSection() {
             onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.5'; }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '1'; }}
           >
-            {isExpanded ? 'show less' : 'know more'}
+            {isExpanded ? 'Show less' : 'Know more'}
           </button>
 
           <Link
             href="/about"
             style={{
-              fontSize: '0.95rem',
+              fontSize: 'clamp(18px, 1.15vw, 20px)',
               fontWeight: 500,
               color: '#555555',
               textDecoration: 'none',
               letterSpacing: '0.01em',
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '6px',
+              gap: '8px',
               transition: 'color 0.2s ease',
             }}
             onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#000000'; }}
@@ -184,29 +184,30 @@ export default function AboutSection() {
         </motion.div>
       </div>
 
-      {/* Right: Watermark Logo (Decorative) */}
+      {/* Right: Watermark Triangle Motif (Half Inside Viewport) */}
       <div
         style={{
           position: 'absolute',
-          right: '-2%',
+          right: 0,
           top: '50%',
-          transform: 'translateY(-50%)',
-          width: 'clamp(440px, 45vw, 680px)',
-          height: 'clamp(440px, 45vw, 680px)',
+          transform: 'translate(45%, -50%)',
+          width: 'clamp(460px, 48vw, 760px)',
+          height: 'clamp(460px, 48vw, 760px)',
           opacity: 0.08,
           zIndex: 1,
           pointerEvents: 'none',
+          overflow: 'visible',
         }}
         aria-hidden="true"
       >
         <Image
-          src="/images/logo-at.png"
+          src="/images/Trblack.png"
           alt=""
           fill
-          sizes="(max-width: 768px) 300px, 680px"
+          sizes="(max-width: 768px) 360px, 760px"
           style={{
             objectFit: 'contain',
-            objectPosition: 'right center',
+            objectPosition: 'center',
           }}
         />
       </div>

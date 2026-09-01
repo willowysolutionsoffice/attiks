@@ -4,16 +4,9 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Project } from '@/data/projects';
-
-const fallbackGalleryImages = [
-  { src: '/architecture.webp', alt: 'Greenfield Tech Park, Kochi', title: 'Greenfield Tech Park', location: 'Kochi, Kerala' },
-  { src: '/coastal_palace.webp', alt: 'Coastal Villa, Varkala', title: 'Coastal Villa', location: 'Varkala, Kerala' },
-  { src: '/comm_modern.webp', alt: 'Kerala Arts Center, Thrissur', title: 'Kerala Arts Center', location: 'Thrissur, Kerala' },
-  { src: '/comm_beach.webp', alt: 'Bayshore Resort, Kovalam', title: 'Bayshore Resort', location: 'Kovalam, Kerala' },
-  { src: '/forest.webp', alt: 'Wayanad Forest Retreat', title: 'Forest Retreat', location: 'Wayanad, Kerala' },
-  { src: '/penthouse.webp', alt: 'Skyline Penthouse, Kochi', title: 'Skyline Penthouse', location: 'Kochi, Kerala' },
-];
+import LeadCaptureModal from '@/components/LeadCaptureModal';
 
 function ArrowBtn({ onClick, direction, label }: { onClick: () => void; direction: 'prev' | 'next'; label: string }) {
   const [hovered, setHovered] = useState(false);
@@ -25,8 +18,8 @@ function ArrowBtn({ onClick, direction, label }: { onClick: () => void; directio
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        width: '52px',
-        height: '52px',
+        width: '46px',
+        height: '46px',
         borderRadius: '50%',
         border: '1.5px solid #000000',
         background: hovered ? '#000000' : 'transparent',
@@ -39,8 +32,8 @@ function ArrowBtn({ onClick, direction, label }: { onClick: () => void; directio
       }}
     >
       <svg
-        width="18"
-        height="18"
+        width="16"
+        height="16"
         viewBox="0 0 18 18"
         fill="none"
         stroke={hovered ? '#ffffff' : '#000000'}
@@ -58,24 +51,36 @@ function ArrowBtn({ onClick, direction, label }: { onClick: () => void; directio
   );
 }
 
-function GalleryCard({ img }: { img: { src: string; alt: string; title: string; location: string } }) {
+function ProjectCardItem({ project, onCardClick }: { project: Project; onCardClick: (project: Project) => void }) {
   const [hovered, setHovered] = useState(false);
+
   return (
     <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      role="button"
+      tabIndex={0}
+      onClick={() => onCardClick(project)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onCardClick(project);
+        }
+      }}
       style={{
+        textDecoration: 'none',
+        display: 'block',
         position: 'relative',
         width: '100%',
         aspectRatio: '16 / 10.5',
         overflow: 'hidden',
-        background: '#f0f0f0',
+        background: '#111111',
         cursor: 'pointer',
       }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <Image
-        src={img.src}
-        alt={img.alt}
+        src={project.image || '/architecture.webp'}
+        alt={`${project.title} - ${project.location}`}
         fill
         sizes="(max-width: 768px) 100vw, 50vw"
         style={{
@@ -86,150 +91,131 @@ function GalleryCard({ img }: { img: { src: string; alt: string; title: string; 
         }}
       />
 
-      {/* Hover Title Overlay */}
-      <AnimatePresence>
-        {hovered && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'rgba(0, 0, 0, 0.45)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              textAlign: 'center',
-              padding: '24px',
-              boxSizing: 'border-box',
-              zIndex: 10,
-            }}
-          >
-            <p
-              style={{
-                color: 'rgba(255,255,255,0.75)',
-                fontSize: '0.78rem',
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                marginBottom: '8px',
-              }}
-            >
-              {img.location}
-            </p>
-            <h3
-              style={{
-                color: '#ffffff',
-                fontSize: 'clamp(1.3rem, 2.2vw, 1.8rem)',
-                fontWeight: 400,
-                letterSpacing: '-0.01em',
-                margin: 0,
-                textTransform: 'none',
-              }}
-            >
-              {img.title}
-            </h3>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Bottom Gradient for Legibility (Shows on Hover) */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 45%, transparent 100%)',
+          pointerEvents: 'none',
+          opacity: hovered ? 1 : 0,
+          transition: 'opacity 0.35s ease',
+        }}
+      />
+
+      {/* Bottom-Left Minimal Typography (Visible ONLY on Hover) */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          padding: 'clamp(18px, 3vw, 28px)',
+          zIndex: 5,
+          pointerEvents: 'none',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '4px',
+          opacity: hovered ? 1 : 0,
+          transform: hovered ? 'translateY(0)' : 'translateY(8px)',
+          transition: 'opacity 0.35s ease, transform 0.35s ease',
+        }}
+      >
+        <p
+          style={{
+            color: 'rgba(255, 255, 255, 0.95)',
+            fontSize: 'clamp(18px, 1.1vw, 20px)',
+            fontWeight: 500,
+            letterSpacing: '0.01em',
+            textTransform: 'none',
+            margin: 0,
+            fontFamily: 'var(--font-primary)',
+            textShadow: '0 2px 8px rgba(0,0,0,0.6)',
+          }}
+        >
+          {project.location} &bull; {project.category.charAt(0).toUpperCase() + project.category.slice(1)}
+        </p>
+        <h3
+          style={{
+            color: '#ffffff',
+            fontSize: 'clamp(1.4rem, 1.8vw, 1.8rem)',
+            fontWeight: 700,
+            margin: 0,
+            letterSpacing: '-0.02em',
+            fontFamily: 'var(--font-primary)',
+            textShadow: '0 2px 12px rgba(0,0,0,0.7)',
+            textTransform: 'none',
+          }}
+        >
+          {project.title}
+        </h3>
+      </div>
     </div>
   );
 }
 
-export default function AboutGallerySlider({ projects }: { projects?: Project[] }) {
-  const activeProjects = projects
-    ? projects.filter((p) => p.status !== 'draft')
-    : [];
+export default function AboutGallerySlider({ projects = [] }: { projects?: Project[] }) {
+  const router = useRouter();
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
-  const galleryItems = (() => {
-    if (activeProjects.length === 0) {
-      return fallbackGalleryImages;
+  const activeProjects = projects.filter((p) => p.status !== 'draft');
+  const projectList = activeProjects.length > 0 ? activeProjects : projects;
+
+  // Group projects into pairs (2 per slide)
+  const slides: Project[][] = [];
+  for (let i = 0; i < projectList.length; i += 2) {
+    if (i + 1 < projectList.length) {
+      slides.push([projectList[i], projectList[i + 1]]);
+    } else {
+      slides.push([projectList[i], projectList[0]]); // ensure 2 cards per slide
     }
+  }
 
-    const items: { src: string; alt: string; title: string; location: string }[] = [];
-    
-    // First take cover image of all projects
-    activeProjects.forEach((p) => {
-      if (p.image) {
-        items.push({
-          src: p.image,
-          alt: `${p.title} Cover`,
-          title: p.title,
-          location: p.location,
-        });
-      }
-    });
-
-    // Then interleave gallery images from each project
-    let maxGalleryLength = 0;
-    activeProjects.forEach((p) => {
-      if (p.gallery && p.gallery.length > maxGalleryLength) {
-        maxGalleryLength = p.gallery.length;
-      }
-    });
-
-    for (let i = 0; i < maxGalleryLength; i++) {
-      activeProjects.forEach((p) => {
-        if (p.gallery && p.gallery[i]) {
-          const imgSrc = p.gallery[i];
-          if (imgSrc !== p.image) {
-            items.push({
-              src: imgSrc,
-              alt: `${p.title} Gallery Image ${i + 1}`,
-              title: p.title,
-              location: p.location,
-            });
-          }
-        }
-      });
-    }
-
-    // Deduplicate images
-    const uniqueItems: typeof items = [];
-    const seenSrcs = new Set<string>();
-    items.forEach((item) => {
-      if (item.src && !seenSrcs.has(item.src)) {
-        seenSrcs.add(item.src);
-        uniqueItems.push(item);
-      }
-    });
-
-    return uniqueItems.length > 0 ? uniqueItems : fallbackGalleryImages;
-  })();
-
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const totalSlides = slides.length || 1;
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % galleryItems.length);
+    setCurrentSlideIndex((prev) => (prev + 1) % totalSlides);
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + galleryItems.length) % galleryItems.length);
+    setCurrentSlideIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
   };
 
-  const currentImages = [
-    galleryItems[currentIndex % galleryItems.length],
-    galleryItems[(currentIndex + 1) % galleryItems.length],
-  ];
+  const handleCardClick = (project: Project) => {
+    setSelectedProject(project);
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+    setSelectedProject(null);
+  };
+
+  const handleModalSuccess = () => {
+    if (selectedProject) {
+      router.push(`/projects/${selectedProject.id}`);
+    }
+    setModalOpen(false);
+    setSelectedProject(null);
+  };
+
+  const currentPair = slides[currentSlideIndex] || [projectList[0], projectList[1]];
 
   return (
     <section
       style={{
         position: 'relative',
         background: '#ffffff',
-        padding: '60px clamp(24px, 4vw, 56px) 80px',
-        minHeight: '85vh',
+        padding: '50px clamp(24px, 5vw, 64px) 70px',
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         boxSizing: 'border-box',
       }}
-      aria-label="Gallery Showcase"
+      aria-label="Projects Showcase Slider"
     >
-      {/* Dual Images Grid */}
       <div
         style={{
           width: '100%',
@@ -237,9 +223,14 @@ export default function AboutGallerySlider({ projects }: { projects?: Project[] 
           margin: '0 auto',
         }}
       >
+        {/* Dual Cards Slide */}
         <AnimatePresence mode="wait">
-          <div
-            key={currentIndex}
+          <motion.div
+            key={currentSlideIndex}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(2, 1fr)',
@@ -247,56 +238,55 @@ export default function AboutGallerySlider({ projects }: { projects?: Project[] 
               width: '100%',
               boxSizing: 'border-box',
             }}
-            className="gallery-grid"
+            className="projects-slider-grid"
           >
-            {currentImages.map((img, idx) => (
-              <motion.div
-                key={`${currentIndex}-${idx}`}
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <GalleryCard img={img} />
-              </motion.div>
+            {currentPair.map((project, idx) => (
+              <ProjectCardItem
+                key={`${project.id}-${idx}`}
+                project={project}
+                onCardClick={handleCardClick}
+              />
             ))}
-          </div>
+          </motion.div>
         </AnimatePresence>
 
-        {/* Bottom Controls Row: Arrow Left | Count | Arrow Right | View All */}
+        {/* Bottom Controls Row */}
         <div
-          className="gallery-controls-row"
+          className="projects-slider-controls"
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            marginTop: '28px',
-            paddingTop: '0',
+            marginTop: '32px',
+            paddingTop: '8px',
           }}
         >
-          {/* Arrow Controls */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          {/* Arrow Controls & Slide Counter */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <ArrowBtn onClick={handlePrev} direction="prev" label="Previous projects" />
-            <span style={{ fontSize: '0.82rem', color: '#888', letterSpacing: '0.06em', minWidth: '56px', textAlign: 'center' }}>
-              {String(currentIndex + 1).padStart(2, '0')} / {String(galleryItems.length).padStart(2, '0')}
+            <span style={{ fontSize: 'clamp(18px, 1.1vw, 20px)', color: '#444444', letterSpacing: '0.04em', minWidth: '64px', textAlign: 'center', fontFamily: 'var(--font-primary)' }}>
+              {String(currentSlideIndex + 1).padStart(2, '0')} / {String(totalSlides).padStart(2, '0')}
             </span>
             <ArrowBtn onClick={handleNext} direction="next" label="Next projects" />
           </div>
 
-          {/* View All Projects */}
+          {/* View All Projects Link */}
           <Link
             href="/projects"
             style={{
-              fontSize: '0.88rem',
+              fontSize: 'clamp(18px, 1.15vw, 20px)',
               fontWeight: 500,
               color: '#000000',
               textDecoration: 'none',
-              letterSpacing: '0.04em',
-              borderBottom: '1px solid #000000',
-              paddingBottom: '2px',
+              letterSpacing: '0.01em',
+              textTransform: 'none',
+              fontFamily: 'var(--font-primary)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
               transition: 'opacity 0.2s ease',
             }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = '0.5'; }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = '0.55'; }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = '1'; }}
           >
             View all projects &rarr;
@@ -304,16 +294,25 @@ export default function AboutGallerySlider({ projects }: { projects?: Project[] 
         </div>
       </div>
 
+      {/* Lead Capture Modal */}
+      <LeadCaptureModal
+        isOpen={modalOpen}
+        onClose={handleModalClose}
+        onSubmitSuccess={handleModalSuccess}
+        projectTitle={selectedProject?.title || ''}
+        projectId={selectedProject?.id || ''}
+      />
+
       <style jsx>{`
         @media (max-width: 768px) {
-          .gallery-grid {
+          .projects-slider-grid {
             grid-template-columns: 1fr !important;
+            gap: 20px !important;
           }
-          .gallery-controls-row {
+          .projects-slider-controls {
             flex-direction: column !important;
             align-items: center !important;
-            gap: 20px !important;
-            text-align: center !important;
+            gap: 16px !important;
           }
         }
       `}</style>
