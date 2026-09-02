@@ -655,7 +655,6 @@ export default function NewProjectPage() {
                       overflow: 'hidden',
                       border: '1px solid var(--admin-border)',
                       background: '#0a0a0a',
-                      group: 'item',
                     }}
                   >
                     <img

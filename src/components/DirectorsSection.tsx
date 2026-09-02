@@ -265,6 +265,7 @@ export default function DirectorsSection({
         </div>
       </div>
 
+
       <style jsx>{`
         .directors-track::-webkit-scrollbar {
           display: none;
