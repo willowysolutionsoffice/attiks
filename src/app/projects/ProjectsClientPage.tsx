@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import LeadCaptureModal from '@/components/LeadCaptureModal';
@@ -15,10 +14,20 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [allProjects] = useState<Project[]>(initialProjects);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Lead capture modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleProjectClick = useCallback((project: Project) => {
     setSelectedProject(project);
@@ -46,6 +55,11 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
     ? selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)
     : 'All projects';
 
+  const filterOptions = [
+    { label: 'All', value: null },
+    ...categories.map((c) => ({ label: c.label, value: c.value })),
+  ];
+
   return (
     <div style={{ background: '#ffffff', minHeight: '100vh', color: '#111111' }}>
       <Navbar />
@@ -55,7 +69,7 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
         <section
           style={{
             background: '#ffffff',
-            padding: '170px clamp(24px, 4vw, 56px) 70px',
+            padding: isMobile ? '140px 20px 32px' : '180px clamp(24px, 4vw, 56px) 50px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -64,23 +78,24 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
           }}
           aria-label="Projects Showcase Header"
         >
-          <div style={{ maxWidth: '1600px', width: '100%', margin: '0 auto' }}>
-            {/* Animated Dynamic Title matching exact reference */}
+          <div style={{ maxWidth: '1400px', width: '100%', margin: '0 auto' }}>
+            {/* Editorial Serif Header */}
             <AnimatePresence mode="wait">
               <motion.h1
                 key={displayTitle}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
+                exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                 className="font-display"
                 style={{
-                  fontSize: 'clamp(2.8rem, 5.5vw, 4.2rem)',
+                  fontSize: isMobile ? '2.2rem' : 'clamp(2.6rem, 4.5vw, 3.8rem)',
                   fontWeight: 300,
                   fontStyle: 'italic',
                   color: '#000000',
-                  margin: '0 0 32px 0',
+                  margin: isMobile ? '0 0 20px 0' : '0 0 28px 0',
                   letterSpacing: '-0.02em',
+                  lineHeight: 1.15,
                   textTransform: 'none',
                 }}
               >
@@ -88,71 +103,78 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
               </motion.h1>
             </AnimatePresence>
 
-            {/* Dot-separated Inline Category Filter Row */}
+            {/* Clean Minimalist Category Filters (No trailing hanging dots) */}
             <div
               style={{
                 display: 'flex',
                 flexWrap: 'wrap',
                 justifyContent: 'center',
                 alignItems: 'center',
-                gap: '14px 22px',
-                fontSize: 'clamp(18px, 1.25vw, 20px)',
-                color: '#222222',
-                letterSpacing: '0.01em',
-                fontWeight: 400,
+                gap: isMobile ? '10px 16px' : '14px 28px',
+                maxWidth: '960px',
+                margin: '0 auto',
               }}
               role="toolbar"
               aria-label="Filter projects by category"
             >
-              {categories.map((cat, index) => {
-                const isSelected = selectedCategory === cat.value;
-                const formattedLabel = cat.label.charAt(0).toUpperCase() + cat.label.slice(1);
+              {filterOptions.map((item) => {
+                const isSelected = selectedCategory === item.value;
                 return (
-                  <div key={cat.value} style={{ display: 'inline-flex', alignItems: 'center', gap: '22px' }}>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setSelectedCategory(isSelected ? null : (cat.value as Category))
-                      }
-                      aria-pressed={isSelected}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        padding: 0,
-                        cursor: 'pointer',
-                        fontSize: 'inherit',
-                        fontFamily: 'inherit',
-                        color: isSelected ? '#000000' : '#555555',
-                        fontWeight: isSelected ? 700 : 400,
-                        textDecoration: isSelected ? 'underline' : 'none',
-                        textUnderlineOffset: '6px',
-                        transition: 'color 0.2s ease, opacity 0.2s ease',
-                        textTransform: 'none',
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!isSelected) (e.currentTarget as HTMLButtonElement).style.opacity = '0.6';
-                      }}
-                      onMouseLeave={(e) => {
-                        if (!isSelected) (e.currentTarget as HTMLButtonElement).style.opacity = '1';
-                      }}
-                    >
-                      {formattedLabel}
-                    </button>
-                    {index < categories.length - 1 && (
-                      <span style={{ color: '#888888', userSelect: 'none', fontSize: '1.2rem' }} aria-hidden="true">&bull;</span>
+                  <button
+                    key={item.label}
+                    type="button"
+                    onClick={() => setSelectedCategory(item.value as Category | null)}
+                    aria-pressed={isSelected}
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      padding: '4px 0',
+                      cursor: 'pointer',
+                      fontSize: 'clamp(18px, 1.15vw, 20px)',
+                      fontFamily: 'inherit',
+                      color: isSelected ? '#000000' : '#777777',
+                      fontWeight: isSelected ? 600 : 400,
+                      position: 'relative',
+                      letterSpacing: '0.02em',
+                      transition: 'color 0.2s ease',
+                      textTransform: 'none',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!isSelected) (e.currentTarget as HTMLButtonElement).style.color = '#000000';
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isSelected) (e.currentTarget as HTMLButtonElement).style.color = '#777777';
+                    }}
+                  >
+                    <span>{item.label}</span>
+                    {/* Subtle Minimal Bottom Dot or Line Indicator */}
+                    {isSelected && (
+                      <motion.div
+                        layoutId="activeFilterUnderline"
+                        style={{
+                          position: 'absolute',
+                          bottom: '-2px',
+                          left: '0',
+                          right: '0',
+                          height: '1.5px',
+                          backgroundColor: '#000000',
+                          borderRadius: '1px',
+                        }}
+                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      />
                     )}
-                  </div>
+                  </button>
                 );
               })}
             </div>
           </div>
         </section>
 
-        {/* 3-Column Showcase Grid */}
+        {/* 3-Column / Responsive Showcase Grid */}
         <section
           style={{
             background: '#ffffff',
-            padding: '0 clamp(24px, 4vw, 56px) 140px',
+            padding: isMobile ? '0 20px 80px' : '0 clamp(24px, 4vw, 56px) 110px',
             boxSizing: 'border-box',
           }}
           aria-label="Projects Grid"
@@ -162,8 +184,8 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
               layout
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '24px',
+                gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+                gap: isMobile ? '18px' : '24px',
                 width: '100%',
               }}
               className="projects-3col-grid"
@@ -175,9 +197,9 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                     <motion.div
                       layout
                       key={project.id}
-                      initial={{ opacity: 0, scale: 0.97 }}
+                      initial={{ opacity: 0, scale: 0.98 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.97 }}
+                      exit={{ opacity: 0, scale: 0.98 }}
                       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                     >
                       <div
@@ -194,9 +216,10 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                           position: 'relative',
                           display: 'block',
                           width: '100%',
-                          aspectRatio: '16 / 10.5',
+                          aspectRatio: isMobile ? '16 / 11' : '16 / 10.5',
                           overflow: 'hidden',
                           background: '#111111',
+                          borderRadius: '4px',
                           cursor: 'pointer',
                         }}
                         className="project-grid-card"
@@ -216,58 +239,59 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                           className="project-grid-img"
                         />
 
-                        {/* Bottom Gradient Overlay (Visible on Hover) */}
+                        {/* Bottom Gradient Overlay */}
                         <div
                           style={{
                             position: 'absolute',
                             inset: 0,
-                            background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 45%, transparent 100%)',
-                            opacity: isHovered ? 1 : 0,
+                            background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 45%, transparent 100%)',
+                            opacity: isMobile || isHovered ? 1 : 0,
                             transition: 'opacity 0.35s ease',
                             pointerEvents: 'none',
                           }}
                         />
 
-                        {/* Bottom-Left Reference Typography (Visible on Hover) */}
+                        {/* Bottom Editorial Typography */}
                         <div
                           style={{
                             position: 'absolute',
                             bottom: 0,
                             left: 0,
-                            padding: 'clamp(14px, 2.5vw, 22px)',
+                            right: 0,
+                            padding: isMobile ? '16px 18px' : '20px 22px',
                             zIndex: 5,
                             pointerEvents: 'none',
                             display: 'flex',
                             flexDirection: 'column',
-                            gap: '3px',
-                            opacity: isHovered ? 1 : 0,
-                            transform: isHovered ? 'translateY(0)' : 'translateY(8px)',
+                            gap: '4px',
+                            opacity: isMobile || isHovered ? 1 : 0,
+                            transform: isMobile || isHovered ? 'translateY(0)' : 'translateY(8px)',
                             transition: 'opacity 0.35s ease, transform 0.35s ease',
                           }}
                         >
                           <p
                             style={{
-                              color: 'rgba(255, 255, 255, 0.95)',
+                              color: 'rgba(255, 255, 255, 0.85)',
                               fontSize: 'clamp(18px, 1.1vw, 20px)',
-                              fontWeight: 500,
-                              letterSpacing: '0.01em',
-                              textTransform: 'none',
+                              fontWeight: 400,
+                              letterSpacing: '0.08em',
+                              textTransform: 'uppercase',
                               margin: 0,
-                              fontFamily: 'var(--font-primary)',
-                              textShadow: '0 2px 8px rgba(0,0,0,0.6)',
+                              textShadow: '0 2px 6px rgba(0,0,0,0.6)',
                             }}
                           >
                             {project.location} &bull; {project.category.charAt(0).toUpperCase() + project.category.slice(1)}
                           </p>
                           <h2
+                            className="font-display"
                             style={{
                               color: '#ffffff',
-                              fontSize: 'clamp(1.35rem, 1.6vw, 1.65rem)',
-                              fontWeight: 700,
+                              fontSize: isMobile ? '1.2rem' : 'clamp(1.2rem, 1.4vw, 1.45rem)',
+                              fontWeight: 400,
                               margin: 0,
-                              letterSpacing: '-0.02em',
-                              fontFamily: 'var(--font-primary)',
-                              textShadow: '0 2px 12px rgba(0,0,0,0.7)',
+                              letterSpacing: '-0.01em',
+                              lineHeight: 1.25,
+                              textShadow: '0 2px 10px rgba(0,0,0,0.7)',
                               textTransform: 'none',
                             }}
                           >
@@ -296,7 +320,7 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
       />
 
       <style jsx>{`
-        @media (max-width: 1024px) {
+        @media (max-width: 1024px) and (min-width: 641px) {
           .projects-3col-grid {
             grid-template-columns: repeat(2, 1fr) !important;
           }
@@ -310,4 +334,3 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
     </div>
   );
 }
-

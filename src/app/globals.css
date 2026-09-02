@@ -113,7 +113,7 @@ body {
 }
 
 /* Typography - natural casing, no all-uppercase */
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, strong, b, th {
   font-weight: 400;
   letter-spacing: -0.02em;
   text-transform: none;
@@ -240,7 +240,7 @@ p {
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   border-radius: 4px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .btn-premium:hover {
@@ -285,7 +285,7 @@ p {
   font-size: clamp(18px, 1.2vw, 20px);
   letter-spacing: 0.01em;
   text-transform: none;
-  font-weight: 450;
+  font-weight: 400;
   transition: opacity 0.25s ease;
 }
 
@@ -325,7 +325,7 @@ p {
 
 .project-hero-title {
   font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.1em;
   margin-bottom: 0.5rem;
 }
@@ -351,7 +351,7 @@ p {
   padding: 14px 34px;
   text-decoration: none;
   font-size: clamp(18px, 1.15vw, 20px);
-  font-weight: 500;
+  font-weight: 400;
   text-transform: none;
   letter-spacing: 0.02em;
   transition: opacity 0.3s ease;
@@ -368,7 +368,7 @@ p {
   padding: 14px 34px;
   text-decoration: none;
   font-size: clamp(18px, 1.15vw, 20px);
-  font-weight: 500;
+  font-weight: 400;
   text-transform: none;
   letter-spacing: 0.02em;
   transition: all 0.3s ease;
@@ -435,7 +435,7 @@ p {
 
 .property-card-title {
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.15em;
   margin-bottom: 0.5rem;
 }
@@ -853,7 +853,7 @@ p {
   align-items: center;
   justify-content: center;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.08em;
   color: #fff;
   flex-shrink: 0;
@@ -869,7 +869,7 @@ p {
 }
 .admin-nav-label {
   font-size: 0.65rem;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--admin-text-muted);
@@ -1049,7 +1049,7 @@ p {
   text-align: left;
   padding: 0.85rem 1.25rem;
   font-size: 0.7rem;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--admin-text-muted);
@@ -1088,7 +1088,7 @@ p {
   padding: 3px 10px;
   border-radius: 2px;
   font-size: 0.68rem;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -1107,7 +1107,7 @@ p {
   padding: 0.6rem 1.1rem;
   border-radius: var(--admin-radius);
   font-size: 0.75rem;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
@@ -1222,7 +1222,7 @@ p {
 }
 .admin-label {
   font-size: 0.7rem;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--admin-text-muted);

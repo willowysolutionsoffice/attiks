@@ -166,7 +166,7 @@ export default function ProjectsAdminPage() {
                       />
                     </td>
                     <td>
-                      <span style={{ fontWeight: 500 }}>{project.title}</span>
+                      <span style={{ fontWeight: 400 }}>{project.title}</span>
                       {project.featured && (
                         <span style={{ fontSize: '0.65rem', marginLeft: 8, color: 'var(--admin-gold)', border: '1px solid var(--admin-gold)', padding: '1px 5px', borderRadius: 2 }}>
                           Featured

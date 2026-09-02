@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
 import LeadCaptureModal from '@/components/LeadCaptureModal';
 
 export interface Director {
@@ -97,8 +96,8 @@ function ArrowBtn({ onClick, direction, label }: { onClick: () => void; directio
       }}
     >
       <svg
-        width="16"
-        height="16"
+        width="15"
+        height="15"
         viewBox="0 0 18 18"
         fill="none"
         stroke={hovered ? '#ffffff' : '#000000'}
@@ -133,23 +132,62 @@ export default function DirectorsSection({
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [selectedDirector, setSelectedDirector] = useState<Director | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const carouselRef = useRef<HTMLDivElement | null>(null);
 
   const totalCards = directors.length;
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const getScrollAmount = () => {
+    if (carouselRef.current) {
+      const firstCard = carouselRef.current.querySelector('.director-card-container') as HTMLElement;
+      if (firstCard) {
+        return firstCard.offsetWidth + 20;
+      }
+    }
+    return 340;
+  };
+
   const handlePrev = () => {
     if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: -340, behavior: 'smooth' });
+      const scrollAmt = getScrollAmount();
+      carouselRef.current.scrollBy({ left: -scrollAmt, behavior: 'smooth' });
     }
-    setCurrentSlideIndex((prev) => (prev - 1 + totalCards) % totalCards);
+    setCurrentSlideIndex((prev) => (prev <= 0 ? totalCards - 1 : prev - 1));
   };
 
   const handleNext = () => {
     if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: 340, behavior: 'smooth' });
+      const scrollAmt = getScrollAmount();
+      carouselRef.current.scrollBy({ left: scrollAmt, behavior: 'smooth' });
     }
-    setCurrentSlideIndex((prev) => (prev + 1) % totalCards);
+    setCurrentSlideIndex((prev) => (prev >= totalCards - 1 ? 0 : prev + 1));
   };
+
+  // Sync index on manual touch scroll
+  useEffect(() => {
+    const el = carouselRef.current;
+    if (!el) return;
+
+    const handleScroll = () => {
+      const scrollAmt = getScrollAmount();
+      if (scrollAmt > 0) {
+        const index = Math.round(el.scrollLeft / scrollAmt);
+        setCurrentSlideIndex(Math.min(Math.max(0, index), totalCards - 1));
+      }
+    };
+
+    el.addEventListener('scroll', handleScroll, { passive: true });
+    return () => el.removeEventListener('scroll', handleScroll);
+  }, [totalCards]);
 
   const handleCardClick = (director: Director) => {
     if (activeHoverId === director.id) {
@@ -181,7 +219,7 @@ export default function DirectorsSection({
       style={{
         position: 'relative',
         background: '#ffffff',
-        padding: '50px clamp(24px, 5vw, 64px) 70px',
+        padding: isMobile ? '40px 20px 50px' : '50px clamp(24px, 5vw, 64px) 70px',
         color: '#111111',
         width: '100%',
         overflow: 'hidden',
@@ -203,19 +241,19 @@ export default function DirectorsSection({
         {/* Top Header Section */}
         <div
           style={{
-            marginBottom: '36px',
+            marginBottom: isMobile ? '24px' : '36px',
             boxSizing: 'border-box',
           }}
         >
           <p
             style={{
               fontFamily: 'var(--font-primary)',
-              fontSize: 'clamp(15px, 1vw, 17px)',
+              fontSize: 'clamp(18px, 1.1vw, 20px)',
               letterSpacing: '0.12em',
               color: '#777777',
-              marginBottom: '14px',
+              marginBottom: '10px',
               textTransform: 'uppercase',
-              fontWeight: 600,
+              fontWeight: 400,
             }}
           >
             {eyebrow}
@@ -229,7 +267,7 @@ export default function DirectorsSection({
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
               style={{
-                fontSize: 'clamp(2.5rem, 4.5vw, 3.8rem)',
+                fontSize: isMobile ? '2.1rem' : 'clamp(2.5rem, 4.5vw, 3.8rem)',
                 fontWeight: 300,
                 fontFamily: 'var(--font-canela), serif',
                 fontStyle: 'italic',
@@ -249,7 +287,7 @@ export default function DirectorsSection({
                   fontSize: 'clamp(18px, 1.15vw, 20px)',
                   color: '#555555',
                   lineHeight: 1.6,
-                  marginTop: '14px',
+                  marginTop: '10px',
                   marginBottom: 0,
                   maxWidth: '720px',
                   fontWeight: 350,
@@ -261,20 +299,18 @@ export default function DirectorsSection({
           </div>
         </div>
 
-        {/* ============================================================
-            HORIZONTAL CAROUSEL TRACK (EXACT 1600PX BOUNDARY)
-            ============================================================ */}
+        {/* Horizontal Carousel Track */}
         <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
           <div
             ref={carouselRef}
             className="directors-track"
             style={{
               display: 'flex',
-              gap: '24px',
+              gap: isMobile ? '16px' : '24px',
               overflowX: 'auto',
               scrollSnapType: 'x mandatory',
               scrollBehavior: 'smooth',
-              padding: '12px 0 28px 0',
+              padding: isMobile ? '8px 0 20px 0' : '12px 0 28px 0',
               boxSizing: 'border-box',
               scrollbarWidth: 'none',
               msOverflowStyle: 'none',
@@ -300,9 +336,9 @@ export default function DirectorsSection({
                   className={`director-card-container ${isActive ? 'is-active' : ''}`}
                   style={{
                     position: 'relative',
-                    flex: '0 0 clamp(290px, calc((100% - 72px) / 4), 380px)',
-                    height: 'clamp(460px, 56vh, 520px)',
-                    borderRadius: '28px',
+                    flex: isMobile ? '0 0 82vw' : '0 0 clamp(290px, calc((100% - 72px) / 4), 380px)',
+                    height: isMobile ? '450px' : 'clamp(460px, 56vh, 520px)',
+                    borderRadius: '24px',
                     background: '#ffffff',
                     boxShadow: 'none',
                     border: '1px solid rgba(0, 0, 0, 0.08)',
@@ -322,8 +358,8 @@ export default function DirectorsSection({
                     style={{
                       position: 'relative',
                       width: '100%',
-                      height: isActive ? '50%' : '100%',
-                      borderRadius: '20px',
+                      height: isActive ? '46%' : '100%',
+                      borderRadius: '18px',
                       overflow: 'hidden',
                       background: '#1a1a1a',
                       flexShrink: 0,
@@ -334,7 +370,7 @@ export default function DirectorsSection({
                       src={director.image}
                       alt={`${director.name} — ${director.role}`}
                       fill
-                      sizes="(max-width: 768px) 80vw, (max-width: 1200px) 30vw, 25vw"
+                      sizes="(max-width: 768px) 85vw, (max-width: 1200px) 30vw, 25vw"
                       style={{
                         objectFit: 'cover',
                         objectPosition: director.objectPosition || 'center 20%',
@@ -344,14 +380,14 @@ export default function DirectorsSection({
                     />
                   </div>
 
-                  {/* Info Panel Reveal (Exact Reference Layout) */}
+                  {/* Info Panel Reveal */}
                   <div
                     style={{
                       flex: 1,
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
-                      padding: '14px 8px 6px',
+                      padding: '12px 6px 4px',
                       opacity: isActive ? 1 : 0,
                       transform: isActive ? 'translateY(0)' : 'translateY(12px)',
                       transition: 'opacity 0.45s ease 0.06s, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.06s',
@@ -364,7 +400,7 @@ export default function DirectorsSection({
                         style={{
                           fontFamily: 'var(--font-primary)',
                           fontSize: 'clamp(1.35rem, 1.5vw, 1.55rem)',
-                          fontWeight: 700,
+                          fontWeight: 400,
                           color: '#000000',
                           margin: 0,
                           letterSpacing: '-0.02em',
@@ -377,9 +413,9 @@ export default function DirectorsSection({
                       <p
                         style={{
                           fontFamily: 'var(--font-primary)',
-                          fontSize: 'clamp(14px, 0.95vw, 15px)',
+                          fontSize: '18px',
                           color: '#555555',
-                          lineHeight: 1.45,
+                          lineHeight: 1.5,
                           margin: '6px 0 0 0',
                           fontWeight: 400,
                           textTransform: 'none',
@@ -395,9 +431,9 @@ export default function DirectorsSection({
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
-                        gap: '10px',
-                        marginTop: '10px',
-                        paddingTop: '8px',
+                        gap: '8px',
+                        marginTop: '8px',
+                        paddingTop: '6px',
                       }}
                     >
                       {/* Category Pill Tag */}
@@ -407,8 +443,8 @@ export default function DirectorsSection({
                           color: '#333333',
                           padding: '6px 14px',
                           borderRadius: '9999px',
-                          fontSize: '13px',
-                          fontWeight: 600,
+                          fontSize: '18px',
+                          fontWeight: 400,
                           fontFamily: 'var(--font-primary)',
                           letterSpacing: '0.01em',
                           textTransform: 'none',
@@ -428,8 +464,8 @@ export default function DirectorsSection({
                           border: 'none',
                           padding: '8px 18px',
                           borderRadius: '9999px',
-                          fontSize: '13px',
-                          fontWeight: 600,
+                          fontSize: '18px',
+                          fontWeight: 400,
                           fontFamily: 'var(--font-primary)',
                           cursor: 'pointer',
                           transition: 'background 0.25s ease, transform 0.2s ease',
@@ -453,29 +489,29 @@ export default function DirectorsSection({
           </div>
         </div>
 
-        {/* ============================================================
-            BOTTOM CONTROLS ROW (EXACT SAME AS ABOUTGALLERYSLIDER ABOVE)
-            ============================================================ */}
+        {/* Bottom Left Controls Row */}
         <div
-          className="directors-slider-controls"
           style={{
             display: 'flex',
             alignItems: 'center',
-            marginTop: '24px',
-            paddingTop: '8px',
+            justifyContent: 'flex-start',
+            marginTop: isMobile ? '16px' : '24px',
+            paddingTop: '4px',
+            width: '100%',
           }}
         >
-          {/* Bottom Left Arrow Controls & Counter */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          {/* Left Arrow Controls & Counter */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '12px' : '16px' }}>
             <ArrowBtn onClick={handlePrev} direction="prev" label="Previous directors" />
             <span
               style={{
                 fontSize: 'clamp(18px, 1.1vw, 20px)',
                 color: '#444444',
                 letterSpacing: '0.04em',
-                minWidth: '64px',
+                minWidth: '56px',
                 textAlign: 'center',
                 fontFamily: 'var(--font-primary)',
+                fontWeight: 400,
               }}
             >
               {String(currentSlideIndex + 1).padStart(2, '0')} / {String(totalCards).padStart(2, '0')}
@@ -497,18 +533,6 @@ export default function DirectorsSection({
       <style jsx>{`
         .directors-track::-webkit-scrollbar {
           display: none;
-        }
-
-        @media (max-width: 768px) {
-          .directors-slider-controls {
-            flex-direction: column !important;
-            align-items: center !important;
-            gap: 16px !important;
-          }
-          .director-card-container {
-            flex: 0 0 82vw !important;
-            height: 480px !important;
-          }
         }
       `}</style>
     </section>

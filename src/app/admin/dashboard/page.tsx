@@ -155,7 +155,7 @@ export default function AdminDashboardPage() {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.5rem' }}>
         {/* Category Breakdown */}
         <div className="admin-table-wrap" style={{ padding: '1.5rem' }}>
-          <div style={{ fontSize: '0.8rem', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--admin-text-muted)', marginBottom: '1.25rem' }}>
+          <div style={{ fontSize: '0.8rem', fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--admin-text-muted)', marginBottom: '1.25rem' }}>
             Projects by Category
           </div>
           {Object.entries(categoryBreakdown).length === 0 ? (
@@ -178,7 +178,7 @@ export default function AdminDashboardPage() {
         {/* Recent Client Enquiries */}
         <div className="admin-table-wrap" style={{ padding: '1.5rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-            <div style={{ fontSize: '0.8rem', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--admin-text-muted)' }}>
+            <div style={{ fontSize: '0.8rem', fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--admin-text-muted)' }}>
               Recent Client Enquiries
             </div>
             <Link href="/admin/leads" style={{ fontSize: '0.75rem', color: 'var(--admin-accent)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -191,7 +191,7 @@ export default function AdminDashboardPage() {
             recentLeads.map((lead) => (
               <div key={lead.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '0.75rem', marginBottom: '0.75rem', borderBottom: '1px solid var(--admin-border)' }}>
                 <div>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 500 }}>{lead.name}</div>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 400 }}>{lead.name}</div>
                   <div style={{ fontSize: '0.72rem', color: 'var(--admin-text-muted)', marginTop: 2 }}>{lead.service} • {lead.email}</div>
                 </div>
                 <span className={`admin-badge ${lead.status === 'new' ? 'admin-badge-commercial' : 'admin-badge-default'}`}>
@@ -205,7 +205,7 @@ export default function AdminDashboardPage() {
 
       {/* Activity Log */}
       <div className="admin-table-wrap" style={{ padding: '1.5rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--admin-text-muted)', marginBottom: '1.25rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem', fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--admin-text-muted)', marginBottom: '1.25rem' }}>
           <Activity size={14} style={{ color: 'var(--admin-accent)' }} />
           System Activity & Audit Log
         </div>

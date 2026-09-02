@@ -69,7 +69,7 @@ export default function ContactClientPage() {
                     <textarea id="project-desc" placeholder="Tell us about your project or inquiry" rows={4} style={{ width: '100%', background: 'transparent', border: 'none', borderBottom: '1.5px solid #cccccc', padding: '14px 0', color: '#111111', fontSize: 'clamp(18px, 1.1vw, 20px)', outline: 'none', resize: 'vertical' }} />
                   </div>
                   
-                  <button type="submit" className="btn-premium" style={{ width: '100%', marginTop: '0.5rem', height: '56px', background: '#000000', color: '#ffffff', borderColor: '#000000', borderRadius: '4px', fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 600, textTransform: 'none' }}>
+                  <button type="submit" className="btn-premium" style={{ width: '100%', marginTop: '0.5rem', height: '56px', background: '#000000', color: '#ffffff', borderColor: '#000000', borderRadius: '4px', fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, textTransform: 'none' }}>
                     Send message
                   </button>
                 </form>
@@ -87,30 +87,30 @@ export default function ContactClientPage() {
               textAlign: 'center'
             }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <h3 style={{ fontSize: 'clamp(18px, 1.2vw, 21px)', fontWeight: 600, marginBottom: '1.5rem', color: '#000000', textTransform: 'none', letterSpacing: '-0.01em' }}>Calicut</h3>
+                <h3 style={{ fontSize: 'clamp(18px, 1.2vw, 21px)', fontWeight: 400, marginBottom: '1.5rem', color: '#000000', textTransform: 'none', letterSpacing: '-0.01em' }}>Calicut</h3>
                 <address style={{ color: '#555555', fontSize: 'clamp(18px, 1.1vw, 19.5px)', fontWeight: 400, lineHeight: '1.8', fontStyle: 'normal' }}>
                   #1/523, Krishna Building<br />
                   NH 66, Azhinhilam PO<br />
                   Calicut - 673632<br />
-                  <span style={{ color: '#000000', fontWeight: 600, display: 'block', marginTop: '10px' }}>+91 0483 2941308</span>
+                  <span style={{ color: '#000000', fontWeight: 400, display: 'block', marginTop: '10px' }}>+91 0483 2941308</span>
                 </address>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <h3 style={{ fontSize: 'clamp(18px, 1.2vw, 21px)', fontWeight: 600, marginBottom: '1.5rem', color: '#000000', textTransform: 'none', letterSpacing: '-0.01em' }}>Bangalore</h3>
+                <h3 style={{ fontSize: 'clamp(18px, 1.2vw, 21px)', fontWeight: 400, marginBottom: '1.5rem', color: '#000000', textTransform: 'none', letterSpacing: '-0.01em' }}>Bangalore</h3>
                 <address style={{ color: '#555555', fontSize: 'clamp(18px, 1.1vw, 19.5px)', fontWeight: 400, lineHeight: '1.8', fontStyle: 'normal' }}>
                   No.1DC-121, 1st D Cross<br />
                   2nd Main, Kasturinagar<br />
                   Bangalore &ndash; 560 043<br />
-                  <span style={{ color: '#000000', fontWeight: 600, display: 'block', marginTop: '10px' }}>+91 8589 011307</span>
+                  <span style={{ color: '#000000', fontWeight: 400, display: 'block', marginTop: '10px' }}>+91 8589 011307</span>
                 </address>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <h3 style={{ fontSize: 'clamp(18px, 1.2vw, 21px)', fontWeight: 600, marginBottom: '1.5rem', color: '#000000', textTransform: 'none', letterSpacing: '-0.01em' }}>Dubai</h3>
+                <h3 style={{ fontSize: 'clamp(18px, 1.2vw, 21px)', fontWeight: 400, marginBottom: '1.5rem', color: '#000000', textTransform: 'none', letterSpacing: '-0.01em' }}>Dubai</h3>
                 <address style={{ color: '#555555', fontSize: 'clamp(18px, 1.1vw, 19.5px)', fontWeight: 400, lineHeight: '1.8', fontStyle: 'normal' }}>
                   Aspect Tower 906<br />
                   Business Bay, Dubai<br />
                   UAE<br />
-                  <span style={{ color: '#000000', fontWeight: 600, display: 'block', marginTop: '10px' }}>hello@attiks.ae</span>
+                  <span style={{ color: '#000000', fontWeight: 400, display: 'block', marginTop: '10px' }}>hello@attiks.ae</span>
                 </address>
               </div>
             </div>

@@ -57,7 +57,7 @@ export default function Footer() {
                   border: 'none',
                   padding: '14px 24px',
                   fontSize: 'clamp(18px, 1.1vw, 19px)',
-                  fontWeight: 600,
+                  fontWeight: 400,
                   cursor: 'pointer',
                   transition: 'background 0.3s ease',
                   borderRadius: '0 4px 4px 0',
@@ -74,7 +74,7 @@ export default function Footer() {
           <div className="footer-links-container">
             {/* Pages */}
             <div style={{ minWidth: '120px' }}>
-              <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 600, marginBottom: '1.5rem', color: '#ffffff', textTransform: 'none' }}>Pages</h3>
+              <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '1.5rem', color: '#ffffff', textTransform: 'none' }}>Pages</h3>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {[
                   { name: 'Home', path: '/' },
@@ -97,7 +97,7 @@ export default function Footer() {
 
             {/* Socials */}
             <div style={{ minWidth: '120px' }}>
-              <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 600, marginBottom: '1.5rem', color: '#ffffff', textTransform: 'none' }}>Socials</h3>
+              <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '1.5rem', color: '#ffffff', textTransform: 'none' }}>Socials</h3>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {['Instagram', 'LinkedIn', 'Twitter', 'Facebook'].map((item) => (
                   <li key={item}>
@@ -118,17 +118,17 @@ export default function Footer() {
             {/* Contact */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', minWidth: '220px', maxWidth: '320px' }}>
               <div>
-                <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 600, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Phone</h3>
+                <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Phone</h3>
                 <p style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, margin: '2px 0' }}>+91 0483 2941308</p>
                 <p style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, margin: '2px 0' }}>+91 8589 022307</p>
               </div>
               <div>
-                <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 600, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Email</h3>
+                <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Email</h3>
                 <p style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, margin: '2px 0' }}>info@attiks.in</p>
                 <p style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, margin: '2px 0' }}>hello@attiks.ae</p>
               </div>
               <div>
-                <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 600, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Locations</h3>
+                <h3 style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', fontWeight: 400, marginBottom: '0.5rem', color: '#ffffff', textTransform: 'none' }}>Locations</h3>
                 <p style={{ color: '#cccccc', fontSize: 'clamp(18px, 1.1vw, 19px)', fontWeight: 400, lineHeight: '1.6', margin: '2px 0' }}>
                   Calicut | Bangalore | Dubai
                 </p>

@@ -43,7 +43,7 @@ export default function AboutSection() {
             textTransform: 'none',
             color: '#666666',
             margin: '0 0 18px 0',
-            fontWeight: 500,
+            fontWeight: 400,
           }}
         >
           Studio
@@ -100,7 +100,7 @@ export default function AboutSection() {
             margin: '0 0 32px 0',
           }}
         >
-          <strong style={{ fontWeight: 700, color: '#000000' }}>Attiks Architecture</strong> is a Kerala-based architecture practice working
+          <strong style={{ fontWeight: 400, color: '#000000' }}>Attiks Architecture</strong> is a Kerala-based architecture practice working
           across residential, commercial, institutional, hospitality, and
           large-scale developments. The practice creates contextual, enduring
           architecture shaped by climate, material, and the experience of space.
@@ -151,7 +151,7 @@ export default function AboutSection() {
               color: '#000000',
               cursor: 'pointer',
               fontSize: 'clamp(18px, 1.15vw, 20px)',
-              fontWeight: 600,
+              fontWeight: 400,
               letterSpacing: '0.01em',
               textDecoration: 'underline',
               textUnderlineOffset: '5px',
@@ -167,7 +167,7 @@ export default function AboutSection() {
             href="/about"
             style={{
               fontSize: 'clamp(18px, 1.15vw, 20px)',
-              fontWeight: 500,
+              fontWeight: 400,
               color: '#555555',
               textDecoration: 'none',
               letterSpacing: '0.01em',

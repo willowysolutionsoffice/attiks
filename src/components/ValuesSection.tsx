@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 
@@ -47,7 +48,7 @@ export default function ValuesSection() {
         background: '#ffffff',
         color: '#111111',
         width: '100%',
-        padding: 'clamp(80px, 8vw, 140px) var(--section-padding)',
+        padding: 'clamp(60px, 7vw, 120px) var(--section-padding)',
         boxSizing: 'border-box',
         overflow: 'hidden',
       }}
@@ -56,49 +57,46 @@ export default function ValuesSection() {
       <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
         
         {/* ============================================================
-            01 / VISION — Asymmetric Layout (Label Left, Statement Right)
+            VISION — Editorial 2-Column with Architectural Imagery
             ============================================================ */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true, margin: '-60px' }}
-          className="manifesto-grid-left"
+          className="vision-mission-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'minmax(180px, 1fr) 2.6fr',
-            gap: 'clamp(32px, 5vw, 80px)',
+            gridTemplateColumns: '1.1fr 1fr',
+            gap: 'clamp(36px, 5vw, 80px)',
             paddingBottom: 'clamp(64px, 7vw, 100px)',
-            alignItems: 'start',
+            alignItems: 'center',
           }}
         >
-          {/* Section Indicator */}
-          <div style={{ paddingTop: '8px' }}>
+          {/* Vision Statement & Narration (Left) */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <span
               style={{
                 fontFamily: 'var(--font-primary)',
-                fontSize: 'clamp(15px, 1vw, 17px)',
-                fontWeight: 600,
+                fontSize: 'clamp(18px, 1.1vw, 20px)',
+                fontWeight: 400,
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
                 color: '#777777',
                 display: 'inline-block',
               }}
             >
-              01 / Vision
+              Vision
             </span>
-          </div>
 
-          {/* Vision Statement & Narration */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(24px, 3.5vw, 36px)' }}>
             <h2
               className="font-display"
               style={{
                 fontFamily: 'var(--font-canela), serif',
                 fontStyle: 'italic',
                 fontWeight: 300,
-                fontSize: 'clamp(2.5rem, 4.5vw, 3.8rem)',
-                lineHeight: 1.15,
+                fontSize: 'clamp(2.4rem, 4vw, 3.6rem)',
+                lineHeight: 1.18,
                 color: '#000000',
                 letterSpacing: '-0.025em',
                 margin: 0,
@@ -109,11 +107,11 @@ export default function ValuesSection() {
 
             <div
               style={{
-                maxWidth: '680px',
+                maxWidth: '600px',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '20px',
-                color: '#333333',
+                gap: '16px',
+                color: '#444444',
                 fontSize: 'clamp(18px, 1.15vw, 20px)',
                 lineHeight: 1.75,
                 fontWeight: 350,
@@ -126,6 +124,26 @@ export default function ValuesSection() {
                 Our team is committed to exploring new boundaries to create environments that do not just occupy space, but actively enrich and elevate your quality of living.
               </p>
             </div>
+          </div>
+
+          {/* Vision Image (Right) */}
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              height: 'clamp(360px, 48vh, 500px)',
+              overflow: 'hidden',
+              borderRadius: '4px',
+              boxShadow: '0 16px 40px rgba(0, 0, 0, 0.06)',
+            }}
+          >
+            <Image
+              src="/philosophy.webp"
+              alt="Attiks Architectural Vision"
+              fill
+              sizes="(max-width: 900px) 100vw, 50vw"
+              style={{ objectFit: 'cover' }}
+            />
           </div>
         </motion.div>
 
@@ -140,47 +158,81 @@ export default function ValuesSection() {
         />
 
         {/* ============================================================
-            02 / MISSION — Reversed Asymmetric Layout (Statement Left, Label Right)
+            MISSION — Reversed 2-Column with Architectural Imagery
             ============================================================ */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true, margin: '-60px' }}
-          className="manifesto-grid-right"
+          className="vision-mission-grid mission-reverse"
           style={{
             display: 'grid',
-            gridTemplateColumns: '2.6fr minmax(180px, 1fr)',
-            gap: 'clamp(32px, 5vw, 80px)',
+            gridTemplateColumns: '1fr 1.1fr',
+            gap: 'clamp(36px, 5vw, 80px)',
             paddingBottom: 'clamp(64px, 7vw, 100px)',
-            alignItems: 'start',
+            alignItems: 'center',
           }}
         >
-          {/* Mission Statement & Narration (Left) */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(24px, 3.5vw, 36px)' }}>
+          {/* Mission Image (Left on desktop) */}
+          <div
+            style={{
+              position: 'relative',
+              width: '100%',
+              height: 'clamp(360px, 48vh, 500px)',
+              overflow: 'hidden',
+              borderRadius: '4px',
+              boxShadow: '0 16px 40px rgba(0, 0, 0, 0.06)',
+            }}
+          >
+            <Image
+              src="/value_design.webp"
+              alt="Attiks Architectural Mission"
+              fill
+              sizes="(max-width: 900px) 100vw, 50vw"
+              style={{ objectFit: 'cover' }}
+            />
+          </div>
+
+          {/* Mission Statement & Narration (Right on desktop) */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <span
+              style={{
+                fontFamily: 'var(--font-primary)',
+                fontSize: 'clamp(18px, 1.1vw, 20px)',
+                fontWeight: 400,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                color: '#777777',
+                display: 'inline-block',
+              }}
+            >
+              Mission
+            </span>
+
             <h2
               className="font-display"
               style={{
                 fontFamily: 'var(--font-canela), serif',
                 fontStyle: 'italic',
                 fontWeight: 300,
-                fontSize: 'clamp(2.5rem, 4.5vw, 3.8rem)',
-                lineHeight: 1.15,
+                fontSize: 'clamp(2.4rem, 4vw, 3.6rem)',
+                lineHeight: 1.18,
                 color: '#000000',
                 letterSpacing: '-0.025em',
                 margin: 0,
               }}
             >
-              &ldquo;Shaping living standards worldwide through thoughtful, impactful design interventions.&rdquo;
+              &ldquo;Shaping living standards worldwide through thoughtful design interventions.&rdquo;
             </h2>
 
             <div
               style={{
-                maxWidth: '680px',
+                maxWidth: '600px',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '20px',
-                color: '#333333',
+                gap: '16px',
+                color: '#444444',
                 fontSize: 'clamp(18px, 1.15vw, 20px)',
                 lineHeight: 1.75,
                 fontWeight: 350,
@@ -190,26 +242,9 @@ export default function ValuesSection() {
                 Driven by a deep curiosity and an acute awareness of our surroundings, we translate everyday observations into meaningful architectural solutions for clients across the globe.
               </p>
               <p style={{ margin: 0 }}>
-                We work closely with you to understand your vision, transforming your personal aspirations and dreams into physical realities—spaces that are not only striking to look at, but live comfortably in your memory for years to come.
+                We work closely with you to understand your vision, transforming your personal aspirations into physical realities—spaces that live comfortably in your memory for years to come.
               </p>
             </div>
-          </div>
-
-          {/* Section Indicator (Right) */}
-          <div style={{ paddingTop: '8px', textAlign: 'right' }} className="manifesto-label-right">
-            <span
-              style={{
-                fontFamily: 'var(--font-primary)',
-                fontSize: 'clamp(15px, 1vw, 17px)',
-                fontWeight: 600,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                color: '#777777',
-                display: 'inline-block',
-              }}
-            >
-              02 / Mission
-            </span>
           </div>
         </motion.div>
 
@@ -224,7 +259,7 @@ export default function ValuesSection() {
         />
 
         {/* ============================================================
-            03 / CORE VALUES — Minimal Vertical Architectural Index
+            CORE VALUES — Minimal Vertical Architectural Index
             ============================================================ */}
         <div style={{ width: '100%' }}>
           {/* Header */}
@@ -238,8 +273,8 @@ export default function ValuesSection() {
             <span
               style={{
                 fontFamily: 'var(--font-primary)',
-                fontSize: 'clamp(15px, 1vw, 17px)',
-                fontWeight: 600,
+                fontSize: 'clamp(18px, 1.1vw, 20px)',
+                fontWeight: 400,
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
                 color: '#777777',
@@ -247,7 +282,7 @@ export default function ValuesSection() {
                 marginBottom: '16px',
               }}
             >
-              03 / Core Values
+              Core Values
             </span>
             <h2
               className="font-display"
@@ -255,7 +290,7 @@ export default function ValuesSection() {
                 fontFamily: 'var(--font-canela), serif',
                 fontStyle: 'italic',
                 fontWeight: 300,
-                fontSize: 'clamp(2.5rem, 4.5vw, 3.8rem)',
+                fontSize: 'clamp(2.4rem, 4vw, 3.6rem)',
                 color: '#000000',
                 letterSpacing: '-0.025em',
                 margin: 0,
@@ -279,116 +314,86 @@ export default function ValuesSection() {
               return (
                 <motion.div
                   key={val.num}
-                  initial={{ opacity: 0, y: 16 }}
+                  initial={{ opacity: 0, y: 15 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.5,
-                    delay: idx * 0.08,
-                    ease: [0.16, 1, 0.3, 1],
-                  }}
-                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                  viewport={{ once: true, margin: '-20px' }}
                   onMouseEnter={() => setActiveHoverIndex(idx)}
                   onMouseLeave={() => setActiveHoverIndex(null)}
-                  onClick={() => setActiveHoverIndex(isHovered ? null : idx)}
                   style={{
-                    position: 'relative',
                     borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
                     padding: 'clamp(28px, 3.5vw, 44px) 0',
                     cursor: 'pointer',
-                    transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                    transition: 'background-color 0.35s ease, padding 0.35s ease',
                   }}
-                  className="value-index-row"
                 >
-                  {/* Subtle Expanding Accent Rule on Hover */}
-                  <motion.div
-                    initial={{ scaleX: 0, originX: 0 }}
-                    animate={{ scaleX: isHovered ? 1 : 0 }}
-                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '100%',
-                      height: '2px',
-                      background: '#000000',
-                      pointerEvents: 'none',
-                    }}
-                  />
-
-                  {/* Main Horizontal Content Row */}
                   <div
                     style={{
                       display: 'flex',
-                      alignItems: 'flex-start',
                       justifyContent: 'space-between',
-                      gap: '24px',
+                      alignItems: 'flex-start',
                       width: '100%',
+                      gap: 'clamp(20px, 4vw, 48px)',
                     }}
                   >
-                    {/* Left: Number + Title + Description */}
+                    {/* Left: Number & Title */}
                     <div
                       style={{
                         display: 'flex',
-                        alignItems: 'flex-start',
-                        gap: 'clamp(24px, 4vw, 56px)',
+                        alignItems: 'baseline',
+                        gap: 'clamp(24px, 4vw, 64px)',
                         flex: 1,
                       }}
                     >
-                      {/* Architectural Number */}
                       <span
                         style={{
                           fontFamily: 'var(--font-primary)',
-                          fontSize: 'clamp(18px, 1.25vw, 22px)',
-                          fontWeight: 500,
+                          fontSize: 'clamp(18px, 1.1vw, 20px)',
+                          fontWeight: 400,
                           color: isHovered ? '#000000' : '#888888',
-                          letterSpacing: '0.04em',
-                          minWidth: '32px',
-                          paddingTop: '2px',
+                          letterSpacing: '0.05em',
                           transition: 'color 0.3s ease',
+                          minWidth: '24px',
                         }}
                       >
                         {val.num}
                       </span>
 
-                      {/* Title + Expandable Description */}
-                      <div style={{ flex: 1, maxWidth: '960px' }}>
-                        <motion.h3
-                          animate={{ x: isHovered ? 8 : 0 }}
-                          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                      <div style={{ flex: 1 }}>
+                        <h3
                           style={{
                             fontFamily: 'var(--font-primary)',
-                            fontSize: 'clamp(1.4rem, 2.2vw, 2.2rem)',
-                            fontWeight: 500,
-                            color: '#000000',
-                            letterSpacing: '-0.02em',
+                            fontSize: 'clamp(1.5rem, 2.2vw, 2.2rem)',
+                            fontWeight: 400,
+                            color: isHovered ? '#000000' : '#222222',
                             margin: 0,
-                            lineHeight: 1.2,
+                            letterSpacing: '-0.02em',
+                            transition: 'color 0.3s ease',
                             textTransform: 'none',
                           }}
                         >
                           {val.title}
-                        </motion.h3>
+                        </h3>
 
-                        {/* Smooth Editorial Description Reveal */}
+                        {/* Expandable Accordion Description on Hover */}
                         <AnimatePresence>
                           {isHovered && (
                             <motion.div
-                              initial={{ opacity: 0, height: 0, y: 6 }}
-                              animate={{ opacity: 1, height: 'auto', y: 0 }}
-                              exit={{ opacity: 0, height: 0, y: -4 }}
+                              initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                              animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
+                              exit={{ opacity: 0, height: 0, marginTop: 0 }}
                               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                               style={{ overflow: 'hidden' }}
                               className="desktop-description-container"
                             >
                               <p
                                 style={{
-                                  fontSize: 'clamp(18px, 1.2vw, 20px)',
-                                  lineHeight: 1.7,
-                                  color: '#444444',
+                                  fontSize: 'clamp(18px, 1.15vw, 20px)',
+                                  lineHeight: 1.75,
+                                  color: '#555555',
                                   fontWeight: 350,
-                                  marginTop: '20px',
-                                  marginBottom: '4px',
                                   maxWidth: '780px',
+                                  margin: 0,
                                 }}
                               >
                                 {val.description}
@@ -405,7 +410,7 @@ export default function ValuesSection() {
                               lineHeight: 1.65,
                               color: '#555555',
                               fontWeight: 350,
-                              marginTop: '14px',
+                              marginTop: '12px',
                               marginBottom: 0,
                             }}
                           >
@@ -427,7 +432,7 @@ export default function ValuesSection() {
                         style={{ display: 'inline-flex', alignItems: 'center' }}
                       >
                         <ArrowUpRight
-                          size={28}
+                          size={26}
                           strokeWidth={1.5}
                           style={{
                             color: isHovered ? '#000000' : '#888888',
@@ -451,18 +456,13 @@ export default function ValuesSection() {
         }
 
         @media (max-width: 900px) {
-          .manifesto-grid-left {
+          .vision-mission-grid {
             grid-template-columns: 1fr !important;
-            gap: 20px !important;
+            gap: 28px !important;
           }
-          .manifesto-grid-right {
-            grid-template-columns: 1fr !important;
-            gap: 20px !important;
+          .mission-reverse {
             display: flex !important;
             flex-direction: column-reverse !important;
-          }
-          .manifesto-label-right {
-            text-align: left !important;
           }
           .desktop-description-container {
             display: none !important;

@@ -136,7 +136,7 @@ export default function Testimonials() {
                 style={{
                   fontStyle: 'normal',
                   fontSize: 'clamp(18px, 1.25vw, 20px)',
-                  fontWeight: 500,
+                  fontWeight: 400,
                   color: '#111111',
                   letterSpacing: '-0.01em',
                   margin: 0,

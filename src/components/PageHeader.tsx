@@ -18,7 +18,7 @@ export default function PageHeader({ label, title }: PageHeaderProps) {
       <p style={{
         fontFamily: 'var(--font-primary)',
         fontSize: 'clamp(15px, 1vw, 17px)',
-        fontWeight: 600,
+        fontWeight: 400,
         color: '#777777',
         marginBottom: '16px',
         letterSpacing: '0.12em',

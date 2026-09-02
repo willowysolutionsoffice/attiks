@@ -100,13 +100,13 @@ export default async function ProjectDetail({
             padding: '0 24px',
             textAlign: 'center'
           }}>
-            <p style={{ fontSize: 'clamp(18px, 1.1vw, 20px)', letterSpacing: '0.04em', textTransform: 'none', color: 'rgba(255,255,255,0.9)', marginBottom: '14px', fontWeight: 500 }}>
+            <p style={{ fontSize: 'clamp(18px, 1.1vw, 20px)', letterSpacing: '0.04em', textTransform: 'none', color: 'rgba(255,255,255,0.9)', marginBottom: '14px', fontWeight: 400 }}>
               {formattedCategory} &bull; {project.year}
             </p>
             <h1 style={{ fontSize: 'clamp(2.6rem, 5.5vw, 4.4rem)', fontWeight: 300, letterSpacing: '-0.02em', textAlign: 'center', fontFamily: 'var(--font-canela)', fontStyle: 'italic', margin: 0, color: '#ffffff' }}>
               {project.title}
             </h1>
-            <p style={{ marginTop: '18px', fontSize: 'clamp(18px, 1.15vw, 20px)', letterSpacing: '0.02em', textTransform: 'none', color: '#f0f0f0', fontWeight: 500 }}>
+            <p style={{ marginTop: '18px', fontSize: 'clamp(18px, 1.15vw, 20px)', letterSpacing: '0.02em', textTransform: 'none', color: '#f0f0f0', fontWeight: 400 }}>
               {project.location}
             </p>
           </div>
@@ -115,7 +115,7 @@ export default async function ProjectDetail({
         {/* Project Details Section */}
         <section style={{ padding: '90px var(--section-padding) 70px', maxWidth: '1400px', margin: '0 auto', display: 'flex', gap: '64px', flexWrap: 'wrap' }}>
           <div style={{ flex: '1 1 540px' }}>
-            <span style={{ fontSize: 'clamp(18px, 1.1vw, 20px)', textTransform: 'none', letterSpacing: '0.02em', color: '#666666', fontWeight: 500, display: 'block', marginBottom: '12px' }}>
+            <span style={{ fontSize: 'clamp(18px, 1.1vw, 20px)', textTransform: 'none', letterSpacing: '0.02em', color: '#666666', fontWeight: 400, display: 'block', marginBottom: '12px' }}>
               {formattedCategory} Architecture
             </span>
             <h2 style={{ fontSize: 'clamp(2.2rem, 3.8vw, 3.2rem)', marginBottom: '28px', fontWeight: 400, textTransform: 'none', fontFamily: 'var(--font-canela)', fontStyle: 'italic', color: '#000000' }}>
@@ -129,12 +129,12 @@ export default async function ProjectDetail({
               <div style={{ marginTop: '36px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', borderTop: '1px solid #e5e5e5', paddingTop: '28px' }}>
                 <div>
                   <span style={{ fontSize: 'clamp(16px, 1vw, 18px)', textTransform: 'none', letterSpacing: '0.02em', color: '#777777', display: 'block', marginBottom: '6px' }}>Scope</span>
-                  <span style={{ fontSize: 'clamp(18px, 1.2vw, 20px)', color: '#000000', fontWeight: 600 }}>{project.scope}</span>
+                  <span style={{ fontSize: 'clamp(18px, 1.2vw, 20px)', color: '#000000', fontWeight: 400 }}>{project.scope}</span>
                 </div>
                 {project.area && (
                   <div>
                     <span style={{ fontSize: 'clamp(16px, 1vw, 18px)', textTransform: 'none', letterSpacing: '0.02em', color: '#777777', display: 'block', marginBottom: '6px' }}>Built-up Area</span>
-                    <span style={{ fontSize: 'clamp(18px, 1.2vw, 20px)', color: '#000000', fontWeight: 600 }}>{project.area}</span>
+                    <span style={{ fontSize: 'clamp(18px, 1.2vw, 20px)', color: '#000000', fontWeight: 400 }}>{project.area}</span>
                   </div>
                 )}
               </div>
@@ -153,7 +153,7 @@ export default async function ProjectDetail({
           {/* Highlights Card */}
           <div style={{ flex: '1 1 360px', background: '#f8f8f8', padding: '40px', borderRadius: '6px', border: '1px solid #e5e5e5', alignSelf: 'flex-start' }}>
             <span style={{ fontSize: 'clamp(16px, 1vw, 18px)', textTransform: 'none', letterSpacing: '0.04em', color: '#777777', display: 'block', marginBottom: '8px' }}>Features</span>
-            <h3 style={{ fontSize: 'clamp(1.3rem, 1.6vw, 1.6rem)', marginBottom: '24px', fontWeight: 600, textTransform: 'none', letterSpacing: '-0.01em', color: '#000000' }}>
+            <h3 style={{ fontSize: 'clamp(1.3rem, 1.6vw, 1.6rem)', marginBottom: '24px', fontWeight: 400, textTransform: 'none', letterSpacing: '-0.01em', color: '#000000' }}>
               Project highlights
             </h3>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
@@ -170,7 +170,7 @@ export default async function ProjectDetail({
         {/* Project Gallery Section */}
         <section style={{ padding: '70px var(--section-padding) 130px', maxWidth: '1400px', margin: '0 auto', borderTop: '1px solid #e5e5e5' }}>
           <div style={{ marginBottom: '44px', textAlign: 'left' }}>
-            <span style={{ fontSize: 'clamp(18px, 1.1vw, 20px)', textTransform: 'none', letterSpacing: '0.04em', color: '#666666', fontWeight: 500, display: 'block', marginBottom: '8px' }}>
+            <span style={{ fontSize: 'clamp(18px, 1.1vw, 20px)', textTransform: 'none', letterSpacing: '0.04em', color: '#666666', fontWeight: 400, display: 'block', marginBottom: '8px' }}>
               Visual showcase
             </span>
             <h2 style={{ fontSize: 'clamp(2.2rem, 3.8vw, 3.2rem)', margin: 0, fontWeight: 400, fontFamily: 'var(--font-canela)', fontStyle: 'italic', color: '#000000' }}>
@@ -213,7 +213,7 @@ export default async function ProjectDetail({
                   letterSpacing: '0.01em',
                   textTransform: 'none',
                   color: 'rgba(255,255,255,0.95)',
-                  fontWeight: 500,
+                  fontWeight: 400,
                 }} >
                   {project.title} &bull; View 0{index + 1}
                 </div>

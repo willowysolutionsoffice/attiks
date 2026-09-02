@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
@@ -18,8 +18,8 @@ function ArrowBtn({ onClick, direction, label }: { onClick: () => void; directio
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        width: '46px',
-        height: '46px',
+        width: '44px',
+        height: '44px',
         borderRadius: '50%',
         border: '1.5px solid #000000',
         background: hovered ? '#000000' : 'transparent',
@@ -32,8 +32,8 @@ function ArrowBtn({ onClick, direction, label }: { onClick: () => void; directio
       }}
     >
       <svg
-        width="16"
-        height="16"
+        width="15"
+        height="15"
         viewBox="0 0 18 18"
         fill="none"
         stroke={hovered ? '#ffffff' : '#000000'}
@@ -51,7 +51,7 @@ function ArrowBtn({ onClick, direction, label }: { onClick: () => void; directio
   );
 }
 
-function ProjectCardItem({ project, onCardClick }: { project: Project; onCardClick: (project: Project) => void }) {
+function ProjectCardItem({ project, onCardClick, isMobile }: { project: Project; onCardClick: (project: Project) => void; isMobile: boolean }) {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -70,7 +70,8 @@ function ProjectCardItem({ project, onCardClick }: { project: Project; onCardCli
         display: 'block',
         position: 'relative',
         width: '100%',
-        aspectRatio: '16 / 10.5',
+        aspectRatio: isMobile ? '16 / 11' : '16 / 10.5',
+        borderRadius: '4px',
         overflow: 'hidden',
         background: '#111111',
         cursor: 'pointer',
@@ -91,58 +92,59 @@ function ProjectCardItem({ project, onCardClick }: { project: Project; onCardCli
         }}
       />
 
-      {/* Bottom Gradient for Legibility (Shows on Hover) */}
+      {/* Bottom Gradient for Legibility */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 45%, transparent 100%)',
+          background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 45%, transparent 100%)',
           pointerEvents: 'none',
-          opacity: hovered ? 1 : 0,
+          opacity: isMobile || hovered ? 1 : 0,
           transition: 'opacity 0.35s ease',
         }}
       />
 
-      {/* Bottom-Left Minimal Typography (Visible ONLY on Hover) */}
+      {/* Bottom-Left Clean Editorial Typography */}
       <div
         style={{
           position: 'absolute',
           bottom: 0,
           left: 0,
-          padding: 'clamp(18px, 3vw, 28px)',
+          right: 0,
+          padding: isMobile ? '16px 18px' : '22px 24px',
           zIndex: 5,
           pointerEvents: 'none',
           display: 'flex',
           flexDirection: 'column',
           gap: '4px',
-          opacity: hovered ? 1 : 0,
-          transform: hovered ? 'translateY(0)' : 'translateY(8px)',
+          opacity: isMobile || hovered ? 1 : 0,
+          transform: isMobile || hovered ? 'translateY(0)' : 'translateY(8px)',
           transition: 'opacity 0.35s ease, transform 0.35s ease',
         }}
       >
         <p
           style={{
-            color: 'rgba(255, 255, 255, 0.95)',
+            color: 'rgba(255, 255, 255, 0.85)',
             fontSize: 'clamp(18px, 1.1vw, 20px)',
-            fontWeight: 500,
-            letterSpacing: '0.01em',
-            textTransform: 'none',
+            fontWeight: 400,
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
             margin: 0,
-            fontFamily: 'var(--font-primary)',
-            textShadow: '0 2px 8px rgba(0,0,0,0.6)',
+            textShadow: '0 2px 6px rgba(0,0,0,0.6)',
           }}
         >
           {project.location} &bull; {project.category.charAt(0).toUpperCase() + project.category.slice(1)}
         </p>
         <h3
+          className="font-display"
           style={{
             color: '#ffffff',
-            fontSize: 'clamp(1.4rem, 1.8vw, 1.8rem)',
-            fontWeight: 700,
+            fontSize: isMobile ? '1.25rem' : 'clamp(1.2rem, 1.5vw, 1.5rem)',
+            fontWeight: 400,
             margin: 0,
-            letterSpacing: '-0.02em',
-            fontFamily: 'var(--font-primary)',
-            textShadow: '0 2px 12px rgba(0,0,0,0.7)',
+            letterSpacing: '-0.01em',
+            lineHeight: 1.25,
+            textShadow: '0 2px 10px rgba(0,0,0,0.7)',
             textTransform: 'none',
           }}
         >
@@ -157,22 +159,46 @@ export default function AboutGallerySlider({ projects = [] }: { projects?: Proje
   const router = useRouter();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
   const activeProjects = projects.filter((p) => p.status !== 'draft');
   const projectList = activeProjects.length > 0 ? activeProjects : projects;
 
-  // Group projects into pairs (2 per slide)
+  // Responsive check
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Build slides: 1 card per slide on Mobile, 2 cards per slide on Desktop
   const slides: Project[][] = [];
-  for (let i = 0; i < projectList.length; i += 2) {
-    if (i + 1 < projectList.length) {
-      slides.push([projectList[i], projectList[i + 1]]);
-    } else {
-      slides.push([projectList[i], projectList[0]]); // ensure 2 cards per slide
+  if (isMobile) {
+    for (let i = 0; i < projectList.length; i++) {
+      slides.push([projectList[i]]);
+    }
+  } else {
+    for (let i = 0; i < projectList.length; i += 2) {
+      if (i + 1 < projectList.length) {
+        slides.push([projectList[i], projectList[i + 1]]);
+      } else {
+        slides.push([projectList[i], projectList[0]]);
+      }
     }
   }
 
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const totalSlides = slides.length || 1;
+
+  // Reset slide index if exceeding bounds on resize
+  useEffect(() => {
+    if (currentSlideIndex >= totalSlides) {
+      setCurrentSlideIndex(0);
+    }
+  }, [totalSlides, currentSlideIndex]);
 
   const handleNext = () => {
     setCurrentSlideIndex((prev) => (prev + 1) % totalSlides);
@@ -200,14 +226,14 @@ export default function AboutGallerySlider({ projects = [] }: { projects?: Proje
     setSelectedProject(null);
   };
 
-  const currentPair = slides[currentSlideIndex] || [projectList[0], projectList[1]];
+  const currentPair = slides[currentSlideIndex] || [projectList[0]];
 
   return (
     <section
       style={{
         position: 'relative',
         background: '#ffffff',
-        padding: '50px clamp(24px, 5vw, 64px) 70px',
+        padding: isMobile ? '40px 20px 50px' : '50px clamp(24px, 5vw, 64px) 70px',
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
@@ -223,48 +249,65 @@ export default function AboutGallerySlider({ projects = [] }: { projects?: Proje
           margin: '0 auto',
         }}
       >
-        {/* Dual Cards Slide */}
+        {/* Responsive Cards Slide (1 card on mobile, 2 cards on desktop) */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={currentSlideIndex}
-            initial={{ opacity: 0, y: 10 }}
+            key={`${currentSlideIndex}-${isMobile ? 'm' : 'd'}`}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(2, 1fr)',
-              gap: '24px',
+              gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+              gap: isMobile ? '16px' : '24px',
               width: '100%',
               boxSizing: 'border-box',
             }}
-            className="projects-slider-grid"
           >
             {currentPair.map((project, idx) => (
               <ProjectCardItem
                 key={`${project.id}-${idx}`}
                 project={project}
                 onCardClick={handleCardClick}
+                isMobile={isMobile}
               />
             ))}
           </motion.div>
         </AnimatePresence>
 
-        {/* Bottom Controls Row */}
+        {/* Bottom Controls Row: Arrows & Counter Placed on Left Site */}
         <div
-          className="projects-slider-controls"
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            marginTop: '32px',
+            marginTop: isMobile ? '24px' : '32px',
             paddingTop: '8px',
+            flexWrap: 'wrap',
+            gap: '16px',
+            width: '100%',
           }}
         >
-          {/* Arrow Controls & Slide Counter */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          {/* Left-Aligned Arrow Controls & Slide Counter */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: isMobile ? '12px' : '16px',
+            }}
+          >
             <ArrowBtn onClick={handlePrev} direction="prev" label="Previous projects" />
-            <span style={{ fontSize: 'clamp(18px, 1.1vw, 20px)', color: '#444444', letterSpacing: '0.04em', minWidth: '64px', textAlign: 'center', fontFamily: 'var(--font-primary)' }}>
+            <span
+              style={{
+                fontSize: 'clamp(18px, 1.1vw, 20px)',
+                color: '#444444',
+                letterSpacing: '0.04em',
+                minWidth: '64px',
+                textAlign: 'center',
+                fontWeight: 400,
+              }}
+            >
               {String(currentSlideIndex + 1).padStart(2, '0')} / {String(totalSlides).padStart(2, '0')}
             </span>
             <ArrowBtn onClick={handleNext} direction="next" label="Next projects" />
@@ -275,12 +318,11 @@ export default function AboutGallerySlider({ projects = [] }: { projects?: Proje
             href="/projects"
             style={{
               fontSize: 'clamp(18px, 1.15vw, 20px)',
-              fontWeight: 500,
+              fontWeight: 400,
               color: '#000000',
               textDecoration: 'none',
               letterSpacing: '0.01em',
               textTransform: 'none',
-              fontFamily: 'var(--font-primary)',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
@@ -289,7 +331,8 @@ export default function AboutGallerySlider({ projects = [] }: { projects?: Proje
             onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = '0.55'; }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.opacity = '1'; }}
           >
-            View all projects &rarr;
+            <span>View all projects</span>
+            <span>&rarr;</span>
           </Link>
         </div>
       </div>
@@ -302,20 +345,6 @@ export default function AboutGallerySlider({ projects = [] }: { projects?: Proje
         projectTitle={selectedProject?.title || ''}
         projectId={selectedProject?.id || ''}
       />
-
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .projects-slider-grid {
-            grid-template-columns: 1fr !important;
-            gap: 20px !important;
-          }
-          .projects-slider-controls {
-            flex-direction: column !important;
-            align-items: center !important;
-            gap: 16px !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }

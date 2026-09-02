@@ -56,7 +56,19 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
-  const isSolid = !isHomePage || scrolled || menuOpen;
+  // Header background states:
+  // - Top of home page: completely transparent background (hidden background)
+  // - Scrolled / active: modern luxury glassmorphic frosted overlay
+  const isTransparent = isHomePage && !scrolled && !menuOpen;
+
+  const headerBg = menuOpen
+    ? 'rgba(5, 5, 5, 0.98)'
+    : isTransparent
+    ? 'transparent'
+    : 'rgba(5, 5, 5, 0.65)';
+
+  const headerFilter = isTransparent ? 'none' : 'blur(20px)';
+  const headerBorder = isTransparent ? '1px solid transparent' : '1px solid rgba(255, 255, 255, 0.08)';
 
   return (
     <header>
@@ -68,12 +80,12 @@ export default function Navbar() {
           left: 0,
           width: '100%',
           height: 'clamp(84px, 6vw, 96px)',
-          background: isSolid ? 'rgba(5, 5, 5, 0.96)' : 'rgba(5, 5, 5, 0.85)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          background: headerBg,
+          backdropFilter: headerFilter,
+          WebkitBackdropFilter: headerFilter,
+          borderBottom: headerBorder,
           transform: visible || menuOpen ? 'translateY(0)' : 'translateY(-100%)',
-          transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, border-color 0.3s ease',
+          transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease, -webkit-backdrop-filter 0.4s ease',
           zIndex: 1000,
           display: 'flex',
           justifyContent: 'space-between',
@@ -115,7 +127,7 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Desktop Navigation Links (Title Case, High-Legibility) */}
+        {/* Desktop Navigation Links (Title Case, Minimalist font-weight 400) */}
         <div
           className="nav-links mobile-hide"
           style={{
@@ -133,7 +145,7 @@ export default function Navbar() {
               color: '#ffffff',
               textDecoration: 'none',
               textTransform: 'none',
-              fontWeight: 450,
+              fontWeight: 400,
               fontFamily: 'var(--font-primary)',
               transition: 'opacity 0.25s ease, transform 0.25s ease',
             }}
@@ -151,7 +163,7 @@ export default function Navbar() {
               color: '#ffffff',
               textDecoration: 'none',
               textTransform: 'none',
-              fontWeight: 450,
+              fontWeight: 400,
               fontFamily: 'var(--font-primary)',
               transition: 'opacity 0.25s ease, transform 0.25s ease',
             }}
@@ -169,7 +181,7 @@ export default function Navbar() {
               color: '#ffffff',
               textDecoration: 'none',
               textTransform: 'none',
-              fontWeight: 450,
+              fontWeight: 400,
               fontFamily: 'var(--font-primary)',
               transition: 'opacity 0.25s ease, transform 0.25s ease',
             }}
@@ -187,7 +199,7 @@ export default function Navbar() {
               color: '#ffffff',
               textDecoration: 'none',
               textTransform: 'none',
-              fontWeight: 450,
+              fontWeight: 400,
               fontFamily: 'var(--font-primary)',
               transition: 'opacity 0.25s ease, transform 0.25s ease',
             }}

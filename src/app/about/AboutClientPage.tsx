@@ -18,7 +18,7 @@ export default function AboutClientPage() {
         <section style={{ padding: 'clamp(140px, 11vw, 170px) var(--section-padding) clamp(60px, 6vw, 100px)' }} aria-labelledby="about-hero-heading">
           <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
             <PageHeader 
-              label="00 / About Us"
+              label="About Us"
               title={<>Crafting architecture<br />with intent</>}
             />
 
@@ -50,16 +50,16 @@ export default function AboutClientPage() {
               {/* Stats */}
               <div className="stats-container" style={{ display: 'flex', gap: 'clamp(32px, 5vw, 64px)' }}>
                 <div>
-                  <h2 style={{ fontSize: 'clamp(2.4rem, 3.5vw, 3rem)', fontWeight: 600, marginBottom: '8px', color: '#000000', textTransform: 'none', lineHeight: 1.15, letterSpacing: '-0.02em' }}>50+</h2>
-                  <p style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', color: '#666666', textTransform: 'none', fontWeight: 400, margin: 0, lineHeight: 1.5 }}>Masterpieces delivered</p>
+                  <h2 style={{ fontSize: 'clamp(2.4rem, 3.5vw, 3rem)', fontWeight: 400, marginBottom: '8px', color: '#000000', textTransform: 'none', lineHeight: 1.15, letterSpacing: '-0.02em' }}>50+</h2>
+                  <p style={{ fontSize: 'clamp(18px, 1.1vw, 20px)', color: '#666666', textTransform: 'none', fontWeight: 400, margin: 0, lineHeight: 1.5 }}>Masterpieces delivered</p>
                 </div>
                 <div>
-                  <h2 style={{ fontSize: 'clamp(2.4rem, 3.5vw, 3rem)', fontWeight: 600, marginBottom: '8px', color: '#000000', textTransform: 'none', lineHeight: 1.15, letterSpacing: '-0.02em' }}>12+</h2>
-                  <p style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', color: '#666666', textTransform: 'none', fontWeight: 400, margin: 0, lineHeight: 1.5 }}>Years of practice</p>
+                  <h2 style={{ fontSize: 'clamp(2.4rem, 3.5vw, 3rem)', fontWeight: 400, marginBottom: '8px', color: '#000000', textTransform: 'none', lineHeight: 1.15, letterSpacing: '-0.02em' }}>12+</h2>
+                  <p style={{ fontSize: 'clamp(18px, 1.1vw, 20px)', color: '#666666', textTransform: 'none', fontWeight: 400, margin: 0, lineHeight: 1.5 }}>Years of practice</p>
                 </div>
                 <div>
-                  <h2 style={{ fontSize: 'clamp(2.4rem, 3.5vw, 3rem)', fontWeight: 600, marginBottom: '8px', color: '#000000', textTransform: 'none', lineHeight: 1.15, letterSpacing: '-0.02em' }}>98%</h2>
-                  <p style={{ fontSize: 'clamp(18px, 1.15vw, 20px)', color: '#666666', textTransform: 'none', fontWeight: 400, margin: 0, lineHeight: 1.5 }}>Client satisfaction</p>
+                  <h2 style={{ fontSize: 'clamp(2.4rem, 3.5vw, 3rem)', fontWeight: 400, marginBottom: '8px', color: '#000000', textTransform: 'none', lineHeight: 1.15, letterSpacing: '-0.02em' }}>98%</h2>
+                  <p style={{ fontSize: 'clamp(18px, 1.1vw, 20px)', color: '#666666', textTransform: 'none', fontWeight: 400, margin: 0, lineHeight: 1.5 }}>Client satisfaction</p>
                 </div>
               </div>
 

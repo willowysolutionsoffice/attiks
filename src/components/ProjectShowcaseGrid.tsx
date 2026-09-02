@@ -194,7 +194,7 @@ export default function ProjectShowcaseGrid({ customEvents }: { initialProjects?
                     style={{
                       color: 'rgba(255, 255, 255, 0.95)',
                       fontSize: 'clamp(18px, 1.1vw, 20px)',
-                      fontWeight: 500,
+                      fontWeight: 400,
                       letterSpacing: '0.01em',
                       textTransform: 'none',
                       margin: 0,
@@ -208,7 +208,7 @@ export default function ProjectShowcaseGrid({ customEvents }: { initialProjects?
                     style={{
                       color: '#ffffff',
                       fontSize: 'clamp(1.3rem, 1.6vw, 1.6rem)',
-                      fontWeight: 700,
+                      fontWeight: 400,
                       margin: 0,
                       letterSpacing: '-0.02em',
                       fontFamily: 'var(--font-primary)',

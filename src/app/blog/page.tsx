@@ -81,7 +81,7 @@ export default function BlogPage() {
                     fontSize: 'clamp(18px, 1.1vw, 20px)',
                     color: '#666666',
                     marginBottom: '0.75rem',
-                    fontWeight: 500,
+                    fontWeight: 400,
                     letterSpacing: '0.02em',
                     textTransform: 'none'
                   }}>
@@ -90,7 +90,7 @@ export default function BlogPage() {
                   <h2 style={{
                     fontSize: 'clamp(1.3rem, 1.6vw, 1.6rem)',
                     color: '#000000',
-                    fontWeight: 600,
+                    fontWeight: 400,
                     lineHeight: '1.35',
                     letterSpacing: '-0.02em',
                     textTransform: 'none'

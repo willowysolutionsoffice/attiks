@@ -69,14 +69,14 @@ export default function JourneyCTASection() {
               fontFamily: 'var(--font-primary)',
               fontSize: 'clamp(15px, 1vw, 17px)',
               color: 'rgba(255,255,255,0.85)',
-              fontWeight: 600,
+              fontWeight: 400,
               letterSpacing: '0.12em',
               marginBottom: '16px',
               textShadow: '0 2px 4px rgba(0,0,0,0.5)',
               textTransform: 'uppercase'
             }}
           >
-            04 / Start The Project
+            Start The Project
           </motion.p>
 
           <motion.h2
@@ -116,7 +116,7 @@ export default function JourneyCTASection() {
                 border: 'none',
                 padding: '16px 36px',
                 fontSize: 'clamp(18px, 1.15vw, 20px)',
-                fontWeight: 600,
+                fontWeight: 400,
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
                 display: 'inline-block',

@@ -164,7 +164,7 @@ export default function LeadCaptureModal({
                       letterSpacing: '0.02em',
                       color: '#ffffff',
                       opacity: 0.8,
-                      fontWeight: 500,
+                      fontWeight: 400,
                       display: 'block',
                       marginBottom: '8px',
                     }}
@@ -174,7 +174,7 @@ export default function LeadCaptureModal({
                   <h2
                     style={{
                       fontSize: '1.55rem',
-                      fontWeight: 600,
+                      fontWeight: 400,
                       color: '#ffffff',
                       margin: '0 0 4px 0',
                       letterSpacing: '-0.01em',
@@ -262,7 +262,7 @@ export default function LeadCaptureModal({
                       border: 'none',
                       borderRadius: '8px',
                       fontSize: '0.95rem',
-                      fontWeight: 600,
+                      fontWeight: 400,
                       letterSpacing: '0.03em',
                       cursor: submitting ? 'not-allowed' : 'pointer',
                       transition: 'background 0.25s ease, transform 0.2s ease',
@@ -336,7 +336,7 @@ export default function LeadCaptureModal({
                 <h3
                   style={{
                     fontSize: '1.3rem',
-                    fontWeight: 600,
+                    fontWeight: 400,
                     color: '#ffffff',
                     margin: '0 0 8px 0',
                   }}

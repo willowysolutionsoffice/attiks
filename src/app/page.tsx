@@ -8,6 +8,7 @@ import { projects } from '@/data/projects';
 const AboutGallerySlider = dynamic(() => import('@/components/AboutGallerySlider'));
 const DirectorsSection = dynamic(() => import('@/components/DirectorsSection'));
 const ProjectShowcaseGrid = dynamic(() => import('@/components/ProjectShowcaseGrid'));
+const AwardsSection = dynamic(() => import('@/components/AwardsSection'));
 const Testimonials = dynamic(() => import('@/components/Testimonials'));
 
 export default function Home() {
@@ -23,6 +24,7 @@ export default function Home() {
         description="A dedicated circle of principal architects, structural visionaries, and spatial innovators guiding every commission."
       />
       <ProjectShowcaseGrid initialProjects={projects} />
+      <AwardsSection />
       <Testimonials />
       <Footer />
     </main>

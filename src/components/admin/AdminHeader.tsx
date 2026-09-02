@@ -29,7 +29,7 @@ export default function AdminHeader({ onMenuClick }: Props) {
           <Menu size={20} />
         </button>
         <div>
-          <div style={{ fontSize: '0.85rem', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+          <div style={{ fontSize: '0.85rem', fontWeight: 400, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
             {title}
           </div>
         </div>
@@ -46,7 +46,7 @@ export default function AdminHeader({ onMenuClick }: Props) {
             alignItems: 'center',
             justifyContent: 'center',
             fontSize: '0.75rem',
-            fontWeight: 700,
+            fontWeight: 400,
             color: '#fff',
             flexShrink: 0,
           }}

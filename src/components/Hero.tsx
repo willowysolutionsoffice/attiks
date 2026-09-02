@@ -148,7 +148,7 @@ export default function Hero({ videos = defaultHeroVideos }: { videos?: { id: st
             padding: '8px 8px 8px 24px',
             textDecoration: 'none',
             fontSize: 'clamp(18px, 1.15vw, 20px)',
-            fontWeight: 600,
+            fontWeight: 400,
             letterSpacing: '0.01em',
             textTransform: 'none',
             fontFamily: 'var(--font-primary)',
@@ -197,7 +197,7 @@ export default function Hero({ videos = defaultHeroVideos }: { videos?: { id: st
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: '18px',
-              fontWeight: 700,
+              fontWeight: 400,
               lineHeight: 1,
               transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
