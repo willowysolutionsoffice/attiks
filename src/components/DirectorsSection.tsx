@@ -86,11 +86,16 @@ function ArrowBtn({ onClick, direction, label }: { onClick: () => void; directio
   );
 }
 
+interface DirectorsSectionProps {
+  directors?: Director[];
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+}
+
 export default function DirectorsSection({
   directors = defaultDirectors,
-}: {
-  directors?: Director[];
-}) {
+}: DirectorsSectionProps) {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const carouselRef = useRef<HTMLDivElement | null>(null);
