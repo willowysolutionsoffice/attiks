@@ -18,11 +18,7 @@ export default function Home() {
       <Hero projects={projects} />
       <AboutSection />
       <AboutGallerySlider projects={projects} />
-      <DirectorsSection
-        eyebrow="Leadership"
-        title="Meet Our Directors"
-        description="A dedicated circle of principal architects, structural visionaries, and spatial innovators guiding every commission."
-      />
+      <DirectorsSection />
       <ProjectShowcaseGrid initialProjects={projects} />
       <AwardsSection />
       <Testimonials />

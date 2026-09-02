@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
@@ -40,6 +40,20 @@ const coreValues = [
 
 export default function ValuesSection() {
   const [activeHoverIndex, setActiveHoverIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 900);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleToggleValue = (idx: number) => {
+    setActiveHoverIndex((prev) => (prev === idx ? null : idx));
+  };
 
   return (
     <section
@@ -48,7 +62,7 @@ export default function ValuesSection() {
         background: '#ffffff',
         color: '#111111',
         width: '100%',
-        padding: 'clamp(60px, 7vw, 120px) var(--section-padding)',
+        padding: isMobile ? '40px 20px 60px' : 'clamp(60px, 7vw, 120px) clamp(24px, 5vw, 64px)',
         boxSizing: 'border-box',
         overflow: 'hidden',
       }}
@@ -57,28 +71,27 @@ export default function ValuesSection() {
       <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
         
         {/* ============================================================
-            VISION — Editorial 2-Column with Architectural Imagery
+            VISION — Text on Top, Image on Bottom (or Side-by-Side Desktop)
             ============================================================ */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true, margin: '-60px' }}
-          className="vision-mission-grid"
           style={{
-            display: 'grid',
-            gridTemplateColumns: '1.1fr 1fr',
-            gap: 'clamp(36px, 5vw, 80px)',
-            paddingBottom: 'clamp(64px, 7vw, 100px)',
-            alignItems: 'center',
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            gap: isMobile ? '24px' : 'clamp(36px, 5vw, 80px)',
+            paddingBottom: isMobile ? '48px' : 'clamp(64px, 7vw, 100px)',
+            alignItems: isMobile ? 'stretch' : 'center',
           }}
         >
-          {/* Vision Statement & Narration (Left) */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Vision Statement & Narration */}
+          <div style={{ flex: isMobile ? '1 1 100%' : '1 1 55%', display: 'flex', flexDirection: 'column', gap: isMobile ? '14px' : '20px' }}>
             <span
               style={{
                 fontFamily: 'var(--font-primary)',
-                fontSize: 'clamp(18px, 1.1vw, 20px)',
+                fontSize: isMobile ? '15px' : 'clamp(16px, 1vw, 18px)',
                 fontWeight: 400,
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
@@ -95,7 +108,7 @@ export default function ValuesSection() {
                 fontFamily: 'var(--font-canela), serif',
                 fontStyle: 'italic',
                 fontWeight: 300,
-                fontSize: 'clamp(2.4rem, 4vw, 3.6rem)',
+                fontSize: isMobile ? '2.0rem' : 'clamp(2.4rem, 4vw, 3.6rem)',
                 lineHeight: 1.18,
                 color: '#000000',
                 letterSpacing: '-0.025em',
@@ -110,10 +123,10 @@ export default function ValuesSection() {
                 maxWidth: '600px',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '16px',
+                gap: '14px',
                 color: '#444444',
-                fontSize: 'clamp(18px, 1.15vw, 20px)',
-                lineHeight: 1.75,
+                fontSize: isMobile ? '16.5px' : 'clamp(17px, 1.1vw, 19px)',
+                lineHeight: 1.7,
                 fontWeight: 350,
               }}
             >
@@ -126,15 +139,17 @@ export default function ValuesSection() {
             </div>
           </div>
 
-          {/* Vision Image (Right) */}
+          {/* Vision Image (Below on mobile, Right on desktop) */}
           <div
             style={{
+              flex: isMobile ? '1 1 100%' : '1 1 45%',
               position: 'relative',
               width: '100%',
-              height: 'clamp(360px, 48vh, 500px)',
+              height: isMobile ? '260px' : 'clamp(360px, 48vh, 500px)',
               overflow: 'hidden',
-              borderRadius: '4px',
+              borderRadius: '0px',
               boxShadow: '0 16px 40px rgba(0, 0, 0, 0.06)',
+              backgroundColor: '#151515',
             }}
           >
             <Image
@@ -142,7 +157,7 @@ export default function ValuesSection() {
               alt="Attiks Architectural Vision"
               fill
               sizes="(max-width: 900px) 100vw, 50vw"
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'cover', borderRadius: '0px' }}
             />
           </div>
         </motion.div>
@@ -153,53 +168,32 @@ export default function ValuesSection() {
             width: '100%',
             height: '1px',
             background: 'rgba(0, 0, 0, 0.08)',
-            marginBottom: 'clamp(64px, 7vw, 100px)',
+            marginBottom: isMobile ? '48px' : 'clamp(64px, 7vw, 100px)',
           }}
         />
 
         {/* ============================================================
-            MISSION — Reversed 2-Column with Architectural Imagery
+            MISSION — Text on Top, Image on Bottom (or Side-by-Side Desktop)
             ============================================================ */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true, margin: '-60px' }}
-          className="vision-mission-grid mission-reverse"
           style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1.1fr',
-            gap: 'clamp(36px, 5vw, 80px)',
-            paddingBottom: 'clamp(64px, 7vw, 100px)',
-            alignItems: 'center',
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row-reverse',
+            gap: isMobile ? '24px' : 'clamp(36px, 5vw, 80px)',
+            paddingBottom: isMobile ? '48px' : 'clamp(64px, 7vw, 100px)',
+            alignItems: isMobile ? 'stretch' : 'center',
           }}
         >
-          {/* Mission Image (Left on desktop) */}
-          <div
-            style={{
-              position: 'relative',
-              width: '100%',
-              height: 'clamp(360px, 48vh, 500px)',
-              overflow: 'hidden',
-              borderRadius: '4px',
-              boxShadow: '0 16px 40px rgba(0, 0, 0, 0.06)',
-            }}
-          >
-            <Image
-              src="/value_design.webp"
-              alt="Attiks Architectural Mission"
-              fill
-              sizes="(max-width: 900px) 100vw, 50vw"
-              style={{ objectFit: 'cover' }}
-            />
-          </div>
-
-          {/* Mission Statement & Narration (Right on desktop) */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {/* Mission Statement & Narration */}
+          <div style={{ flex: isMobile ? '1 1 100%' : '1 1 55%', display: 'flex', flexDirection: 'column', gap: isMobile ? '14px' : '20px' }}>
             <span
               style={{
                 fontFamily: 'var(--font-primary)',
-                fontSize: 'clamp(18px, 1.1vw, 20px)',
+                fontSize: isMobile ? '15px' : 'clamp(16px, 1vw, 18px)',
                 fontWeight: 400,
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
@@ -216,7 +210,7 @@ export default function ValuesSection() {
                 fontFamily: 'var(--font-canela), serif',
                 fontStyle: 'italic',
                 fontWeight: 300,
-                fontSize: 'clamp(2.4rem, 4vw, 3.6rem)',
+                fontSize: isMobile ? '2.0rem' : 'clamp(2.4rem, 4vw, 3.6rem)',
                 lineHeight: 1.18,
                 color: '#000000',
                 letterSpacing: '-0.025em',
@@ -231,10 +225,10 @@ export default function ValuesSection() {
                 maxWidth: '600px',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '16px',
+                gap: '14px',
                 color: '#444444',
-                fontSize: 'clamp(18px, 1.15vw, 20px)',
-                lineHeight: 1.75,
+                fontSize: isMobile ? '16.5px' : 'clamp(17px, 1.1vw, 19px)',
+                lineHeight: 1.7,
                 fontWeight: 350,
               }}
             >
@@ -246,6 +240,28 @@ export default function ValuesSection() {
               </p>
             </div>
           </div>
+
+          {/* Mission Image (Below on mobile, Left on desktop) */}
+          <div
+            style={{
+              flex: isMobile ? '1 1 100%' : '1 1 45%',
+              position: 'relative',
+              width: '100%',
+              height: isMobile ? '260px' : 'clamp(360px, 48vh, 500px)',
+              overflow: 'hidden',
+              borderRadius: '0px',
+              boxShadow: '0 16px 40px rgba(0, 0, 0, 0.06)',
+              backgroundColor: '#151515',
+            }}
+          >
+            <Image
+              src="/value_design.webp"
+              alt="Attiks Architectural Mission"
+              fill
+              sizes="(max-width: 900px) 100vw, 50vw"
+              style={{ objectFit: 'cover', borderRadius: '0px' }}
+            />
+          </div>
         </motion.div>
 
         {/* Thin Divider Between Mission and Core Values */}
@@ -254,12 +270,12 @@ export default function ValuesSection() {
             width: '100%',
             height: '1px',
             background: 'rgba(0, 0, 0, 0.08)',
-            marginBottom: 'clamp(64px, 7vw, 100px)',
+            marginBottom: isMobile ? '40px' : 'clamp(64px, 7vw, 100px)',
           }}
         />
 
         {/* ============================================================
-            CORE VALUES — Minimal Vertical Architectural Index
+            CORE VALUES — Interactive Accordion with Click Toggle
             ============================================================ */}
         <div style={{ width: '100%' }}>
           {/* Header */}
@@ -268,18 +284,18 @@ export default function ValuesSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             viewport={{ once: true, margin: '-40px' }}
-            style={{ marginBottom: 'clamp(40px, 5vw, 64px)' }}
+            style={{ marginBottom: isMobile ? '28px' : 'clamp(40px, 5vw, 64px)' }}
           >
             <span
               style={{
                 fontFamily: 'var(--font-primary)',
-                fontSize: 'clamp(18px, 1.1vw, 20px)',
+                fontSize: isMobile ? '15px' : 'clamp(16px, 1vw, 18px)',
                 fontWeight: 400,
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
                 color: '#777777',
                 display: 'block',
-                marginBottom: '16px',
+                marginBottom: '12px',
               }}
             >
               Core Values
@@ -290,7 +306,7 @@ export default function ValuesSection() {
                 fontFamily: 'var(--font-canela), serif',
                 fontStyle: 'italic',
                 fontWeight: 300,
-                fontSize: 'clamp(2.4rem, 4vw, 3.6rem)',
+                fontSize: isMobile ? '2.1rem' : 'clamp(2.4rem, 4vw, 3.6rem)',
                 color: '#000000',
                 letterSpacing: '-0.025em',
                 margin: 0,
@@ -309,22 +325,36 @@ export default function ValuesSection() {
             }}
           >
             {coreValues.map((val, idx) => {
-              const isHovered = activeHoverIndex === idx;
+              const isOpen = activeHoverIndex === idx;
 
               return (
                 <motion.div
                   key={val.num}
                   initial={{ opacity: 0, y: 15 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.5, delay: idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
                   viewport={{ once: true, margin: '-20px' }}
-                  onMouseEnter={() => setActiveHoverIndex(idx)}
-                  onMouseLeave={() => setActiveHoverIndex(null)}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => handleToggleValue(idx)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleToggleValue(idx);
+                    }
+                  }}
+                  onMouseEnter={() => {
+                    if (!isMobile) setActiveHoverIndex(idx);
+                  }}
+                  onMouseLeave={() => {
+                    if (!isMobile) setActiveHoverIndex(null);
+                  }}
                   style={{
                     borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
-                    padding: 'clamp(28px, 3.5vw, 44px) 0',
+                    padding: isMobile ? '22px 0' : 'clamp(28px, 3.5vw, 44px) 0',
                     cursor: 'pointer',
-                    transition: 'background-color 0.35s ease, padding 0.35s ease',
+                    outline: 'none',
+                    transition: 'background-color 0.25s ease',
                   }}
                 >
                   <div
@@ -333,7 +363,7 @@ export default function ValuesSection() {
                       justifyContent: 'space-between',
                       alignItems: 'flex-start',
                       width: '100%',
-                      gap: 'clamp(20px, 4vw, 48px)',
+                      gap: isMobile ? '16px' : 'clamp(20px, 4vw, 48px)',
                     }}
                   >
                     {/* Left: Number & Title */}
@@ -341,16 +371,16 @@ export default function ValuesSection() {
                       style={{
                         display: 'flex',
                         alignItems: 'baseline',
-                        gap: 'clamp(24px, 4vw, 64px)',
+                        gap: isMobile ? '18px' : 'clamp(24px, 4vw, 64px)',
                         flex: 1,
                       }}
                     >
                       <span
                         style={{
                           fontFamily: 'var(--font-primary)',
-                          fontSize: 'clamp(18px, 1.1vw, 20px)',
+                          fontSize: isMobile ? '16px' : 'clamp(18px, 1.1vw, 20px)',
                           fontWeight: 400,
-                          color: isHovered ? '#000000' : '#888888',
+                          color: isOpen ? '#000000' : '#888888',
                           letterSpacing: '0.05em',
                           transition: 'color 0.3s ease',
                           minWidth: '24px',
@@ -363,9 +393,9 @@ export default function ValuesSection() {
                         <h3
                           style={{
                             fontFamily: 'var(--font-primary)',
-                            fontSize: 'clamp(1.5rem, 2.2vw, 2.2rem)',
+                            fontSize: isMobile ? '1.35rem' : 'clamp(1.5rem, 2.2vw, 2.2rem)',
                             fontWeight: 400,
-                            color: isHovered ? '#000000' : '#222222',
+                            color: isOpen ? '#000000' : '#222222',
                             margin: 0,
                             letterSpacing: '-0.02em',
                             transition: 'color 0.3s ease',
@@ -375,21 +405,20 @@ export default function ValuesSection() {
                           {val.title}
                         </h3>
 
-                        {/* Expandable Accordion Description on Hover */}
+                        {/* Expandable Accordion Description on Click / Tap / Hover */}
                         <AnimatePresence>
-                          {isHovered && (
+                          {isOpen && (
                             <motion.div
                               initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                              animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
+                              animate={{ opacity: 1, height: 'auto', marginTop: isMobile ? 12 : 16 }}
                               exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                               style={{ overflow: 'hidden' }}
-                              className="desktop-description-container"
                             >
                               <p
                                 style={{
-                                  fontSize: 'clamp(18px, 1.15vw, 20px)',
-                                  lineHeight: 1.75,
+                                  fontSize: isMobile ? '16px' : 'clamp(17px, 1.15vw, 19px)',
+                                  lineHeight: 1.7,
                                   color: '#555555',
                                   fontWeight: 350,
                                   maxWidth: '780px',
@@ -401,41 +430,25 @@ export default function ValuesSection() {
                             </motion.div>
                           )}
                         </AnimatePresence>
-
-                        {/* Static Description Visible On Touch/Mobile */}
-                        <div className="mobile-description-block">
-                          <p
-                            style={{
-                              fontSize: '18px',
-                              lineHeight: 1.65,
-                              color: '#555555',
-                              fontWeight: 350,
-                              marginTop: '12px',
-                              marginBottom: 0,
-                            }}
-                          >
-                            {val.description}
-                          </p>
-                        </div>
                       </div>
                     </div>
 
-                    {/* Right: Architectural Arrow Icon */}
-                    <div style={{ paddingTop: '4px', paddingRight: '8px' }}>
+                    {/* Right: Toggle Arrow Icon Button */}
+                    <div style={{ paddingTop: '2px', paddingRight: '4px' }}>
                       <motion.div
                         animate={{
-                          x: isHovered ? 4 : 0,
-                          y: isHovered ? -4 : 0,
-                          rotate: isHovered ? 45 : 0,
+                          rotate: isOpen ? 90 : 0,
+                          x: isOpen ? 2 : 0,
+                          y: isOpen ? 2 : 0,
                         }}
                         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                         style={{ display: 'inline-flex', alignItems: 'center' }}
                       >
                         <ArrowUpRight
-                          size={26}
+                          size={isMobile ? 22 : 26}
                           strokeWidth={1.5}
                           style={{
-                            color: isHovered ? '#000000' : '#888888',
+                            color: isOpen ? '#000000' : '#888888',
                             transition: 'color 0.3s ease',
                           }}
                         />
@@ -449,29 +462,6 @@ export default function ValuesSection() {
         </div>
 
       </div>
-
-      <style jsx>{`
-        .mobile-description-block {
-          display: none;
-        }
-
-        @media (max-width: 900px) {
-          .vision-mission-grid {
-            grid-template-columns: 1fr !important;
-            gap: 28px !important;
-          }
-          .mission-reverse {
-            display: flex !important;
-            flex-direction: column-reverse !important;
-          }
-          .desktop-description-container {
-            display: none !important;
-          }
-          .mobile-description-block {
-            display: block !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }

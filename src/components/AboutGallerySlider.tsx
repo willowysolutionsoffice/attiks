@@ -71,7 +71,7 @@ function ProjectCardItem({ project, onCardClick, isMobile }: { project: Project;
         position: 'relative',
         width: '100%',
         aspectRatio: isMobile ? '16 / 11' : '16 / 10.5',
-        borderRadius: '4px',
+        borderRadius: '0px',
         overflow: 'hidden',
         background: '#111111',
         cursor: 'pointer',

@@ -49,13 +49,14 @@ export default function Hero({ videos = defaultHeroVideos }: { videos?: { id: st
 
   return (
     <section
+      className="hero-container-section"
       style={{
         position: 'relative',
         width: '100%',
         height: '100vh',
-        minHeight: '640px',
+        minHeight: '600px',
         margin: 0,
-        padding: '0 clamp(24px, 5vw, 64px) clamp(48px, 8vh, 64px)',
+        padding: '0 clamp(20px, 5vw, 64px) clamp(36px, 6vh, 64px)',
         overflow: 'hidden',
         background: '#050505',
         boxSizing: 'border-box',
@@ -124,7 +125,7 @@ export default function Hero({ videos = defaultHeroVideos }: { videos?: { id: st
       </AnimatePresence>
 
       {/* ============================================================
-          BOTTOM-LEFT: LUXURY BLACK & WHITE THEME "VIEW PROJECTS" CTA
+          BOTTOM-LEFT: MINIMAL LUXURY "VIEW PROJECT" CTA
           ============================================================ */}
       <motion.div
         initial={{ opacity: 0, y: 15 }}
@@ -137,69 +138,66 @@ export default function Hero({ videos = defaultHeroVideos }: { videos?: { id: st
       >
         <Link
           href="/projects"
+          className="hero-cta-minimal"
           style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '16px',
-            background: 'rgba(255, 255, 255, 0.95)',
-            color: '#000000',
-            border: '1px solid #ffffff',
+            gap: '14px',
+            background: 'rgba(10, 10, 10, 0.82)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            color: '#ffffff',
+            border: '1px solid rgba(255, 255, 255, 0.22)',
             borderRadius: '9999px',
-            padding: '8px 8px 8px 24px',
+            padding: '6px 6px 6px 20px',
             textDecoration: 'none',
-            fontSize: 'clamp(18px, 1.15vw, 20px)',
+            fontSize: '15.5px',
             fontWeight: 400,
             letterSpacing: '0.01em',
             textTransform: 'none',
-            fontFamily: 'var(--font-primary)',
-            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.4)',
-            transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5)',
+            transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
           onMouseEnter={(e) => {
             const el = e.currentTarget as HTMLAnchorElement;
             el.style.background = '#000000';
-            el.style.color = '#ffffff';
-            el.style.borderColor = '#ffffff';
+            el.style.borderColor = 'rgba(255, 255, 255, 0.45)';
             el.style.transform = 'translateY(-2px) scale(1.02)';
-            el.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.6)';
+            el.style.boxShadow = '0 12px 30px rgba(0, 0, 0, 0.7)';
             const disc = el.querySelector('.cta-disc') as HTMLElement;
             if (disc) {
-              disc.style.background = '#ffffff';
-              disc.style.color = '#000000';
               disc.style.transform = 'translateX(2px)';
             }
           }}
           onMouseLeave={(e) => {
             const el = e.currentTarget as HTMLAnchorElement;
-            el.style.background = 'rgba(255, 255, 255, 0.95)';
-            el.style.color = '#000000';
-            el.style.borderColor = '#ffffff';
+            el.style.background = 'rgba(10, 10, 10, 0.82)';
+            el.style.borderColor = 'rgba(255, 255, 255, 0.22)';
             el.style.transform = 'translateY(0) scale(1)';
-            el.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.4)';
+            el.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.5)';
             const disc = el.querySelector('.cta-disc') as HTMLElement;
             if (disc) {
-              disc.style.background = '#000000';
-              disc.style.color = '#ffffff';
               disc.style.transform = 'translateX(0)';
             }
           }}
         >
-          <span>View projects</span>
+          <span style={{ whiteSpace: 'nowrap' }}>View project</span>
           <span
             className="cta-disc"
             style={{
-              width: '38px',
-              height: '38px',
+              width: '32px',
+              height: '32px',
               borderRadius: '50%',
-              background: '#000000',
-              color: '#ffffff',
+              background: '#ffffff',
+              color: '#000000',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '18px',
-              fontWeight: 400,
+              fontSize: '16px',
+              fontWeight: 600,
               lineHeight: 1,
-              transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+              flexShrink: 0,
+              transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
             &rsaquo;
@@ -208,7 +206,7 @@ export default function Hero({ videos = defaultHeroVideos }: { videos?: { id: st
       </motion.div>
 
       {/* ============================================================
-          RIGHT SIDE VERTICAL PAGINATION DOTS (ALWAYS VISIBLE)
+          RIGHT SIDE VERTICAL PAGINATION (HIDDEN ON MOBILE SCREENS)
           ============================================================ */}
       <div
         className="hero-pagination-pill"

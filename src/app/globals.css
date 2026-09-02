@@ -84,15 +84,24 @@
   --section-padding: 5%;
 }
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  max-width: 100%;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  position: relative;
 }
 
 html {
   scroll-behavior: smooth;
   height: 100%;
+  background-color: #050505;
 }
 
 body {
@@ -102,7 +111,14 @@ body {
   font-size: 18px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  min-height: 100%;
+}
+
+main {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  position: relative;
 }
 
 /* Desktop typography rule: no font size below 18px on large screens */
@@ -1586,28 +1602,70 @@ img, video, iframe {
     margin-top: 14px !important;
   }
 
+  /* Sleek, ultra-compact auto-scroll vertical indicator on mobile */
   .hero-pagination-pill {
-    right: 12px !important;
+    display: flex !important;
+    right: 10px !important;
     top: 50% !important;
-    bottom: auto !important;
     transform: translateY(-50%) !important;
-    padding: 8px 5px !important;
-    gap: 6px !important;
+    padding: 5px 3px !important;
+    gap: 4px !important;
+    background: rgba(0, 0, 0, 0.45) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 9999px !important;
   }
 
   .hero-pagination-pill .hero-dot {
-    width: 5px !important;
-    height: 5px !important;
-    border-radius: 2.5px !important;
+    width: 3.5px !important;
+    height: 3.5px !important;
+    border-radius: 2px !important;
+    background: rgba(255, 255, 255, 0.35) !important;
   }
 
   .hero-pagination-pill .hero-dot.active {
-    height: 14px !important;
-    width: 5px !important;
+    height: 10px !important;
+    width: 3.5px !important;
+    background: #ffffff !important;
+  }
+
+  .about-watermark-bg {
+    display: none !important;
+  }
+
+  .hero-container-section {
+    padding: 0 20px 32px !important;
+  }
+
+  .hero-cta-minimal {
+    padding: 5px 5px 5px 18px !important;
+    font-size: 14.5px !important;
+    gap: 12px !important;
+  }
+
+  .hero-cta-minimal .cta-disc {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 15px !important;
   }
 }
 
 @media (max-width: 480px) {
+  .hero-pagination-pill {
+    right: 8px !important;
+    padding: 5px 3px !important;
+    gap: 3.5px !important;
+  }
+  
+  .hero-pagination-pill .hero-dot {
+    width: 3px !important;
+    height: 3px !important;
+  }
+  
+  .hero-pagination-pill .hero-dot.active {
+    height: 9px !important;
+    width: 3px !important;
+  }
+
   .hero-title-top,
   .hero-title-bottom {
     font-size: clamp(1.9rem, 9.8vw, 3.0rem) !important;
