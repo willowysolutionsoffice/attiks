@@ -69,13 +69,13 @@ export default function AdminSidebar({ isOpen, onClose }: Props) {
         <div className="admin-sidebar-logo">
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', textDecoration: 'none' }}>
             <Image
-              src="/images/traingle.png"
+              src="/images/Trblack.png"
               alt="Attiks Logo"
               width={100}
               height={30}
               style={{ objectFit: 'contain', height: '24px', width: 'auto' }}
             />
-            <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.7)', letterSpacing: '0.12em', textTransform: 'uppercase', borderLeft: '1px solid rgba(255,255,255,0.15)', paddingLeft: '0.5rem', fontWeight: 400 }}>
+            <span style={{ fontSize: '0.65rem', color: '#71717a', letterSpacing: '0.12em', textTransform: 'uppercase', borderLeft: '1px solid #e4e4e7', paddingLeft: '0.5rem', fontWeight: 400 }}>
               Admin
             </span>
           </Link>

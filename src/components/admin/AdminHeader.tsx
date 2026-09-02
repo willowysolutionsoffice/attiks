@@ -4,10 +4,19 @@ import { Menu } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 const titles: Record<string, string> = {
-  '/admin':              'Overview',
+  '/admin/dashboard':    'Dashboard',
   '/admin/projects':     'Projects',
+  '/admin/services':     'Services',
+  '/admin/team':         'Team & Leadership',
+  '/admin/blog':         'Blog & Publications',
+  '/admin/media':        'Media Library',
+  '/admin/leads':        'Client Enquiries',
+  '/admin/users':        'User Management',
+  '/admin/roles':        'Roles & Permissions',
+  '/admin/settings':     'General Settings',
   '/admin/testimonials': 'Testimonials',
   '/admin/categories':   'Categories',
+  '/admin':              'Overview',
 };
 
 interface Props {
