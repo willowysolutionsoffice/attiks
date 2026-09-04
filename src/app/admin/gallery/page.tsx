@@ -320,7 +320,7 @@ export default function GalleryAdminPage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
           <div>
             <h1 style={{ fontSize: '1.35rem', fontWeight: 600, color: '#0f172a', margin: '0 0 2px 0' }}>
-              Instagram Showcase Feed
+              Media Showcase Manager
             </h1>
             <div style={{ display: 'flex', gap: '10px', fontSize: '0.8rem', color: '#64748b' }}>
               <span>

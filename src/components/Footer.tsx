@@ -110,7 +110,7 @@ export default function Footer() {
                   { name: 'Home', path: '/' },
                   { name: 'About', path: '/about' },
                   { name: 'Projects', path: '/projects' },
-                  { name: 'Media', path: '/blog' },
+                  { name: 'Media', path: '/media' },
                   { name: 'Contact', path: '/contact' }
                 ].map((item) => (
                   <li key={item.name}>

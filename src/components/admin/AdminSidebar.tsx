@@ -6,9 +6,8 @@ import Image from 'next/image';
 import {
   LayoutDashboard,
   FolderOpen,
-  Users,
-  Image as ImageIcon,
   Inbox,
+  Image as ImageIcon,
   Quote,
   Settings,
   ExternalLink,
@@ -19,16 +18,15 @@ interface NavItem {
   title: string;
   path: string;
   icon: React.ComponentType<{ size?: number }>;
+  badge?: string;
 }
 
 const mainNavItems: NavItem[] = [
-  { title: 'Dashboard',      path: '/admin/dashboard',    icon: LayoutDashboard },
-  { title: 'Showcase Posts', path: '/admin/gallery',      icon: ImageIcon },
-  { title: 'Projects',       path: '/admin/projects',     icon: FolderOpen },
-  { title: 'Testimonials',   path: '/admin/testimonials', icon: Quote },
-  { title: 'Leads',          path: '/admin/leads',        icon: Inbox },
-  { title: 'Team',           path: '/admin/team',         icon: Users },
-  { title: 'Media',          path: '/admin/media',        icon: FolderOpen },
+  { title: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
+  { title: 'Projects', path: '/admin/projects', icon: FolderOpen },
+  { title: 'Inquiries', path: '/admin/leads', icon: Inbox },
+  { title: 'Media & Gallery', path: '/admin/gallery', icon: ImageIcon },
+  { title: 'Testimonials', path: '/admin/testimonials', icon: Quote },
 ];
 
 const systemNavItems: NavItem[] = [

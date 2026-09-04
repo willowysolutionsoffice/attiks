@@ -173,7 +173,7 @@ export default function Navbar() {
             About
           </Link>
           <Link
-            href="/blog"
+            href="/media"
             className="nav-link"
             style={{
               fontSize: 'clamp(18px, 1.25vw, 20px)',
@@ -292,7 +292,7 @@ export default function Navbar() {
             About
           </Link>
           <Link
-            href="/blog"
+            href="/media"
             className="mobile-menu-link"
             onClick={() => setMenuOpen(false)}
             style={{

@@ -1,24 +1,23 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import { Download, ArrowUpRight, Sparkles } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import LeadCaptureModal from '@/components/LeadCaptureModal';
 import { categories, Category, Project } from '@/data/projects';
 
 export default function ProjectsClientPage({ initialProjects }: { initialProjects: Project[] }) {
-  const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [allProjects, setAllProjects] = useState<Project[]>(initialProjects);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Lead capture modal state
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  // Portfolio download modal state
+  const [downloadModalOpen, setDownloadModalOpen] = useState(false);
 
   useEffect(() => {
     setAllProjects(initialProjects);
@@ -33,24 +32,6 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleProjectClick = useCallback((project: Project) => {
-    setSelectedProject(project);
-    setModalOpen(true);
-  }, []);
-
-  const handleModalClose = useCallback(() => {
-    setModalOpen(false);
-    setSelectedProject(null);
-  }, []);
-
-  const handleModalSuccess = useCallback(() => {
-    if (selectedProject) {
-      router.push(`/projects/${(selectedProject as any).slug || selectedProject.id}`);
-    }
-    setModalOpen(false);
-    setSelectedProject(null);
-  }, [selectedProject, router]);
-
   const filteredProjects = selectedCategory
     ? allProjects.filter((p) => p.category === selectedCategory)
     : allProjects;
@@ -63,6 +44,10 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
     { label: 'All', value: null },
     ...categories.map((c) => ({ label: c.label, value: c.value })),
   ];
+
+  const currentCategoryName = selectedCategory
+    ? selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)
+    : 'Complete';
 
   return (
     <div style={{ background: '#ffffff', minHeight: '100vh', color: '#111111' }}>
@@ -106,7 +91,7 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
               </motion.h1>
             </AnimatePresence>
 
-            {/* Clean Minimalist Category Filters (No trailing hanging dots) */}
+            {/* Clean Minimalist Category Filters */}
             <div
               style={{
                 display: 'flex',
@@ -150,7 +135,7 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                     }}
                   >
                     <span>{item.label}</span>
-                    {/* Subtle Minimal Bottom Dot or Line Indicator */}
+                    {/* Active Underline Indicator */}
                     {isSelected && (
                       <motion.div
                         layoutId="activeFilterUnderline"
@@ -170,6 +155,57 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                 );
               })}
             </div>
+
+            {/* Editorial Category Portfolio Download Action */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
+              style={{
+                marginTop: isMobile ? '24px' : '32px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => setDownloadModalOpen(true)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '9px',
+                  padding: isMobile ? '10px 18px' : '11px 24px',
+                  borderRadius: '999px',
+                  background: '#0a0a0a',
+                  color: '#ffffff',
+                  border: '1px solid #0a0a0a',
+                  fontSize: 'clamp(13.5px, 0.95vw, 15px)',
+                  fontWeight: 450,
+                  cursor: 'pointer',
+                  letterSpacing: '0.03em',
+                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                  boxShadow: '0 4px 14px rgba(0, 0, 0, 0.08)',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#27272a';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.14)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#0a0a0a';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 14px rgba(0, 0, 0, 0.08)';
+                }}
+              >
+                <Download size={15} style={{ opacity: 0.9 }} />
+                <span>
+                  {selectedCategory
+                    ? `Download ${currentCategoryName} Portfolio (.PDF)`
+                    : 'Download Complete Studio Portfolio (.PDF)'}
+                </span>
+              </button>
+            </motion.div>
           </div>
         </section>
 
@@ -196,6 +232,8 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
               <AnimatePresence>
                 {filteredProjects.map((project) => {
                   const isHovered = hoveredId === project.id;
+                  const projectUrl = `/projects/${(project as any).slug || project.id}`;
+
                   return (
                     <motion.div
                       layout
@@ -205,16 +243,8 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                       exit={{ opacity: 0, scale: 0.98 }}
                       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <div
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => handleProjectClick(project)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            handleProjectClick(project);
-                          }
-                        }}
+                      <Link
+                        href={projectUrl}
                         style={{
                           position: 'relative',
                           display: 'block',
@@ -224,6 +254,7 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                           background: '#111111',
                           borderRadius: '4px',
                           cursor: 'pointer',
+                          textDecoration: 'none',
                         }}
                         className="project-grid-card"
                         onMouseEnter={() => setHoveredId(project.id)}
@@ -236,23 +267,47 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           style={{
                             objectFit: 'cover',
-                            transform: isHovered ? 'scale(1.04)' : 'scale(1)',
+                            transform: isHovered ? 'scale(1.05)' : 'scale(1)',
                             transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
                           }}
                           className="project-grid-img"
                         />
 
-                        {/* Bottom Gradient Overlay */}
+                        {/* Hover Overlay */}
                         <div
                           style={{
                             position: 'absolute',
                             inset: 0,
-                            background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 45%, transparent 100%)',
+                            background: 'linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.25) 50%, transparent 100%)',
                             opacity: isMobile || isHovered ? 1 : 0,
                             transition: 'opacity 0.35s ease',
                             pointerEvents: 'none',
                           }}
                         />
+
+                        {/* Top-Right Arrow Indicator on Hover */}
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '16px',
+                            right: '16px',
+                            width: '34px',
+                            height: '34px',
+                            borderRadius: '50%',
+                            background: 'rgba(255, 255, 255, 0.92)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#000000',
+                            opacity: isHovered ? 1 : 0,
+                            transform: isHovered ? 'translateY(0) scale(1)' : 'translateY(-6px) scale(0.9)',
+                            transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                            pointerEvents: 'none',
+                            zIndex: 6,
+                          }}
+                        >
+                          <ArrowUpRight size={18} />
+                        </div>
 
                         {/* Bottom Editorial Typography */}
                         <div
@@ -275,7 +330,7 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                           <p
                             style={{
                               color: 'rgba(255, 255, 255, 0.85)',
-                              fontSize: 'clamp(18px, 1.1vw, 20px)',
+                              fontSize: 'clamp(12px, 0.85vw, 13.5px)',
                               fontWeight: 400,
                               letterSpacing: '0.08em',
                               textTransform: 'uppercase',
@@ -301,7 +356,7 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                             {project.title}
                           </h2>
                         </div>
-                      </div>
+                      </Link>
                     </motion.div>
                   );
                 })}
@@ -313,13 +368,13 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
 
       <Footer />
 
-      {/* Lead Capture Modal */}
+      {/* Portfolio Download Lead Capture Modal */}
       <LeadCaptureModal
-        isOpen={modalOpen}
-        onClose={handleModalClose}
-        onSubmitSuccess={handleModalSuccess}
-        projectTitle={selectedProject?.title || ''}
-        projectId={selectedProject?.id || ''}
+        isOpen={downloadModalOpen}
+        onClose={() => setDownloadModalOpen(false)}
+        category={selectedCategory || undefined}
+        projects={allProjects}
+        mode="download"
       />
 
       <style jsx>{`

@@ -2,14 +2,19 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, X, ArrowRight, User, Mail, Phone, MessageSquare } from 'lucide-react';
+import { Check, X, ArrowRight, User, Mail, Phone, MessageSquare, Download, FileText, Loader2 } from 'lucide-react';
+import { generatePortfolioPdf } from '@/lib/generatePortfolioPdf';
+import { Project } from '@/data/projects';
 
 interface LeadCaptureModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmitSuccess: () => void;
-  projectTitle: string;
-  projectId: string;
+  onSubmitSuccess?: () => void;
+  projectTitle?: string;
+  projectId?: string;
+  category?: string;
+  projects?: Project[];
+  mode?: 'project' | 'download';
 }
 
 export default function LeadCaptureModal({
@@ -18,14 +23,45 @@ export default function LeadCaptureModal({
   onSubmitSuccess,
   projectTitle,
   projectId,
+  category,
+  projects = [],
+  mode = 'download',
 }: LeadCaptureModalProps) {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
   const [submitting, setSubmitting] = useState(false);
+  const [generatingPdf, setGeneratingPdf] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
 
+  const formattedCategory = category && category !== 'all'
+    ? category.charAt(0).toUpperCase() + category.slice(1)
+    : 'Complete';
+
+  const modalHeading = mode === 'download'
+    ? `${formattedCategory} Portfolio Lookbook`
+    : (projectTitle || 'Project Inquiry');
+
+  const modalSubtitle = mode === 'download'
+    ? `Enter your details to generate and download the curated ${formattedCategory} architecture portfolio (.PDF).`
+    : 'Enter your details to view full architectural specifications and project lookbook.';
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (error) setError('');
+  };
+
+  const triggerPortfolioDownload = async () => {
+    setGeneratingPdf(true);
+    try {
+      await generatePortfolioPdf({
+        category: category || 'all',
+        projects: projects,
+      });
+    } catch (err) {
+      console.error('Failed to generate PDF:', err);
+    } finally {
+      setGeneratingPdf(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -43,10 +79,10 @@ export default function LeadCaptureModal({
         email: form.email.trim(),
         phone: form.phone.trim() || undefined,
         message: form.message.trim() || undefined,
+        source: mode === 'download' ? 'portfolio_download' : 'project_inquiry',
+        projectTitle: mode === 'download' ? `${formattedCategory} Architecture Portfolio PDF` : (projectTitle || `${formattedCategory} Project`),
+        projectId: projectId || (category ? `category-${category}` : 'general-portfolio'),
       };
-
-      if (projectId) payload.projectId = projectId;
-      if (projectTitle) payload.projectTitle = projectTitle;
 
       const res = await fetch('/api/leads', {
         method: 'POST',
@@ -56,30 +92,46 @@ export default function LeadCaptureModal({
 
       if (!res.ok) {
         const errJson = await res.json().catch(() => ({}));
-        throw new Error(errJson.error || errJson.message || 'Submission failed');
+        console.warn('API error logging lead, proceeding to download:', errJson);
       }
 
       setSubmitted(true);
+      if (mode === 'download') {
+        await triggerPortfolioDownload();
+      }
+
       setTimeout(() => {
-        onSubmitSuccess();
+        if (onSubmitSuccess) onSubmitSuccess();
         setTimeout(() => {
           setSubmitted(false);
           setForm({ name: '', email: '', phone: '', message: '' });
-        }, 400);
-      }, 800);
+          onClose();
+        }, 1200);
+      }, 1000);
     } catch (err: any) {
       console.error('Lead submission error:', err);
-      setError(err.message || 'Submission failed. Please try again.');
+      setSubmitted(true);
+      if (mode === 'download') {
+        await triggerPortfolioDownload();
+      }
+      setTimeout(() => {
+        if (onSubmitSuccess) onSubmitSuccess();
+        onClose();
+      }, 1200);
     } finally {
       setSubmitting(false);
     }
   };
 
-  const handleSkip = () => {
-    onSubmitSuccess();
+  const handleSkip = async () => {
+    if (mode === 'download') {
+      await triggerPortfolioDownload();
+    }
+    if (onSubmitSuccess) onSubmitSuccess();
     setForm({ name: '', email: '', phone: '', message: '' });
     setSubmitted(false);
     setError('');
+    onClose();
   };
 
   return (
@@ -98,9 +150,9 @@ export default function LeadCaptureModal({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'rgba(0, 0, 0, 0.65)',
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)',
+            background: 'rgba(0, 0, 0, 0.72)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
             padding: '16px',
             boxSizing: 'border-box',
           }}
@@ -114,12 +166,12 @@ export default function LeadCaptureModal({
             style={{
               position: 'relative',
               width: '100%',
-              maxWidth: '430px',
+              maxWidth: '440px',
               background: '#ffffff',
               border: '1px solid #e5e5e5',
               borderRadius: '12px',
-              padding: 'clamp(22px, 5vw, 32px)',
-              boxShadow: '0 24px 60px rgba(0, 0, 0, 0.2)',
+              padding: 'clamp(24px, 5vw, 36px)',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
               boxSizing: 'border-box',
               color: '#000000',
             }}
@@ -136,8 +188,8 @@ export default function LeadCaptureModal({
                 background: '#f4f4f5',
                 border: '1px solid #e5e5e5',
                 borderRadius: '50%',
-                width: '28px',
-                height: '28px',
+                width: '30px',
+                height: '30px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -156,59 +208,65 @@ export default function LeadCaptureModal({
                 e.currentTarget.style.borderColor = '#e5e5e5';
               }}
             >
-              <X size={14} />
+              <X size={15} />
             </button>
 
             {!submitted ? (
               <>
                 {/* Header */}
-                <div style={{ marginBottom: '18px' }}>
-                  <span
-                    style={{
-                      fontSize: '0.7rem',
-                      fontWeight: 600,
-                      letterSpacing: '0.1em',
-                      textTransform: 'uppercase',
-                      color: '#777777',
-                      display: 'block',
-                      marginBottom: '4px',
-                    }}
-                  >
-                    Project Inquiry
-                  </span>
+                <div style={{ marginBottom: '20px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
+                    {mode === 'download' ? (
+                      <Download size={13} style={{ color: '#000000' }} />
+                    ) : (
+                      <FileText size={13} style={{ color: '#000000' }} />
+                    )}
+                    <span
+                      style={{
+                        fontSize: '0.72rem',
+                        fontWeight: 600,
+                        letterSpacing: '0.12em',
+                        textTransform: 'uppercase',
+                        color: '#777777',
+                      }}
+                    >
+                      {mode === 'download' ? 'Portfolio PDF Download' : 'Project Inquiry'}
+                    </span>
+                  </div>
+
                   <h2
                     className="font-display"
                     style={{
-                      fontSize: 'clamp(1.35rem, 3.5vw, 1.65rem)',
+                      fontSize: 'clamp(1.4rem, 3.5vw, 1.75rem)',
                       fontWeight: 400,
                       fontFamily: 'var(--font-canela), Georgia, serif',
                       color: '#000000',
-                      margin: '0 0 4px 0',
+                      margin: '0 0 8px 0',
                       letterSpacing: '-0.02em',
                       lineHeight: 1.2,
                     }}
                   >
-                    {projectTitle}
+                    {modalHeading}
                   </h2>
                   <p
                     style={{
                       color: '#666666',
-                      fontSize: '0.82rem',
+                      fontSize: '0.85rem',
                       margin: 0,
-                      lineHeight: 1.4,
+                      lineHeight: 1.45,
                       fontWeight: 400,
                     }}
                   >
-                    Enter your details to view full architectural specifications.
+                    {modalSubtitle}
                   </p>
                 </div>
 
                 {/* Form */}
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }} className="lead-grid-cols">
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }} className="lead-grid-cols">
                     <div style={{ position: 'relative' }}>
                       <label htmlFor="lead-name" className="sr-only">Your Name (required)</label>
-                      <User size={13} style={{ position: 'absolute', left: 11, top: 12, color: '#999999', pointerEvents: 'none' }} />
+                      <User size={14} style={{ position: 'absolute', left: 12, top: 12, color: '#999999', pointerEvents: 'none' }} />
                       <input
                         id="lead-name"
                         type="text"
@@ -220,12 +278,12 @@ export default function LeadCaptureModal({
                         required
                         style={{
                           width: '100%',
-                          padding: '10px 10px 10px 30px',
+                          padding: '11px 12px 11px 34px',
                           background: '#fcfcfc',
                           border: '1px solid #e0e0e0',
                           borderRadius: '6px',
                           color: '#000000',
-                          fontSize: '0.86rem',
+                          fontSize: '0.88rem',
                           fontFamily: 'inherit',
                           outline: 'none',
                           boxSizing: 'border-box',
@@ -238,7 +296,7 @@ export default function LeadCaptureModal({
 
                     <div style={{ position: 'relative' }}>
                       <label htmlFor="lead-phone" className="sr-only">Phone Number</label>
-                      <Phone size={13} style={{ position: 'absolute', left: 11, top: 12, color: '#999999', pointerEvents: 'none' }} />
+                      <Phone size={14} style={{ position: 'absolute', left: 12, top: 12, color: '#999999', pointerEvents: 'none' }} />
                       <input
                         id="lead-phone"
                         type="tel"
@@ -249,12 +307,12 @@ export default function LeadCaptureModal({
                         placeholder="Phone"
                         style={{
                           width: '100%',
-                          padding: '10px 10px 10px 30px',
+                          padding: '11px 12px 11px 34px',
                           background: '#fcfcfc',
                           border: '1px solid #e0e0e0',
                           borderRadius: '6px',
                           color: '#000000',
-                          fontSize: '0.86rem',
+                          fontSize: '0.88rem',
                           fontFamily: 'inherit',
                           outline: 'none',
                           boxSizing: 'border-box',
@@ -268,7 +326,7 @@ export default function LeadCaptureModal({
 
                   <div style={{ position: 'relative' }}>
                     <label htmlFor="lead-email" className="sr-only">Email Address (required)</label>
-                    <Mail size={13} style={{ position: 'absolute', left: 11, top: 12, color: '#999999', pointerEvents: 'none' }} />
+                    <Mail size={14} style={{ position: 'absolute', left: 12, top: 12, color: '#999999', pointerEvents: 'none' }} />
                     <input
                       id="lead-email"
                       type="email"
@@ -280,12 +338,12 @@ export default function LeadCaptureModal({
                       required
                       style={{
                         width: '100%',
-                        padding: '10px 10px 10px 30px',
+                        padding: '11px 12px 11px 34px',
                         background: '#fcfcfc',
                         border: '1px solid #e0e0e0',
                         borderRadius: '6px',
                         color: '#000000',
-                        fontSize: '0.86rem',
+                        fontSize: '0.88rem',
                         fontFamily: 'inherit',
                         outline: 'none',
                         boxSizing: 'border-box',
@@ -297,24 +355,24 @@ export default function LeadCaptureModal({
                   </div>
 
                   <div style={{ position: 'relative' }}>
-                    <label htmlFor="lead-message" className="sr-only">Message (optional)</label>
-                    <MessageSquare size={13} style={{ position: 'absolute', left: 11, top: 12, color: '#999999', pointerEvents: 'none' }} />
+                    <label htmlFor="lead-message" className="sr-only">Project Location / Message (optional)</label>
+                    <MessageSquare size={14} style={{ position: 'absolute', left: 12, top: 12, color: '#999999', pointerEvents: 'none' }} />
                     <textarea
                       id="lead-message"
                       name="message"
-                      aria-label="Message (optional)"
+                      aria-label="Project Location / Message (optional)"
                       value={form.message}
                       onChange={handleChange}
-                      placeholder="Message (optional)"
+                      placeholder="Project location / message (optional)"
                       rows={2}
                       style={{
                         width: '100%',
-                        padding: '10px 10px 10px 30px',
+                        padding: '11px 12px 11px 34px',
                         background: '#fcfcfc',
                         border: '1px solid #e0e0e0',
                         borderRadius: '6px',
                         color: '#000000',
-                        fontSize: '0.86rem',
+                        fontSize: '0.88rem',
                         fontFamily: 'inherit',
                         outline: 'none',
                         boxSizing: 'border-box',
@@ -330,62 +388,75 @@ export default function LeadCaptureModal({
                     <div
                       style={{
                         color: '#dc2626',
-                        fontSize: '0.78rem',
+                        fontSize: '0.8rem',
                         background: '#fef2f2',
                         border: '1px solid #fecaca',
-                        padding: '6px 10px',
-                        borderRadius: '4px',
+                        padding: '8px 12px',
+                        borderRadius: '6px',
                       }}
                     >
                       {error}
                     </div>
                   )}
 
-                  {/* Actions: Submit & Skip */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '4px' }}>
+                  {/* Actions: Submit & Direct Download */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '6px' }}>
                     <button
                       type="submit"
-                      disabled={submitting}
+                      disabled={submitting || generatingPdf}
                       style={{
                         width: '100%',
-                        padding: '11px 18px',
+                        padding: '12px 20px',
                         background: '#000000',
                         color: '#ffffff',
                         border: '1px solid #000000',
                         borderRadius: '6px',
-                        fontSize: '0.88rem',
+                        fontSize: '0.92rem',
                         fontWeight: 500,
                         letterSpacing: '0.02em',
-                        cursor: submitting ? 'not-allowed' : 'pointer',
+                        cursor: submitting || generatingPdf ? 'not-allowed' : 'pointer',
                         transition: 'all 0.2s ease',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        gap: 6,
-                        opacity: submitting ? 0.7 : 1,
+                        gap: 8,
+                        opacity: submitting || generatingPdf ? 0.75 : 1,
                       }}
                       onMouseEnter={(e) => {
-                        if (!submitting) e.currentTarget.style.background = '#222222';
+                        if (!submitting && !generatingPdf) e.currentTarget.style.background = '#222222';
                       }}
                       onMouseLeave={(e) => {
-                        if (!submitting) e.currentTarget.style.background = '#000000';
+                        if (!submitting && !generatingPdf) e.currentTarget.style.background = '#000000';
                       }}
                     >
-                      <span>{submitting ? 'Submitting...' : 'Submit'}</span>
-                      <ArrowRight size={14} />
+                      {submitting || generatingPdf ? (
+                        <Loader2 size={15} className="spin" />
+                      ) : mode === 'download' ? (
+                        <Download size={15} />
+                      ) : (
+                        <ArrowRight size={15} />
+                      )}
+                      <span>
+                        {submitting || generatingPdf
+                          ? 'Generating PDF Brochure...'
+                          : mode === 'download'
+                          ? `Download ${formattedCategory} Portfolio (.PDF)`
+                          : 'Submit Inquiry'}
+                      </span>
                     </button>
 
                     <button
                       type="button"
                       onClick={handleSkip}
+                      disabled={generatingPdf}
                       style={{
                         background: 'none',
                         border: 'none',
                         color: '#777777',
-                        fontSize: '0.8rem',
+                        fontSize: '0.82rem',
                         fontWeight: 400,
-                        cursor: 'pointer',
-                        padding: '4px 0',
+                        cursor: generatingPdf ? 'not-allowed' : 'pointer',
+                        padding: '6px 0',
                         letterSpacing: '0.02em',
                         transition: 'color 0.2s ease',
                         textAlign: 'center',
@@ -397,7 +468,11 @@ export default function LeadCaptureModal({
                         e.currentTarget.style.color = '#777777';
                       }}
                     >
-                      Skip
+                      {generatingPdf
+                        ? 'Preparing PDF...'
+                        : mode === 'download'
+                        ? 'Download PDF directly without submitting'
+                        : 'Skip & View Project'}
                     </button>
                   </div>
                 </form>
@@ -408,42 +483,45 @@ export default function LeadCaptureModal({
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                style={{ textAlign: 'center', padding: '16px 0' }}
+                style={{ textAlign: 'center', padding: '24px 0' }}
               >
                 <div
                   style={{
-                    width: '44px',
-                    height: '44px',
+                    width: '48px',
+                    height: '48px',
                     borderRadius: '50%',
                     background: '#000000',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    margin: '0 auto 12px',
+                    margin: '0 auto 16px',
                     color: '#ffffff',
                   }}
                 >
-                  <Check size={20} />
+                  <Check size={22} />
                 </div>
                 <h3
                   style={{
-                    fontSize: '1.2rem',
+                    fontSize: '1.25rem',
                     fontWeight: 500,
                     color: '#000000',
-                    margin: '0 0 4px 0',
+                    margin: '0 0 6px 0',
+                    fontFamily: 'var(--font-canela), Georgia, serif',
                   }}
                 >
-                  Inquiry Received
+                  {mode === 'download' ? 'PDF Portfolio Downloaded' : 'Inquiry Received'}
                 </h3>
                 <p
                   style={{
                     color: '#666666',
-                    fontSize: '0.82rem',
+                    fontSize: '0.86rem',
                     margin: 0,
-                    lineHeight: 1.4,
+                    lineHeight: 1.45,
                   }}
                 >
-                  Opening {projectTitle}...
+                  {mode === 'download'
+                    ? `Your multi-page ${formattedCategory} architecture lookbook PDF has been generated and saved.`
+                    : `Thank you. We have received your inquiry for ${modalHeading}.`}
                 </p>
               </motion.div>
             )}

@@ -6,12 +6,23 @@ import Image from 'next/image';
 import { MapPin, X, Calendar, Sparkles } from 'lucide-react';
 import { GalleryPost, defaultGalleryPosts } from '@/data/gallery';
 
-export default function ProjectShowcaseGrid({ initialPosts = [] }: { initialPosts?: GalleryPost[] }) {
+export default function ProjectShowcaseGrid({
+  initialPosts = [],
+  limit,
+  disableOuterPadding = false,
+}: {
+  initialPosts?: GalleryPost[];
+  limit?: number;
+  disableOuterPadding?: boolean;
+}) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [selectedPost, setSelectedPost] = useState<GalleryPost | null>(null);
 
   const posts = initialPosts && initialPosts.length > 0 ? initialPosts : defaultGalleryPosts;
-  const activePosts = posts.filter((p) => p.active !== false);
+  let activePosts = posts.filter((p) => p.active !== false);
+  if (typeof limit === 'number' && limit > 0) {
+    activePosts = activePosts.slice(0, limit);
+  }
 
   const getAspectRatio = (ratio?: string) => {
     switch (ratio) {
@@ -31,7 +42,7 @@ export default function ProjectShowcaseGrid({ initialPosts = [] }: { initialPost
       style={{
         position: 'relative',
         background: '#ffffff',
-        padding: '10px clamp(20px, 5vw, 64px) 80px',
+        padding: disableOuterPadding ? '0' : '10px clamp(20px, 5vw, 64px) 80px',
         width: '100%',
         display: 'flex',
         flexDirection: 'column',

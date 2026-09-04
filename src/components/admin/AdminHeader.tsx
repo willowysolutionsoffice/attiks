@@ -6,11 +6,18 @@ import { logoutAction } from '@/actions/auth.actions';
 
 const titles: Record<string, string> = {
   '/admin/dashboard':    'Dashboard',
-  '/admin/projects':     'Projects',
-  '/admin/testimonials': 'Testimonials',
+  '/admin/projects/new': 'New Project',
+  '/admin/projects':     'Projects Portfolio',
   '/admin/leads':        'Client Enquiries',
-  '/admin/team':         'Team & Leadership',
+  '/admin/gallery':      'Media & Gallery Showcase',
   '/admin/media':        'Media Library',
+  '/admin/testimonials': 'Client Testimonials',
+  '/admin/categories':   'Project Categories',
+  '/admin/services':     'Services & Disciplines',
+  '/admin/team':         'Team & Leadership',
+  '/admin/blog':         'Articles & Insights',
+  '/admin/users':        'User Accounts & Access',
+  '/admin/roles':        'Roles & Permissions',
   '/admin/settings':     'General Settings',
   '/admin':              'Overview',
 };
