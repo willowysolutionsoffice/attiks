@@ -25,6 +25,7 @@ export default async function Home() {
       <ProjectShowcaseGrid initialPosts={galleryPosts} />
       <Testimonials />
       <Footer />
+      
     </main>
   );
 }
