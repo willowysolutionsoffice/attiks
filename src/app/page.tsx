@@ -1,26 +1,28 @@
-import dynamic from 'next/dynamic';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import AboutSection from '@/components/AboutSection';
+import AboutGallerySlider from '@/components/AboutGallerySlider';
+import ProjectShowcaseGrid from '@/components/ProjectShowcaseGrid';
+import Testimonials from '@/components/Testimonials';
 import Footer from '@/components/Footer';
-import { projects } from '@/data/projects';
+import { getAllProjects } from '@/lib/projects';
+import { getGalleryPostsAction } from '@/actions/gallery.actions';
 
-const AboutGallerySlider = dynamic(() => import('@/components/AboutGallerySlider'));
-const DirectorsSection = dynamic(() => import('@/components/DirectorsSection'));
-const ProjectShowcaseGrid = dynamic(() => import('@/components/ProjectShowcaseGrid'));
-const AwardsSection = dynamic(() => import('@/components/AwardsSection'));
-const Testimonials = dynamic(() => import('@/components/Testimonials'));
+export const dynamic = 'force-dynamic';
 
-export default function Home() {
+export default async function Home() {
+  const [projects, galleryPosts] = await Promise.all([
+    getAllProjects(),
+    getGalleryPostsAction(),
+  ]);
+
   return (
     <main>
       <Navbar />
       <Hero projects={projects} />
       <AboutSection />
       <AboutGallerySlider projects={projects} />
-      <DirectorsSection />
-      <ProjectShowcaseGrid initialProjects={projects} />
-      <AwardsSection />
+      <ProjectShowcaseGrid initialPosts={galleryPosts} />
       <Testimonials />
       <Footer />
     </main>

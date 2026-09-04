@@ -48,7 +48,7 @@ export default function BlogPage() {
             {/* Header */}
             <PageHeader 
               label="Media &amp; Insights"
-              title={<>Refined architectural<br />discourse</>}
+              title={<>Refined architectural{' '}<br />discourse</>}
             />
 
             {/* Grid */}

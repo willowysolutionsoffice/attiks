@@ -6,13 +6,10 @@ import Image from 'next/image';
 import {
   LayoutDashboard,
   FolderOpen,
-  Compass,
   Users,
-  FileText,
   Image as ImageIcon,
   Inbox,
-  UserCheck,
-  Shield,
+  Quote,
   Settings,
   ExternalLink,
   LogOut,
@@ -25,20 +22,20 @@ interface NavItem {
 }
 
 const mainNavItems: NavItem[] = [
-  { title: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
-  { title: 'Projects',  path: '/admin/projects',  icon: FolderOpen },
-  { title: 'Services',  path: '/admin/services',  icon: Compass },
-  { title: 'Team',      path: '/admin/team',      icon: Users },
-  { title: 'Blog',      path: '/admin/blog',      icon: FileText },
-  { title: 'Media',     path: '/admin/media',     icon: ImageIcon },
-  { title: 'Leads',     path: '/admin/leads',     icon: Inbox },
+  { title: 'Dashboard',      path: '/admin/dashboard',    icon: LayoutDashboard },
+  { title: 'Showcase Posts', path: '/admin/gallery',      icon: ImageIcon },
+  { title: 'Projects',       path: '/admin/projects',     icon: FolderOpen },
+  { title: 'Testimonials',   path: '/admin/testimonials', icon: Quote },
+  { title: 'Leads',          path: '/admin/leads',        icon: Inbox },
+  { title: 'Team',           path: '/admin/team',         icon: Users },
+  { title: 'Media',          path: '/admin/media',        icon: FolderOpen },
 ];
 
 const systemNavItems: NavItem[] = [
-  { title: 'Users',    path: '/admin/users',    icon: UserCheck },
-  { title: 'Roles',    path: '/admin/roles',    icon: Shield },
   { title: 'Settings', path: '/admin/settings', icon: Settings },
 ];
+
+import { logoutAction } from '@/actions/auth.actions';
 
 interface Props {
   isOpen: boolean;
@@ -49,8 +46,18 @@ export default function AdminSidebar({ isOpen, onClose }: Props) {
   const pathname = usePathname();
   const router = useRouter();
 
-  function handleLogout() {
-    router.push('/');
+  async function handleLogout() {
+    try {
+      await logoutAction();
+    } catch {
+      // ignore
+    }
+    if (typeof window !== 'undefined') {
+      localStorage.clear();
+      sessionStorage.clear();
+      document.cookie = 'attiks_admin_token=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    }
+    router.push('/admin/login');
   }
 
   return (
@@ -142,9 +149,15 @@ export default function AdminSidebar({ isOpen, onClose }: Props) {
 
         {/* Footer */}
         <div className="admin-sidebar-footer">
-          <button className="admin-nav-link" onClick={handleLogout}>
+          <button
+            className="admin-nav-link"
+            onClick={handleLogout}
+            style={{ width: '100%', color: '#71717a' }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#ef4444')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#71717a')}
+          >
             <LogOut size={16} />
-            Exit Admin
+            Logout
           </button>
         </div>
       </aside>

@@ -90,7 +90,6 @@ export default function JourneyCTASection() {
               color: '#ffffff',
               fontWeight: 300,
               fontFamily: 'var(--font-canela), serif',
-              fontStyle: 'italic',
               lineHeight: 1.15,
               marginBottom: '3rem',
               maxWidth: '920px',
@@ -99,7 +98,7 @@ export default function JourneyCTASection() {
               textTransform: 'none'
             }}
           >
-            Begin your journey to<br />timeless architecture.
+            Begin your journey to{' '}<br />timeless architecture.
           </motion.h2>
 
           <motion.div

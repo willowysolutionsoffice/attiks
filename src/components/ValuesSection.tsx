@@ -106,7 +106,6 @@ export default function ValuesSection() {
               className="font-display"
               style={{
                 fontFamily: 'var(--font-canela), serif',
-                fontStyle: 'italic',
                 fontWeight: 300,
                 fontSize: isMobile ? '2.0rem' : 'clamp(2.4rem, 4vw, 3.6rem)',
                 lineHeight: 1.18,
@@ -208,7 +207,6 @@ export default function ValuesSection() {
               className="font-display"
               style={{
                 fontFamily: 'var(--font-canela), serif',
-                fontStyle: 'italic',
                 fontWeight: 300,
                 fontSize: isMobile ? '2.0rem' : 'clamp(2.4rem, 4vw, 3.6rem)',
                 lineHeight: 1.18,
@@ -304,7 +302,6 @@ export default function ValuesSection() {
               className="font-display"
               style={{
                 fontFamily: 'var(--font-canela), serif',
-                fontStyle: 'italic',
                 fontWeight: 300,
                 fontSize: isMobile ? '2.1rem' : 'clamp(2.4rem, 4vw, 3.6rem)',
                 color: '#000000',

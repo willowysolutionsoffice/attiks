@@ -6,10 +6,28 @@ import Link from 'next/link';
 
 export default function Footer() {
   const [currentYear, setCurrentYear] = useState<number>(2026);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
 
   useEffect(() => {
     setCurrentYear(new Date().getFullYear());
   }, []);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newsletterEmail.trim() && newsletterEmail.includes('@')) {
+      setSubscribed(true);
+      fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: newsletterEmail.trim(),
+          name: 'Newsletter Subscriber',
+          source: 'footer_newsletter',
+        }),
+      }).catch(() => {});
+    }
+  };
 
   return (
     <footer className="relative-content" style={{ background: '#000000', borderTop: '1px solid rgba(255,255,255,0.12)', color: '#ffffff', scrollSnapAlign: 'end' }}>
@@ -17,7 +35,7 @@ export default function Footer() {
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3.5rem', justifyContent: 'space-between' }}>
 
           {/* Left Column - Subscription */}
-          <div style={{ flex: '1 1 350px', maxWidth: '450px' }}>
+          <div style={{ flex: '1 1 320px', maxWidth: '450px', width: '100%' }}>
             <Image
               src="/images/logo-light.png"
               alt="Attiks Architecture Logo"
@@ -28,47 +46,59 @@ export default function Footer() {
             <p style={{ fontSize: 'clamp(18px, 1.1vw, 19px)', color: '#cccccc', marginBottom: '2rem', lineHeight: '1.6', fontWeight: 350 }}>
               Subscribe for priority access to our finest architectural milestones and timeless design insights.
             </p>
-            <form style={{ display: 'flex', width: '100%', maxWidth: '420px' }} onSubmit={(e) => e.preventDefault()}>
-              <label htmlFor="footer-email-input" className="sr-only" style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden', clip: 'rect(0,0,0,0)' }}>
-                Email Address
-              </label>
-              <input
-                id="footer-email-input"
-                type="email"
-                placeholder="Your Email Address"
-                autoComplete="email"
-                style={{
-                  flex: 1,
-                  background: '#1a1a1a',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  borderRight: 'none',
-                  padding: '14px 18px',
-                  color: '#ffffff',
-                  fontSize: 'clamp(18px, 1.1vw, 19px)',
-                  outline: 'none',
-                  borderRadius: '4px 0 0 4px',
-                }}
-              />
-              <button
-                type="submit"
-                style={{
-                  background: '#ffffff',
-                  color: '#000000',
-                  border: 'none',
-                  padding: '14px 24px',
-                  fontSize: 'clamp(18px, 1.1vw, 19px)',
-                  fontWeight: 400,
-                  cursor: 'pointer',
-                  transition: 'background 0.3s ease',
-                  borderRadius: '0 4px 4px 0',
-                  whiteSpace: 'nowrap',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = '#e0e0e0')}
-                onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
-              >
-                Get Notified
-              </button>
-            </form>
+            {subscribed ? (
+              <div style={{ color: '#ffffff', background: '#1c1c1c', padding: '14px 20px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.2)', fontSize: '16px' }}>
+                Thank you for subscribing to ATTIKS updates.
+              </div>
+            ) : (
+              <form style={{ display: 'flex', flexWrap: 'wrap', width: '100%', maxWidth: '100%', gap: '8px' }} onSubmit={handleSubscribe}>
+                <label htmlFor="footer-email-input" className="sr-only">
+                  Email Address
+                </label>
+                <input
+                  id="footer-email-input"
+                  name="email"
+                  type="email"
+                  placeholder="Your Email Address"
+                  autoComplete="email"
+                  required
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
+                  style={{
+                    flex: '1 1 200px',
+                    minWidth: '180px',
+                    background: '#1a1a1a',
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    padding: '14px 18px',
+                    color: '#ffffff',
+                    fontSize: 'clamp(16px, 1.1vw, 18px)',
+                    outline: 'none',
+                    borderRadius: '4px',
+                    boxSizing: 'border-box',
+                  }}
+                />
+                <button
+                  type="submit"
+                  style={{
+                    background: '#ffffff',
+                    color: '#000000',
+                    border: 'none',
+                    padding: '14px 24px',
+                    fontSize: 'clamp(16px, 1.1vw, 18px)',
+                    fontWeight: 400,
+                    cursor: 'pointer',
+                    transition: 'background 0.3s ease',
+                    borderRadius: '4px',
+                    whiteSpace: 'nowrap',
+                    flex: '0 0 auto',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = '#e0e0e0')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = '#ffffff')}
+                >
+                  Get Notified
+                </button>
+              </form>
+            )}
           </div>
 
           <div className="footer-links-container">

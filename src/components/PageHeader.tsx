@@ -29,7 +29,6 @@ export default function PageHeader({ label, title }: PageHeaderProps) {
       <h1 style={{
         fontSize: 'clamp(2.5rem, 4.5vw, 3.8rem)',
         fontWeight: 300,
-        fontStyle: 'italic',
         fontFamily: 'var(--font-canela), serif',
         color: '#000000',
         lineHeight: 1.15,

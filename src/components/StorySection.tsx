@@ -146,7 +146,6 @@ export default function StorySection() {
                     style={{
                       fontSize: 'clamp(2.4rem, 3.8vw, 3.4rem)',
                       fontWeight: 300,
-                      fontStyle: 'italic',
                       color: '#000000',
                       marginBottom: '20px',
                       lineHeight: 1.15,
@@ -250,7 +249,6 @@ export default function StorySection() {
                   style={{
                     fontSize: '1.9rem',
                     fontWeight: 300,
-                    fontStyle: 'italic',
                     color: '#000000',
                     marginBottom: '12px',
                     lineHeight: 1.2,

@@ -39,7 +39,7 @@ export default function AboutClientPage() {
           <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
             <PageHeader 
               label="About Us"
-              title={<>Crafting architecture<br />with intent</>}
+              title={<>Crafting architecture{' '}<br />with intent</>}
             />
 
             {/* Studio Main Photo */}

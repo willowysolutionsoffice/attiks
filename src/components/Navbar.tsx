@@ -90,7 +90,7 @@ export default function Navbar() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '0 clamp(28px, 5vw, 72px)',
+          padding: '0 clamp(20px, 5vw, 64px)',
           boxSizing: 'border-box',
         }}
         aria-label="Main Navigation"

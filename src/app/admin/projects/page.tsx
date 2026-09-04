@@ -14,16 +14,36 @@ export default function ProjectsAdminPage() {
   const [categoryFilter, setCategoryFilter] = useState('');
   const [deleteTarget, setDeleteTarget] = useState<Project | null>(null);
 
-  function loadProjects() {
+  async function loadProjects() {
+    setLoading(true);
     try {
+      const res = await fetch('/api/projects');
+      if (res.ok) {
+        const json = await res.json();
+        const items =
+          json.data?.items ||
+          json.data?.projects ||
+          (Array.isArray(json.data) ? json.data : null);
+
+        if (Array.isArray(items)) {
+          setProjects(items);
+          try {
+            localStorage.setItem('attiks_admin_projects', JSON.stringify(items));
+          } catch {}
+          return;
+        }
+      }
+      // Fallback if offline
       const saved = localStorage.getItem('attiks_admin_projects');
       if (saved) {
         setProjects(JSON.parse(saved));
       } else {
         setProjects(initialProjects);
       }
-    } catch {
-      setProjects(initialProjects);
+    } catch (e) {
+      console.error('Failed to load projects from backend API:', e);
+      const saved = localStorage.getItem('attiks_admin_projects');
+      setProjects(saved ? JSON.parse(saved) : initialProjects);
     } finally {
       setLoading(false);
     }
@@ -33,34 +53,62 @@ export default function ProjectsAdminPage() {
     loadProjects();
   }, []);
 
-  function saveProjects(newProjects: Project[]) {
-    setProjects(newProjects);
-    try {
-      localStorage.setItem('attiks_admin_projects', JSON.stringify(newProjects));
-    } catch (e) {
-      console.error('Failed to save to localStorage:', e);
-    }
-  }
-
   async function handleDelete() {
     if (!deleteTarget) return;
+    try {
+      await fetch(`/api/projects/${deleteTarget.id}`, { method: 'DELETE' });
+    } catch (e) {
+      console.error('Delete request failed:', e);
+    }
     const updated = projects.filter((p) => p.id !== deleteTarget.id);
-    saveProjects(updated);
+    setProjects(updated);
+    try {
+      localStorage.setItem('attiks_admin_projects', JSON.stringify(updated));
+    } catch {}
     setDeleteTarget(null);
   }
 
   async function togglePublish(project: Project & { status?: string }) {
-    const newStatus = project.status === 'draft' ? 'published' : 'draft';
-    const updated = projects.map((p) => (p.id === project.id ? { ...p, status: newStatus as any } : p));
-    saveProjects(updated);
+    const isCurrentlyDraft = String(project.status).toLowerCase() === 'draft';
+    const newStatus = isCurrentlyDraft ? 'PUBLISHED' : 'DRAFT';
+    try {
+      await fetch(`/api/projects/${project.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      });
+    } catch (e) {
+      console.error('Toggle status request failed:', e);
+    }
+    const updated = projects.map((p) => (p.id === project.id ? { ...p, status: newStatus.toLowerCase() as any } : p));
+    setProjects(updated);
+    try {
+      localStorage.setItem('attiks_admin_projects', JSON.stringify(updated));
+    } catch {}
   }
 
-  function handleExport() {
-    const blob = new Blob([JSON.stringify(projects, null, 2)], { type: 'application/json' });
+  function handleDownloadExcel() {
+    if (projects.length === 0) return;
+    const headers = ['ID', 'Slug', 'Title', 'Category', 'Location', 'Year', 'Built Area', 'Scope', 'Status', 'Featured'];
+    const rows = projects.map((p: any) => [
+      p.id,
+      `"${(p.slug || '').replace(/"/g, '""')}"`,
+      `"${(p.title || '').replace(/"/g, '""')}"`,
+      `"${(p.category || '').replace(/"/g, '""')}"`,
+      `"${(p.location || '').replace(/"/g, '""')}"`,
+      `"${p.year || ''}"`,
+      `"${(p.area || '').replace(/"/g, '""')}"`,
+      `"${(p.scope || '').replace(/"/g, '""')}"`,
+      `"${p.status || 'published'}"`,
+      `"${p.featured ? 'Yes' : 'No'}"`,
+    ]);
+
+    const csvContent = '\uFEFF' + [headers.join(','), ...rows.map((r) => r.join(','))].join('\r\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'projects.json';
+    a.download = `attiks_projects_${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -82,9 +130,14 @@ export default function ProjectsAdminPage() {
           <p className="admin-page-subtitle">Manage architectural portfolio projects & live backend database</p>
         </div>
         <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
-          <button className="admin-btn admin-btn-ghost" onClick={handleExport} title="Download projects JSON">
+          <button
+            className="admin-btn admin-btn-ghost"
+            onClick={handleDownloadExcel}
+            title="Download projects Excel CSV"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}
+          >
             <Download size={14} />
-            Export JSON
+            Download Excel (.csv)
           </button>
           <Link href="/admin/projects/new" className="admin-btn admin-btn-primary" style={{ textDecoration: 'none' }}>
             <Plus size={14} />

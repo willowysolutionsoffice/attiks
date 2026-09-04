@@ -190,16 +190,26 @@ export default function NewProjectPage() {
         featured: formValues.featured,
       };
 
-      // Also save to localStorage for client preview consistency
+      const res = await fetch('/api/projects', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}));
+        throw new Error(errJson.error || errJson.message || 'Failed to create project in database');
+      }
+
+      const created = await res.json();
+      const newProject = created.data || { id: slug, ...payload };
+
+      // Also save to localStorage for client fallback consistency
       const saved = localStorage.getItem('attiks_admin_projects');
       const existing = saved ? JSON.parse(saved) : [];
       const updated = [
-        {
-          id: slug,
-          ...payload,
-          status: formValues.status,
-        },
-        ...existing,
+        newProject,
+        ...existing.filter((p: any) => p.id !== newProject.id && p.slug !== newProject.slug),
       ];
       localStorage.setItem('attiks_admin_projects', JSON.stringify(updated));
 

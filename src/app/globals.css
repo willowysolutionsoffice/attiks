@@ -3,14 +3,6 @@
    ======================================================== */
 @font-face {
   font-family: 'Canela';
-  src: url('/fonts/Canela-LightItalic.woff2') format('woff2');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Canela';
   src: url('/fonts/Canela-Light.woff2') format('woff2');
   font-weight: 300;
   font-style: normal;
@@ -20,16 +12,8 @@
 @font-face {
   font-family: 'Canela';
   src: url('/fonts/Canela-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Canela';
-  src: url('/fonts/Canela-LightItalic.woff2') format('woff2');
   font-weight: 400 800;
-  font-style: italic;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -99,9 +83,28 @@ html, body {
 }
 
 html {
-  scroll-behavior: smooth;
   height: 100%;
   background-color: #050505;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 body {
@@ -135,6 +138,21 @@ h1, h2, h3, h4, h5, h6, strong, b, th {
   text-transform: none;
 }
 
+button, input, select, textarea, optgroup {
+  font-family: var(--font-primary);
+  font-size: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid #111111;
+  outline-offset: 2px;
+}
+
 p {
   font-weight: 300;
   line-height: 1.6;
@@ -143,7 +161,7 @@ p {
 
 .font-display {
   font-family: var(--font-canela), 'Canela', Georgia, serif;
-  font-style: italic;
+  font-style: normal;
   font-weight: 300;
 }
 

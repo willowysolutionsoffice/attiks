@@ -8,29 +8,35 @@ const defaultHeroVideos = [
   {
     id: 'v-1',
     src: '/3735-173719892_medium.mp4',
-    poster: '/villa_showcase.webp',
   },
   {
     id: 'v-2',
     src: '/3967-175963622_medium.mp4',
-    poster: '/architecture.webp',
   },
   {
     id: 'v-3',
     src: '/85348-590746467_medium.mp4',
-    poster: '/coastal_palace.webp',
   },
   {
     id: 'v-4',
     src: '/16199324_3840_2160_30fps.mp4',
-    poster: '/forest.webp',
   },
 ];
 
 export default function Hero({ videos = defaultHeroVideos }: { videos?: { id: string; src: string; poster?: string }[]; projects?: any }) {
   const videoList = videos && videos.length > 0 ? videos : defaultHeroVideos;
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Automatically advance to the next video on cycle or completion
   useEffect(() => {
@@ -90,7 +96,6 @@ export default function Hero({ videos = defaultHeroVideos }: { videos?: { id: st
             playsInline
             preload="auto"
             onEnded={handleVideoEnded}
-            poster={activeVideo.poster}
             style={{
               width: '100%',
               height: '100%',
@@ -125,7 +130,7 @@ export default function Hero({ videos = defaultHeroVideos }: { videos?: { id: st
       </AnimatePresence>
 
       {/* ============================================================
-          BOTTOM-LEFT: MINIMAL LUXURY "VIEW PROJECT" CTA
+          BOTTOM-LEFT: MINIMAL "view projects >" CTA
           ============================================================ */}
       <motion.div
         initial={{ opacity: 0, y: 15 }}
@@ -142,71 +147,54 @@ export default function Hero({ videos = defaultHeroVideos }: { videos?: { id: st
           style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '14px',
-            background: 'rgba(10, 10, 10, 0.82)',
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
+            gap: '10px',
             color: '#ffffff',
-            border: '1px solid rgba(255, 255, 255, 0.22)',
-            borderRadius: '9999px',
-            padding: '6px 6px 6px 20px',
             textDecoration: 'none',
-            fontSize: '15.5px',
-            fontWeight: 400,
-            letterSpacing: '0.01em',
-            textTransform: 'none',
-            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5)',
-            transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+            fontSize: 'clamp(20px, 1.55vw, 26px)',
+            fontWeight: 350,
+            fontFamily: 'var(--font-primary)',
+            letterSpacing: '-0.01em',
+            textTransform: 'lowercase',
+            textShadow: '0 2px 12px rgba(0, 0, 0, 0.7)',
+            transition: 'opacity 0.25s ease',
           }}
           onMouseEnter={(e) => {
             const el = e.currentTarget as HTMLAnchorElement;
-            el.style.background = '#000000';
-            el.style.borderColor = 'rgba(255, 255, 255, 0.45)';
-            el.style.transform = 'translateY(-2px) scale(1.02)';
-            el.style.boxShadow = '0 12px 30px rgba(0, 0, 0, 0.7)';
-            const disc = el.querySelector('.cta-disc') as HTMLElement;
-            if (disc) {
-              disc.style.transform = 'translateX(2px)';
-            }
+            el.style.opacity = '0.75';
+            const svg = el.querySelector('svg');
+            if (svg) svg.style.transform = 'translateX(6px)';
           }}
           onMouseLeave={(e) => {
             const el = e.currentTarget as HTMLAnchorElement;
-            el.style.background = 'rgba(10, 10, 10, 0.82)';
-            el.style.borderColor = 'rgba(255, 255, 255, 0.22)';
-            el.style.transform = 'translateY(0) scale(1)';
-            el.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.5)';
-            const disc = el.querySelector('.cta-disc') as HTMLElement;
-            if (disc) {
-              disc.style.transform = 'translateX(0)';
-            }
+            el.style.opacity = '1';
+            const svg = el.querySelector('svg');
+            if (svg) svg.style.transform = 'translateX(0)';
           }}
         >
-          <span style={{ whiteSpace: 'nowrap' }}>View project</span>
-          <span
-            className="cta-disc"
+          <span>view projects</span>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.35"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             style={{
-              width: '32px',
-              height: '32px',
-              borderRadius: '50%',
-              background: '#ffffff',
-              color: '#000000',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '16px',
-              fontWeight: 600,
-              lineHeight: 1,
-              flexShrink: 0,
-              transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+              display: 'inline-block',
+              verticalAlign: 'middle',
+              transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           >
-            &rsaquo;
-          </span>
+            <line x1="4" y1="12" x2="20" y2="12" />
+            <polyline points="14 6 20 12 14 18" />
+          </svg>
         </Link>
       </motion.div>
 
       {/* ============================================================
-          RIGHT SIDE VERTICAL PAGINATION (HIDDEN ON MOBILE SCREENS)
+          RIGHT SIDE VERTICAL PAGINATION PILL (HIDDEN ON SMALL SCREENS)
           ============================================================ */}
       <div
         className="hero-pagination-pill"
@@ -215,18 +203,18 @@ export default function Hero({ videos = defaultHeroVideos }: { videos?: { id: st
           right: 'clamp(16px, 3vw, 40px)',
           top: '50%',
           transform: 'translateY(-50%)',
-          background: 'rgba(0, 0, 0, 0.45)',
+          background: 'rgba(25, 25, 25, 0.55)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
-          border: '1px solid rgba(255, 255, 255, 0.25)',
-          padding: '10px 6px',
+          border: '1px solid rgba(255, 255, 255, 0.18)',
+          padding: '12px 6px',
           borderRadius: '9999px',
           zIndex: 20,
-          display: 'flex',
+          display: isMobile ? 'none' : 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '8px',
-          boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
+          gap: '9px',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.35)',
         }}
       >
         {videoList.map((v, idx) => (
@@ -237,18 +225,26 @@ export default function Hero({ videos = defaultHeroVideos }: { videos?: { id: st
             onClick={() => setCurrentVideoIndex(idx)}
             aria-label={`Switch to video scene ${idx + 1}`}
             style={{
-              background: idx === currentVideoIndex ? '#ffffff' : 'rgba(255, 255, 255, 0.35)',
+              background: idx === currentVideoIndex ? '#ffffff' : 'rgba(255, 255, 255, 0.45)',
               border: 'none',
               width: '6px',
-              height: idx === currentVideoIndex ? '18px' : '6px',
-              borderRadius: '3px',
+              height: idx === currentVideoIndex ? '20px' : '6px',
+              borderRadius: '9999px',
               cursor: 'pointer',
               padding: 0,
-              transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+              transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
             }}
           />
         ))}
       </div>
+
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .hero-pagination-pill {
+            display: none !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

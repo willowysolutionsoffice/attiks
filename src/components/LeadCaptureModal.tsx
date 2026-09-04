@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Check, X, ArrowRight, User, Mail, Phone, MessageSquare } from 'lucide-react';
 
 interface LeadCaptureModalProps {
   isOpen: boolean;
@@ -35,17 +36,43 @@ export default function LeadCaptureModal({
     }
     setError('');
     setSubmitting(true);
-    // Simulate lightweight client submission - ready to connect to any backend API in the future
-    await new Promise((resolve) => setTimeout(resolve, 600));
-    setSubmitting(false);
-    setSubmitted(true);
-    setTimeout(() => {
-      onSubmitSuccess();
+
+    try {
+      const payload: any = {
+        name: form.name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim() || undefined,
+        message: form.message.trim() || undefined,
+      };
+
+      if (projectId) payload.projectId = projectId;
+      if (projectTitle) payload.projectTitle = projectTitle;
+
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}));
+        throw new Error(errJson.error || errJson.message || 'Submission failed');
+      }
+
+      setSubmitted(true);
       setTimeout(() => {
-        setSubmitted(false);
-        setForm({ name: '', email: '', phone: '', message: '' });
-      }, 500);
-    }, 1000);
+        onSubmitSuccess();
+        setTimeout(() => {
+          setSubmitted(false);
+          setForm({ name: '', email: '', phone: '', message: '' });
+        }, 400);
+      }, 800);
+    } catch (err: any) {
+      console.error('Lead submission error:', err);
+      setError(err.message || 'Submission failed. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleSkip = () => {
@@ -55,30 +82,6 @@ export default function LeadCaptureModal({
     setError('');
   };
 
-  const inputStyle: React.CSSProperties = {
-    width: '100%',
-    padding: '14px 16px',
-    background: 'rgba(255, 255, 255, 0.06)',
-    border: '1px solid rgba(255, 255, 255, 0.12)',
-    borderRadius: '8px',
-    color: '#ffffff',
-    fontSize: '0.95rem',
-    fontFamily: 'inherit',
-    outline: 'none',
-    transition: 'border-color 0.25s ease, background 0.25s ease',
-    boxSizing: 'border-box' as const,
-  };
-
-  const inputFocusHandler = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    e.target.style.borderColor = 'rgba(196, 112, 63, 0.6)';
-    e.target.style.background = 'rgba(255, 255, 255, 0.1)';
-  };
-
-  const inputBlurHandler = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    e.target.style.borderColor = 'rgba(255, 255, 255, 0.12)';
-    e.target.style.background = 'rgba(255, 255, 255, 0.06)';
-  };
-
   return (
     <AnimatePresence>
       {isOpen && (
@@ -86,7 +89,7 @@ export default function LeadCaptureModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.2 }}
           onClick={onClose}
           style={{
             position: 'fixed',
@@ -95,263 +98,352 @@ export default function LeadCaptureModal({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'rgba(0, 0, 0, 0.75)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-            padding: '20px',
+            background: 'rgba(0, 0, 0, 0.65)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            padding: '16px',
+            boxSizing: 'border-box',
           }}
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.92, y: 30 }}
+            initial={{ opacity: 0, scale: 0.95, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.92, y: 30 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, scale: 0.95, y: 15 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
             onClick={(e) => e.stopPropagation()}
             style={{
               position: 'relative',
               width: '100%',
-              maxWidth: '480px',
-              background: 'linear-gradient(145deg, rgba(20, 20, 20, 0.97), rgba(10, 10, 10, 0.98))',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
-              borderRadius: '16px',
-              padding: '40px 36px 32px',
-              boxShadow: '0 32px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.04) inset',
+              maxWidth: '430px',
+              background: '#ffffff',
+              border: '1px solid #e5e5e5',
+              borderRadius: '12px',
+              padding: 'clamp(22px, 5vw, 32px)',
+              boxShadow: '0 24px 60px rgba(0, 0, 0, 0.2)',
               boxSizing: 'border-box',
+              color: '#000000',
             }}
           >
-            {/* Close button */}
+            {/* Close Button */}
             <button
               type="button"
               onClick={onClose}
-              aria-label="Close modal"
+              aria-label="Close"
               style={{
                 position: 'absolute',
                 top: '16px',
                 right: '16px',
-                background: 'rgba(255,255,255,0.08)',
-                border: 'none',
+                background: '#f4f4f5',
+                border: '1px solid #e5e5e5',
                 borderRadius: '50%',
-                width: '32px',
-                height: '32px',
+                width: '28px',
+                height: '28px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: 'pointer',
-                color: 'rgba(255,255,255,0.6)',
-                fontSize: '16px',
-                transition: 'background 0.2s ease, color 0.2s ease',
+                color: '#555555',
+                transition: 'all 0.2s ease',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'rgba(255,255,255,0.15)';
+                e.currentTarget.style.background = '#000000';
                 e.currentTarget.style.color = '#ffffff';
+                e.currentTarget.style.borderColor = '#000000';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
-                e.currentTarget.style.color = 'rgba(255,255,255,0.6)';
+                e.currentTarget.style.background = '#f4f4f5';
+                e.currentTarget.style.color = '#555555';
+                e.currentTarget.style.borderColor = '#e5e5e5';
               }}
             >
-              ✕
+              <X size={14} />
             </button>
 
             {!submitted ? (
               <>
                 {/* Header */}
-                <div style={{ marginBottom: '8px' }}>
+                <div style={{ marginBottom: '18px' }}>
                   <span
                     style={{
-                      fontSize: 'clamp(16px, 1vw, 18px)',
-                      textTransform: 'none',
-                      letterSpacing: '0.02em',
-                      color: '#ffffff',
-                      opacity: 0.8,
-                      fontWeight: 400,
+                      fontSize: '0.7rem',
+                      fontWeight: 600,
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
+                      color: '#777777',
                       display: 'block',
-                      marginBottom: '8px',
+                      marginBottom: '4px',
                     }}
                   >
-                    Interested in this project?
+                    Project Inquiry
                   </span>
                   <h2
+                    className="font-display"
                     style={{
-                      fontSize: '1.55rem',
+                      fontSize: 'clamp(1.35rem, 3.5vw, 1.65rem)',
                       fontWeight: 400,
-                      color: '#ffffff',
+                      fontFamily: 'var(--font-canela), Georgia, serif',
+                      color: '#000000',
                       margin: '0 0 4px 0',
-                      letterSpacing: '-0.01em',
+                      letterSpacing: '-0.02em',
+                      lineHeight: 1.2,
                     }}
                   >
                     {projectTitle}
                   </h2>
                   <p
                     style={{
-                      color: 'rgba(255, 255, 255, 0.5)',
-                      fontSize: '0.88rem',
-                      margin: '0 0 28px 0',
-                      lineHeight: 1.5,
+                      color: '#666666',
+                      fontSize: '0.82rem',
+                      margin: 0,
+                      lineHeight: 1.4,
+                      fontWeight: 400,
                     }}
                   >
-                    Share your details and we&apos;ll get in touch to discuss your vision.
+                    Enter your details to view full architectural specifications.
                   </p>
                 </div>
 
                 {/* Form */}
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }} className="lead-grid-cols">
+                    <div style={{ position: 'relative' }}>
+                      <label htmlFor="lead-name" className="sr-only">Your Name (required)</label>
+                      <User size={13} style={{ position: 'absolute', left: 11, top: 12, color: '#999999', pointerEvents: 'none' }} />
+                      <input
+                        id="lead-name"
+                        type="text"
+                        name="name"
+                        aria-label="Your Name"
+                        value={form.name}
+                        onChange={handleChange}
+                        placeholder="Name *"
+                        required
+                        style={{
+                          width: '100%',
+                          padding: '10px 10px 10px 30px',
+                          background: '#fcfcfc',
+                          border: '1px solid #e0e0e0',
+                          borderRadius: '6px',
+                          color: '#000000',
+                          fontSize: '0.86rem',
+                          fontFamily: 'inherit',
+                          outline: 'none',
+                          boxSizing: 'border-box',
+                          transition: 'border-color 0.2s',
+                        }}
+                        onFocus={(e) => (e.target.style.borderColor = '#000000')}
+                        onBlur={(e) => (e.target.style.borderColor = '#e0e0e0')}
+                      />
+                    </div>
+
+                    <div style={{ position: 'relative' }}>
+                      <label htmlFor="lead-phone" className="sr-only">Phone Number</label>
+                      <Phone size={13} style={{ position: 'absolute', left: 11, top: 12, color: '#999999', pointerEvents: 'none' }} />
+                      <input
+                        id="lead-phone"
+                        type="tel"
+                        name="phone"
+                        aria-label="Phone Number"
+                        value={form.phone}
+                        onChange={handleChange}
+                        placeholder="Phone"
+                        style={{
+                          width: '100%',
+                          padding: '10px 10px 10px 30px',
+                          background: '#fcfcfc',
+                          border: '1px solid #e0e0e0',
+                          borderRadius: '6px',
+                          color: '#000000',
+                          fontSize: '0.86rem',
+                          fontFamily: 'inherit',
+                          outline: 'none',
+                          boxSizing: 'border-box',
+                          transition: 'border-color 0.2s',
+                        }}
+                        onFocus={(e) => (e.target.style.borderColor = '#000000')}
+                        onBlur={(e) => (e.target.style.borderColor = '#e0e0e0')}
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ position: 'relative' }}>
+                    <label htmlFor="lead-email" className="sr-only">Email Address (required)</label>
+                    <Mail size={13} style={{ position: 'absolute', left: 11, top: 12, color: '#999999', pointerEvents: 'none' }} />
                     <input
-                      type="text"
-                      name="name"
-                      value={form.name}
+                      id="lead-email"
+                      type="email"
+                      name="email"
+                      aria-label="Email Address"
+                      value={form.email}
                       onChange={handleChange}
-                      placeholder="Full Name *"
+                      placeholder="Email Address *"
                       required
-                      style={inputStyle}
-                      onFocus={inputFocusHandler}
-                      onBlur={inputBlurHandler}
-                    />
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={form.phone}
-                      onChange={handleChange}
-                      placeholder="Phone"
-                      style={inputStyle}
-                      onFocus={inputFocusHandler}
-                      onBlur={inputBlurHandler}
+                      style={{
+                        width: '100%',
+                        padding: '10px 10px 10px 30px',
+                        background: '#fcfcfc',
+                        border: '1px solid #e0e0e0',
+                        borderRadius: '6px',
+                        color: '#000000',
+                        fontSize: '0.86rem',
+                        fontFamily: 'inherit',
+                        outline: 'none',
+                        boxSizing: 'border-box',
+                        transition: 'border-color 0.2s',
+                      }}
+                      onFocus={(e) => (e.target.style.borderColor = '#000000')}
+                      onBlur={(e) => (e.target.style.borderColor = '#e0e0e0')}
                     />
                   </div>
-                  <input
-                    type="email"
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    placeholder="Email Address *"
-                    required
-                    style={inputStyle}
-                    onFocus={inputFocusHandler}
-                    onBlur={inputBlurHandler}
-                  />
-                  <textarea
-                    name="message"
-                    value={form.message}
-                    onChange={handleChange}
-                    placeholder="Tell us about your project vision (optional)"
-                    rows={3}
-                    style={{
-                      ...inputStyle,
-                      resize: 'vertical',
-                      minHeight: '80px',
-                    }}
-                    onFocus={inputFocusHandler}
-                    onBlur={inputBlurHandler}
-                  />
+
+                  <div style={{ position: 'relative' }}>
+                    <label htmlFor="lead-message" className="sr-only">Message (optional)</label>
+                    <MessageSquare size={13} style={{ position: 'absolute', left: 11, top: 12, color: '#999999', pointerEvents: 'none' }} />
+                    <textarea
+                      id="lead-message"
+                      name="message"
+                      aria-label="Message (optional)"
+                      value={form.message}
+                      onChange={handleChange}
+                      placeholder="Message (optional)"
+                      rows={2}
+                      style={{
+                        width: '100%',
+                        padding: '10px 10px 10px 30px',
+                        background: '#fcfcfc',
+                        border: '1px solid #e0e0e0',
+                        borderRadius: '6px',
+                        color: '#000000',
+                        fontSize: '0.86rem',
+                        fontFamily: 'inherit',
+                        outline: 'none',
+                        boxSizing: 'border-box',
+                        resize: 'none',
+                        transition: 'border-color 0.2s',
+                      }}
+                      onFocus={(e) => (e.target.style.borderColor = '#000000')}
+                      onBlur={(e) => (e.target.style.borderColor = '#e0e0e0')}
+                    />
+                  </div>
 
                   {error && (
-                    <p style={{ color: '#f87171', fontSize: '0.82rem', margin: '0' }}>
+                    <div
+                      style={{
+                        color: '#dc2626',
+                        fontSize: '0.78rem',
+                        background: '#fef2f2',
+                        border: '1px solid #fecaca',
+                        padding: '6px 10px',
+                        borderRadius: '4px',
+                      }}
+                    >
                       {error}
-                    </p>
+                    </div>
                   )}
 
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    style={{
-                      width: '100%',
-                      padding: '15px 20px',
-                      background: submitting ? 'rgba(196, 112, 63, 0.5)' : '#C4703F',
-                      color: '#ffffff',
-                      border: 'none',
-                      borderRadius: '8px',
-                      fontSize: '0.95rem',
-                      fontWeight: 400,
-                      letterSpacing: '0.03em',
-                      cursor: submitting ? 'not-allowed' : 'pointer',
-                      transition: 'background 0.25s ease, transform 0.2s ease',
-                      fontFamily: 'inherit',
-                      marginTop: '4px',
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!submitting) {
-                        e.currentTarget.style.background = '#d4804f';
-                        e.currentTarget.style.transform = 'translateY(-1px)';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!submitting) {
-                        e.currentTarget.style.background = '#C4703F';
-                        e.currentTarget.style.transform = 'translateY(0)';
-                      }
-                    }}
-                  >
-                    {submitting ? 'Sending...' : 'Submit & View Project'}
-                  </button>
+                  {/* Actions: Submit & Skip */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '4px' }}>
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      style={{
+                        width: '100%',
+                        padding: '11px 18px',
+                        background: '#000000',
+                        color: '#ffffff',
+                        border: '1px solid #000000',
+                        borderRadius: '6px',
+                        fontSize: '0.88rem',
+                        fontWeight: 500,
+                        letterSpacing: '0.02em',
+                        cursor: submitting ? 'not-allowed' : 'pointer',
+                        transition: 'all 0.2s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 6,
+                        opacity: submitting ? 0.7 : 1,
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!submitting) e.currentTarget.style.background = '#222222';
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!submitting) e.currentTarget.style.background = '#000000';
+                      }}
+                    >
+                      <span>{submitting ? 'Submitting...' : 'Submit'}</span>
+                      <ArrowRight size={14} />
+                    </button>
 
-                  <button
-                    type="button"
-                    onClick={handleSkip}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      color: 'rgba(255, 255, 255, 0.4)',
-                      fontSize: '0.82rem',
-                      cursor: 'pointer',
-                      padding: '8px 0 0',
-                      fontFamily: 'inherit',
-                      letterSpacing: '0.02em',
-                      transition: 'color 0.2s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = 'rgba(255, 255, 255, 0.7)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = 'rgba(255, 255, 255, 0.4)';
-                    }}
-                  >
-                    Skip, just view the project →
-                  </button>
+                    <button
+                      type="button"
+                      onClick={handleSkip}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#777777',
+                        fontSize: '0.8rem',
+                        fontWeight: 400,
+                        cursor: 'pointer',
+                        padding: '4px 0',
+                        letterSpacing: '0.02em',
+                        transition: 'color 0.2s ease',
+                        textAlign: 'center',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = '#000000';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = '#777777';
+                      }}
+                    >
+                      Skip
+                    </button>
+                  </div>
                 </form>
               </>
             ) : (
               /* Success State */
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                style={{ textAlign: 'center', padding: '20px 0' }}
+                transition={{ duration: 0.3 }}
+                style={{ textAlign: 'center', padding: '16px 0' }}
               >
                 <div
                   style={{
-                    width: '56px',
-                    height: '56px',
+                    width: '44px',
+                    height: '44px',
                     borderRadius: '50%',
-                    background: 'rgba(196, 112, 63, 0.15)',
+                    background: '#000000',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    margin: '0 auto 20px',
-                    fontSize: '24px',
+                    margin: '0 auto 12px',
+                    color: '#ffffff',
                   }}
                 >
-                  ✓
+                  <Check size={20} />
                 </div>
                 <h3
                   style={{
-                    fontSize: '1.3rem',
-                    fontWeight: 400,
-                    color: '#ffffff',
-                    margin: '0 0 8px 0',
+                    fontSize: '1.2rem',
+                    fontWeight: 500,
+                    color: '#000000',
+                    margin: '0 0 4px 0',
                   }}
                 >
-                  Thank you!
+                  Inquiry Received
                 </h3>
                 <p
                   style={{
-                    color: 'rgba(255, 255, 255, 0.55)',
-                    fontSize: '0.88rem',
+                    color: '#666666',
+                    fontSize: '0.82rem',
                     margin: 0,
-                    lineHeight: 1.5,
+                    lineHeight: 1.4,
                   }}
                 >
-                  We&apos;ll be in touch shortly. Redirecting to {projectTitle}...
+                  Opening {projectTitle}...
                 </p>
               </motion.div>
             )}

@@ -13,7 +13,7 @@ export default function AboutSection() {
       style={{
         position: 'relative',
         background: '#ffffff',
-        padding: 'clamp(140px, 14vh, 210px) clamp(32px, 6vw, 100px) clamp(90px, 9vh, 130px)',
+        padding: 'clamp(110px, 11vh, 160px) clamp(20px, 5vw, 64px) clamp(60px, 6vh, 90px)',
         width: '100%',
         overflow: 'hidden',
         boxSizing: 'border-box',
@@ -26,7 +26,8 @@ export default function AboutSection() {
           zIndex: 2,
           display: 'flex',
           flexDirection: 'column',
-          maxWidth: '840px',
+          maxWidth: '860px',
+          margin: 0,
         }}
       >
         {/* Main Body Statement */}
@@ -36,12 +37,12 @@ export default function AboutSection() {
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
           style={{
-            fontSize: 'clamp(18px, 1.35vw, 22px)',
-            lineHeight: 1.55,
+            fontSize: 'clamp(19px, 1.4vw, 23px)',
+            lineHeight: 1.28,
             fontWeight: 400,
             color: '#222222',
             letterSpacing: '-0.01em',
-            margin: '0 0 28px 0',
+            margin: '0 0 24px 0',
           }}
         >
           <strong style={{ fontWeight: 600, color: '#000000' }}>Attiks Architecture</strong> is a Kerala-based architecture practice working
@@ -61,11 +62,11 @@ export default function AboutSection() {
               style={{
                 overflow: 'hidden',
                 fontSize: 'clamp(17px, 1.2vw, 20px)',
-                lineHeight: 1.65,
+                lineHeight: 1.35,
                 fontWeight: 400,
                 color: '#555555',
                 letterSpacing: '-0.005em',
-                marginBottom: '24px',
+                marginBottom: '20px',
               }}
             >
               Founded on the belief that architecture should serve both people and place, the
@@ -110,16 +111,16 @@ export default function AboutSection() {
         </motion.div>
       </div>
 
-      {/* Right: Watermark Triangle Motif */}
+      {/* Right: Watermark Triangle Motif (Increased size, exactly 50% on screen / 50% outside) */}
       <div
         className="about-watermark-bg"
         style={{
           position: 'absolute',
           right: 0,
           top: '50%',
-          transform: 'translate(35%, -50%)',
-          width: 'clamp(380px, 46vw, 760px)',
-          height: 'clamp(380px, 46vw, 760px)',
+          transform: 'translate(50%, -50%)',
+          width: 'clamp(520px, 58vw, 980px)',
+          height: 'clamp(520px, 58vw, 980px)',
           opacity: 0.08,
           zIndex: 1,
           pointerEvents: 'none',
@@ -131,7 +132,7 @@ export default function AboutSection() {
           src="/images/Trblack.png"
           alt=""
           fill
-          sizes="(max-width: 768px) 300px, 760px"
+          sizes="(max-width: 768px) 520px, 980px"
           style={{
             objectFit: 'contain',
             objectPosition: 'center',

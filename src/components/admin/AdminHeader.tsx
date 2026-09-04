@@ -1,21 +1,17 @@
 'use client';
 
-import { Menu } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { Menu, LogOut } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { logoutAction } from '@/actions/auth.actions';
 
 const titles: Record<string, string> = {
   '/admin/dashboard':    'Dashboard',
   '/admin/projects':     'Projects',
-  '/admin/services':     'Services',
-  '/admin/team':         'Team & Leadership',
-  '/admin/blog':         'Blog & Publications',
-  '/admin/media':        'Media Library',
-  '/admin/leads':        'Client Enquiries',
-  '/admin/users':        'User Management',
-  '/admin/roles':        'Roles & Permissions',
-  '/admin/settings':     'General Settings',
   '/admin/testimonials': 'Testimonials',
-  '/admin/categories':   'Categories',
+  '/admin/leads':        'Client Enquiries',
+  '/admin/team':         'Team & Leadership',
+  '/admin/media':        'Media Library',
+  '/admin/settings':     'General Settings',
   '/admin':              'Overview',
 };
 
@@ -25,7 +21,22 @@ interface Props {
 
 export default function AdminHeader({ onMenuClick }: Props) {
   const pathname = usePathname();
+  const router = useRouter();
   const title = Object.entries(titles).findLast(([key]) => pathname.startsWith(key))?.[1] ?? 'Admin';
+
+  async function handleLogout() {
+    try {
+      await logoutAction();
+    } catch {
+      // ignore
+    }
+    if (typeof window !== 'undefined') {
+      localStorage.clear();
+      sessionStorage.clear();
+      document.cookie = 'attiks_admin_token=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    }
+    router.push('/admin/login');
+  }
 
   return (
     <header className="admin-header">
@@ -44,21 +55,53 @@ export default function AdminHeader({ onMenuClick }: Props) {
         </div>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+        <button
+          onClick={handleLogout}
+          className="admin-btn-icon"
+          title="Sign Out (Clear Session)"
+          style={{
+            background: '#f4f4f5',
+            border: '1px solid #e4e4e7',
+            borderRadius: 4,
+            padding: '6px 10px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 6,
+            fontSize: '0.75rem',
+            color: '#71717a',
+            cursor: 'pointer',
+            height: 'auto',
+            width: 'auto',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = '#ef4444';
+            e.currentTarget.style.borderColor = '#fca5a5';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = '#71717a';
+            e.currentTarget.style.borderColor = '#e4e4e7';
+          }}
+        >
+          <LogOut size={13} />
+          <span>Logout</span>
+        </button>
+
         <div
           style={{
-            width: 32,
-            height: 32,
+            width: 30,
+            height: 30,
             borderRadius: '50%',
-            background: 'var(--admin-accent)',
+            background: 'var(--admin-accent, #09090b)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '0.75rem',
-            fontWeight: 400,
+            fontSize: '0.72rem',
+            fontWeight: 500,
             color: '#fff',
             flexShrink: 0,
           }}
+          title="Studio Admin"
         >
           A
         </div>

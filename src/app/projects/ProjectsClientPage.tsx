@@ -12,13 +12,17 @@ import { categories, Category, Project } from '@/data/projects';
 export default function ProjectsClientPage({ initialProjects }: { initialProjects: Project[] }) {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
-  const [allProjects] = useState<Project[]>(initialProjects);
+  const [allProjects, setAllProjects] = useState<Project[]>(initialProjects);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
   // Lead capture modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  useEffect(() => {
+    setAllProjects(initialProjects);
+  }, [initialProjects]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -41,7 +45,7 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
 
   const handleModalSuccess = useCallback(() => {
     if (selectedProject) {
-      router.push(`/projects/${selectedProject.id}`);
+      router.push(`/projects/${(selectedProject as any).slug || selectedProject.id}`);
     }
     setModalOpen(false);
     setSelectedProject(null);
@@ -91,7 +95,6 @@ export default function ProjectsClientPage({ initialProjects }: { initialProject
                 style={{
                   fontSize: isMobile ? '2.2rem' : 'clamp(2.6rem, 4.5vw, 3.8rem)',
                   fontWeight: 300,
-                  fontStyle: 'italic',
                   color: '#000000',
                   margin: isMobile ? '0 0 20px 0' : '0 0 28px 0',
                   letterSpacing: '-0.02em',

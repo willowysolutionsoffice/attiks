@@ -3,17 +3,10 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { projects, Project } from '@/data/projects';
+import { Project } from '@/data/projects';
+import { getProjectByIdOrSlug } from '@/lib/projects';
 
-function getProject(id: string): Project | undefined {
-  return projects.find((p) => p.id === id);
-}
-
-export function generateStaticParams() {
-  return projects.map((p) => ({
-    id: p.id,
-  }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
   params,
@@ -21,7 +14,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const project = getProject(id);
+  const project = await getProjectByIdOrSlug(id);
 
   if (!project) {
     return {
@@ -46,14 +39,14 @@ export default async function ProjectDetail({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const project = getProject(id);
+  const project = await getProjectByIdOrSlug(id);
 
   if (!project) {
     return (
       <div style={{ background: '#ffffff', color: '#111111', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         <Navbar />
         <main style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', padding: '160px 24px', textAlign: 'center' }}>
-          <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', marginBottom: '1.25rem', fontFamily: 'var(--font-canela)', fontStyle: 'italic', color: '#000000' }}>Project Not Found</h1>
+          <h1 style={{ fontSize: 'clamp(2.5rem, 5vw, 3.5rem)', marginBottom: '1.25rem', fontFamily: 'var(--font-canela)', color: '#000000' }}>Project Not Found</h1>
           <p style={{ color: '#555555', marginBottom: '2.5rem', fontSize: 'clamp(18px, 1.2vw, 20px)' }}>The requested architectural project could not be located.</p>
           <Link href="/projects" className="btn-premium">
             &larr; View All Projects
@@ -103,7 +96,7 @@ export default async function ProjectDetail({
             <p style={{ fontSize: 'clamp(18px, 1.1vw, 20px)', letterSpacing: '0.04em', textTransform: 'none', color: 'rgba(255,255,255,0.9)', marginBottom: '14px', fontWeight: 400 }}>
               {formattedCategory} &bull; {project.year}
             </p>
-            <h1 style={{ fontSize: 'clamp(2.6rem, 5.5vw, 4.4rem)', fontWeight: 300, letterSpacing: '-0.02em', textAlign: 'center', fontFamily: 'var(--font-canela)', fontStyle: 'italic', margin: 0, color: '#ffffff' }}>
+            <h1 style={{ fontSize: 'clamp(2.6rem, 5.5vw, 4.4rem)', fontWeight: 300, letterSpacing: '-0.02em', textAlign: 'center', fontFamily: 'var(--font-canela)', margin: 0, color: '#ffffff' }}>
               {project.title}
             </h1>
             <p style={{ marginTop: '18px', fontSize: 'clamp(18px, 1.15vw, 20px)', letterSpacing: '0.02em', textTransform: 'none', color: '#f0f0f0', fontWeight: 400 }}>
@@ -118,7 +111,7 @@ export default async function ProjectDetail({
             <span style={{ fontSize: 'clamp(18px, 1.1vw, 20px)', textTransform: 'none', letterSpacing: '0.02em', color: '#666666', fontWeight: 400, display: 'block', marginBottom: '12px' }}>
               {formattedCategory} Architecture
             </span>
-            <h2 style={{ fontSize: 'clamp(2.2rem, 3.8vw, 3.2rem)', marginBottom: '28px', fontWeight: 400, textTransform: 'none', fontFamily: 'var(--font-canela)', fontStyle: 'italic', color: '#000000' }}>
+            <h2 style={{ fontSize: 'clamp(2.2rem, 3.8vw, 3.2rem)', marginBottom: '28px', fontWeight: 400, textTransform: 'none', fontFamily: 'var(--font-canela)', color: '#000000' }}>
               About {project.title}
             </h2>
             <p style={{ fontSize: 'clamp(18px, 1.3vw, 21px)', lineHeight: '1.8', color: '#333333', marginBottom: '32px', fontWeight: 350 }}>
@@ -173,7 +166,7 @@ export default async function ProjectDetail({
             <span style={{ fontSize: 'clamp(18px, 1.1vw, 20px)', textTransform: 'none', letterSpacing: '0.04em', color: '#666666', fontWeight: 400, display: 'block', marginBottom: '8px' }}>
               Visual showcase
             </span>
-            <h2 style={{ fontSize: 'clamp(2.2rem, 3.8vw, 3.2rem)', margin: 0, fontWeight: 400, fontFamily: 'var(--font-canela)', fontStyle: 'italic', color: '#000000' }}>
+            <h2 style={{ fontSize: 'clamp(2.2rem, 3.8vw, 3.2rem)', margin: 0, fontWeight: 400, fontFamily: 'var(--font-canela)', color: '#000000' }}>
               Project gallery
             </h2>
           </div>

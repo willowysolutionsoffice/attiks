@@ -2,120 +2,154 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { FolderOpen, Compass, Users, FileText, Inbox, HardDrive, Plus, ArrowRight, Activity, CheckCircle, Clock } from 'lucide-react';
+import {
+  FolderOpen,
+  Inbox,
+  Quote,
+  Database,
+  Plus,
+  ArrowRight,
+  ExternalLink,
+  Mail,
+  Building,
+  Calendar,
+  CheckCircle2,
+} from 'lucide-react';
 import StatCard from '@/components/admin/StatCard';
 
-interface DashboardStatsData {
-  totalProjects: number;
-  publishedProjects: number;
-  draftProjects: number;
-  featuredProjects: number;
-  totalServices: number;
-  totalTeamMembers: number;
-  totalBlogPosts: number;
-  totalLeads: number;
-  newLeads: number;
-  totalMediaAssets: number;
-  mediaStorageBytes: number;
+interface ProjectItem {
+  id: string;
+  title: string;
+  category?: string;
+  status?: string;
+  featured?: boolean;
+  slug?: string;
+  year?: string;
+  createdAt?: string;
 }
 
-import {
-  projects as initialProjects,
-  services as initialServices,
-  team as initialTeam,
-  blogPosts as initialBlogPosts,
-} from '@/data/projects';
+interface LeadItem {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  message?: string;
+  projectTitle?: string;
+  project?: { title?: string };
+  status?: string;
+  createdAt: string;
+}
+
+interface TestimonialItem {
+  id: string;
+  author: string;
+  designation: string;
+  quote: string;
+  active?: boolean;
+}
 
 export default function AdminDashboardPage() {
-  const [stats, setStats] = useState<DashboardStatsData | null>(null);
-  const [categoryBreakdown, setCategoryBreakdown] = useState<Record<string, number>>({});
-  const [recentProjects, setRecentProjects] = useState<any[]>([]);
-  const [recentLeads, setRecentLeads] = useState<any[]>([]);
-  const [activityLog, setActivityLog] = useState<any[]>([]);
+  const [projects, setProjects] = useState<ProjectItem[]>([]);
+  const [leads, setLeads] = useState<LeadItem[]>([]);
+  const [testimonials, setTestimonials] = useState<TestimonialItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    function loadStats() {
+    async function fetchDashboardData() {
       try {
-        const savedProjects = localStorage.getItem('attiks_admin_projects');
-        const projList = savedProjects ? JSON.parse(savedProjects) : initialProjects;
+        setLoading(true);
 
-        const savedLeads = localStorage.getItem('attiks_admin_leads');
-        const leadsList = savedLeads ? JSON.parse(savedLeads) : [];
-
-        const savedServices = localStorage.getItem('attiks_admin_services');
-        const srvList = savedServices ? JSON.parse(savedServices) : initialServices;
-
-        const savedTeam = localStorage.getItem('attiks_admin_team');
-        const teamList = savedTeam ? JSON.parse(savedTeam) : initialTeam;
-
-        const savedBlog = localStorage.getItem('attiks_admin_blog');
-        const blogList = savedBlog ? JSON.parse(savedBlog) : initialBlogPosts;
-
-        const savedMedia = localStorage.getItem('attiks_admin_media');
-        const mediaList = savedMedia ? JSON.parse(savedMedia) : [];
-
-        const breakdown: Record<string, number> = {};
-        projList.forEach((p: any) => {
-          breakdown[p.category] = (breakdown[p.category] || 0) + 1;
-        });
-
-        setStats({
-          totalProjects: projList.length,
-          publishedProjects: projList.filter((p: any) => p.status !== 'draft').length,
-          draftProjects: projList.filter((p: any) => p.status === 'draft').length,
-          featuredProjects: projList.filter((p: any) => p.featured).length,
-          totalServices: srvList.length,
-          totalTeamMembers: teamList.length,
-          totalBlogPosts: blogList.length,
-          totalLeads: leadsList.length,
-          newLeads: leadsList.filter((l: any) => l.status === 'new').length,
-          totalMediaAssets: mediaList.length || 10,
-          mediaStorageBytes: 54000000,
-        });
-
-        setCategoryBreakdown(breakdown);
-        setRecentProjects(projList.slice(0, 5));
-        setRecentLeads(leadsList.slice(0, 5));
-        setActivityLog([
-          { id: 'act-1', user: 'Admin', action: 'Dashboard active and synced', timestamp: 'Just now' },
-          { id: 'act-2', user: 'Admin', action: 'Portfolio projects refreshed', timestamp: '5 mins ago' },
+        // Fetch live projects, leads, and testimonials concurrently from database APIs
+        const [projRes, leadRes, testiRes] = await Promise.all([
+          fetch('/api/projects').catch(() => null),
+          fetch('/api/leads').catch(() => null),
+          fetch('/api/testimonials').catch(() => null),
         ]);
+
+        if (projRes && projRes.ok) {
+          const projJson = await projRes.json();
+          const pList = Array.isArray(projJson.data)
+            ? projJson.data
+            : projJson.data?.items || projJson.data?.projects || [];
+          setProjects(pList);
+        }
+
+        if (leadRes && leadRes.ok) {
+          const leadJson = await leadRes.json();
+          const lList = Array.isArray(leadJson.data)
+            ? leadJson.data
+            : leadJson.data?.items || [];
+          setLeads(lList);
+        }
+
+        if (testiRes && testiRes.ok) {
+          const testiJson = await testiRes.json();
+          const tList = Array.isArray(testiJson.data)
+            ? testiJson.data
+            : testiJson.data?.items || [];
+          setTestimonials(tList);
+        }
       } catch (err) {
-        console.error('Failed to load dashboard statistics:', err);
+        console.error('Failed to fetch dashboard data:', err);
       } finally {
         setLoading(false);
       }
     }
-    loadStats();
+
+    fetchDashboardData();
   }, []);
+
+  // Compute live project metrics
+  const totalProjects = projects.length;
+  const publishedProjects = projects.filter(
+    (p) => (p.status || 'published').toLowerCase() !== 'draft'
+  ).length;
+  const draftProjects = totalProjects - publishedProjects;
+
+  // Compute live category breakdown
+  const categoryBreakdown: Record<string, number> = {};
+  projects.forEach((p) => {
+    const cat = p.category ? p.category.charAt(0).toUpperCase() + p.category.slice(1) : 'Architecture';
+    categoryBreakdown[cat] = (categoryBreakdown[cat] || 0) + 1;
+  });
+  const maxCategoryCount = Math.max(...Object.values(categoryBreakdown), 1);
+
+  // Compute live lead metrics
+  const totalLeads = leads.length;
+  const newLeads = leads.filter(
+    (l) => (l.status || 'NEW').toUpperCase() === 'NEW'
+  ).length;
 
   if (loading) {
     return (
-      <div style={{ padding: '2rem 0' }}>
-        <div className="admin-skeleton" style={{ height: 40, width: 220, marginBottom: 24 }} />
-        <div className="admin-stat-grid">
+      <div style={{ padding: '1rem 0' }}>
+        <div className="admin-skeleton" style={{ height: 32, width: 200, marginBottom: 24 }} />
+        <div className="admin-stat-grid" style={{ marginBottom: 24 }}>
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="admin-skeleton" style={{ height: 110, borderRadius: 2 }} />
+            <div key={i} className="admin-skeleton" style={{ height: 110, borderRadius: 4 }} />
           ))}
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.25rem' }}>
+          <div className="admin-skeleton" style={{ height: 280, borderRadius: 4 }} />
+          <div className="admin-skeleton" style={{ height: 280, borderRadius: 4 }} />
         </div>
       </div>
     );
   }
 
-  const maxCount = Math.max(...Object.values(categoryBreakdown), 1);
-  const formattedStorageMB = stats?.mediaStorageBytes
-    ? (stats.mediaStorageBytes / (1024 * 1024)).toFixed(1) + ' MB'
-    : '0 MB';
-
   return (
     <div>
+      {/* Top Header & Actions */}
       <div className="admin-page-header">
         <div>
-          <h1 className="admin-page-title">Dashboard</h1>
-          <p className="admin-page-subtitle">Live system metrics and backend content overview</p>
+          <h1 className="admin-page-title">Studio Dashboard</h1>
+          <p className="admin-page-subtitle">Live metrics and portfolio content synced with PostgreSQL database</p>
         </div>
-        <div style={{ display: 'flex', gap: '0.6rem' }}>
+        <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+          <Link href="/admin/leads" className="admin-btn admin-btn-ghost" style={{ textDecoration: 'none' }}>
+            <Inbox size={14} />
+            Inquiries
+          </Link>
           <Link href="/admin/projects/new" className="admin-btn admin-btn-primary" style={{ textDecoration: 'none' }}>
             <Plus size={14} />
             New Project
@@ -123,102 +157,214 @@ export default function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* Main Metric Cards */}
+      {/* Main KPI Stat Cards */}
       <div className="admin-stat-grid">
         <StatCard
           label="Total Projects"
-          value={stats?.totalProjects ?? 0}
+          value={totalProjects}
           icon={FolderOpen}
-          sub={`${stats?.publishedProjects ?? 0} published • ${stats?.draftProjects ?? 0} draft`}
+          sub={`${publishedProjects} published • ${draftProjects} draft`}
         />
         <StatCard
-          label="Client Leads"
-          value={stats?.totalLeads ?? 0}
+          label="Client Inquiries"
+          value={totalLeads}
           icon={Inbox}
-          sub={`${stats?.newLeads ?? 0} unread enquiries`}
+          sub={`${newLeads} new inquiry${newLeads === 1 ? '' : 'ies'} unread`}
         />
         <StatCard
-          label="Services & Team"
-          value={(stats?.totalServices ?? 0) + (stats?.totalTeamMembers ?? 0)}
-          icon={Compass}
-          sub={`${stats?.totalServices ?? 0} core services • ${stats?.totalTeamMembers ?? 0} architects`}
+          label="Client Testimonials"
+          value={testimonials.length}
+          icon={Quote}
+          sub="Live homepage client quotes"
         />
         <StatCard
-          label="Media Assets"
-          value={stats?.totalMediaAssets ?? 0}
-          icon={HardDrive}
-          sub={`${formattedStorageMB} storage used`}
+          label="Database System"
+          value="Online"
+          icon={Database}
+          sub="PostgreSQL & Prisma Live"
         />
       </div>
 
-      {/* Two Column Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginBottom: '1.5rem' }}>
+      {/* 2-Column Grid: Projects Breakdown & Recent Leads */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '1.25rem', marginBottom: '1.5rem' }}>
         {/* Category Breakdown */}
         <div className="admin-table-wrap" style={{ padding: '1.5rem' }}>
-          <div style={{ fontSize: '0.8rem', fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--admin-text-muted)', marginBottom: '1.25rem' }}>
-            Projects by Category
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+            <span style={{ fontSize: '0.78rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--admin-text-muted)' }}>
+              Projects by Category
+            </span>
+            <Link href="/admin/projects" style={{ fontSize: '0.75rem', color: 'var(--admin-accent)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
+              Manage <ArrowRight size={12} />
+            </Link>
           </div>
+
           {Object.entries(categoryBreakdown).length === 0 ? (
-            <div style={{ fontSize: '0.85rem', color: 'var(--admin-text-muted)' }}>No category data available</div>
+            <div style={{ fontSize: '0.85rem', color: 'var(--admin-text-muted)', textAlign: 'center', padding: '2rem 0' }}>
+              No project categories in database
+            </div>
           ) : (
-            Object.entries(categoryBreakdown)
-              .sort((a, b) => b[1] - a[1])
-              .map(([cat, count]) => (
-                <div key={cat} className="admin-cat-bar-row">
-                  <span className="admin-cat-bar-label">{cat}</span>
-                  <div className="admin-cat-bar-track">
-                    <div className="admin-cat-bar-fill" style={{ width: `${(count / maxCount) * 100}%` }} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              {Object.entries(categoryBreakdown)
+                .sort((a, b) => b[1] - a[1])
+                .map(([cat, count]) => (
+                  <div key={cat} className="admin-cat-bar-row">
+                    <span className="admin-cat-bar-label" style={{ minWidth: 100, fontSize: '0.82rem' }}>
+                      {cat}
+                    </span>
+                    <div className="admin-cat-bar-track" style={{ flex: 1, height: 6, background: '#f4f4f5', borderRadius: 3, overflow: 'hidden' }}>
+                      <div
+                        className="admin-cat-bar-fill"
+                        style={{
+                          width: `${(count / maxCategoryCount) * 100}%`,
+                          height: '100%',
+                          background: '#09090b',
+                          borderRadius: 3,
+                          transition: 'width 0.4s ease',
+                        }}
+                      />
+                    </div>
+                    <span className="admin-cat-bar-count" style={{ fontSize: '0.82rem', fontWeight: 600, minWidth: 24, textAlign: 'right' }}>
+                      {count}
+                    </span>
                   </div>
-                  <span className="admin-cat-bar-count">{count}</span>
-                </div>
-              ))
+                ))}
+            </div>
           )}
         </div>
 
-        {/* Recent Client Enquiries */}
+        {/* Recent Client Inquiries Stream */}
         <div className="admin-table-wrap" style={{ padding: '1.5rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-            <div style={{ fontSize: '0.8rem', fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--admin-text-muted)' }}>
-              Recent Client Enquiries
-            </div>
+            <span style={{ fontSize: '0.78rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--admin-text-muted)' }}>
+              Recent Client Inquiries
+            </span>
             <Link href="/admin/leads" style={{ fontSize: '0.75rem', color: 'var(--admin-accent)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}>
-              View all <ArrowRight size={12} />
+              View all ({totalLeads}) <ArrowRight size={12} />
             </Link>
           </div>
-          {recentLeads.length === 0 ? (
-            <div style={{ fontSize: '0.85rem', color: 'var(--admin-text-muted)' }}>No recent leads</div>
+
+          {leads.length === 0 ? (
+            <div style={{ fontSize: '0.85rem', color: 'var(--admin-text-muted)', textAlign: 'center', padding: '2rem 0' }}>
+              No client inquiries received yet
+            </div>
           ) : (
-            recentLeads.map((lead) => (
-              <div key={lead.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '0.75rem', marginBottom: '0.75rem', borderBottom: '1px solid var(--admin-border)' }}>
-                <div>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 400 }}>{lead.name}</div>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--admin-text-muted)', marginTop: 2 }}>{lead.service} • {lead.email}</div>
-                </div>
-                <span className={`admin-badge ${lead.status === 'new' ? 'admin-badge-commercial' : 'admin-badge-default'}`}>
-                  {lead.status}
-                </span>
-              </div>
-            ))
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {leads.slice(0, 4).map((lead) => {
+                const isNew = (lead.status || 'NEW').toUpperCase() === 'NEW';
+                return (
+                  <div
+                    key={lead.id}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      paddingBottom: '0.75rem',
+                      borderBottom: '1px solid var(--admin-border)',
+                    }}
+                  >
+                    <div>
+                      <div style={{ fontSize: '0.88rem', fontWeight: 500, color: 'var(--admin-text)' }}>
+                        {lead.name}
+                      </div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--admin-text-muted)', display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
+                        <span>{lead.email}</span>
+                        {(lead.projectTitle || lead.project?.title) && (
+                          <>
+                            <span>•</span>
+                            <span style={{ color: 'var(--admin-text)' }}>{lead.projectTitle || lead.project?.title}</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+
+                    <span
+                      style={{
+                        fontSize: '0.68rem',
+                        fontWeight: 600,
+                        letterSpacing: '0.04em',
+                        padding: '2px 8px',
+                        borderRadius: 3,
+                        background: isNew ? '#ecfdf5' : '#f4f4f5',
+                        color: isNew ? '#059669' : '#71717a',
+                        border: `1px solid ${isNew ? '#a7f3d0' : '#e4e4e7'}`,
+                      }}
+                    >
+                      {lead.status || 'NEW'}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           )}
         </div>
       </div>
 
-      {/* Activity Log */}
-      <div className="admin-table-wrap" style={{ padding: '1.5rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem', fontWeight: 400, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--admin-text-muted)', marginBottom: '1.25rem' }}>
-          <Activity size={14} style={{ color: 'var(--admin-accent)' }} />
-          System Activity & Audit Log
+      {/* Recent Projects Table Overview */}
+      <div className="admin-table-wrap">
+        <div className="admin-table-toolbar">
+          <span className="admin-table-title">Recent Portfolio Projects ({totalProjects})</span>
+          <div style={{ display: 'flex', gap: '0.6rem' }}>
+            <Link href="/admin/projects" className="admin-btn admin-btn-ghost" style={{ fontSize: '0.8rem', padding: '0.4rem 0.85rem' }}>
+              All Projects &rarr;
+            </Link>
+          </div>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-          {activityLog.map((log) => (
-            <div key={log.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.82rem', paddingBottom: '0.5rem', borderBottom: '1px solid var(--admin-border)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                <Clock size={13} style={{ color: 'var(--admin-text-muted)' }} />
-                <span><strong style={{ color: 'var(--admin-text)' }}>{log.user}</strong>: {log.action}</span>
-              </div>
-              <span style={{ fontSize: '0.75rem', color: 'var(--admin-text-muted)' }}>{log.timestamp}</span>
-            </div>
-          ))}
+
+        <div className="admin-table-responsive">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>Project Title</th>
+                <th>Category</th>
+                <th>Year</th>
+                <th>Status</th>
+                <th style={{ textAlign: 'right' }}>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {projects.slice(0, 5).map((project) => (
+                <tr key={project.id}>
+                  <td style={{ fontWeight: 500, color: 'var(--admin-text)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <Building size={14} style={{ color: 'var(--admin-text-muted)' }} />
+                      <span>{project.title}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--admin-text-muted)' }}>
+                      {project.category || 'Architecture'}
+                    </span>
+                  </td>
+                  <td style={{ fontSize: '0.8rem', color: 'var(--admin-text-muted)' }}>
+                    {project.year || '2026'}
+                  </td>
+                  <td>
+                    <span
+                      style={{
+                        fontSize: '0.7rem',
+                        fontWeight: 600,
+                        padding: '2px 8px',
+                        borderRadius: 3,
+                        background: (project.status || 'published').toLowerCase() === 'draft' ? '#fef3c7' : '#ecfdf5',
+                        color: (project.status || 'published').toLowerCase() === 'draft' ? '#b45309' : '#059669',
+                      }}
+                    >
+                      {project.status || 'Published'}
+                    </span>
+                  </td>
+                  <td style={{ textAlign: 'right' }}>
+                    <Link
+                      href={`/admin/projects/${project.id}`}
+                      className="admin-btn admin-btn-ghost"
+                      style={{ fontSize: '0.75rem', padding: '3px 8px', textDecoration: 'none' }}
+                    >
+                      Edit
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
