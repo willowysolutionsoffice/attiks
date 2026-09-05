@@ -22,10 +22,10 @@ export default async function Home() {
       <Hero projects={projects} />
       <AboutSection />
       <AboutGallerySlider projects={projects} />
-      <ProjectShowcaseGrid initialPosts={galleryPosts} limit={20} />
+      <ProjectShowcaseGrid initialPosts={galleryPosts} limit={18} />
       <Testimonials />
       <Footer />
-      
     </main>
   );
 }
+      

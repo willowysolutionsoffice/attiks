@@ -2,13 +2,17 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { Download, ArrowUpRight, Sparkles } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import LeadCaptureModal from '@/components/LeadCaptureModal';
 import { categories, Category, Project } from '@/data/projects';
+
+const LeadCaptureModal = dynamic(() => import('@/components/LeadCaptureModal'), {
+  ssr: false,
+});
 
 export default function ProjectsClientPage({ initialProjects }: { initialProjects: Project[] }) {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);

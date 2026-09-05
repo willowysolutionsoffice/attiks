@@ -81,8 +81,12 @@ export default function LeadCaptureModal({
         message: form.message.trim() || undefined,
         source: mode === 'download' ? 'portfolio_download' : 'project_inquiry',
         projectTitle: mode === 'download' ? `${formattedCategory} Architecture Portfolio PDF` : (projectTitle || `${formattedCategory} Project`),
-        projectId: projectId || (category ? `category-${category}` : 'general-portfolio'),
       };
+
+      // Only pass projectId if it is a valid UUID or existing project ID
+      if (projectId && !projectId.startsWith('category-') && !projectId.startsWith('general-')) {
+        payload.projectId = projectId;
+      }
 
       const res = await fetch('/api/leads', {
         method: 'POST',
@@ -92,7 +96,7 @@ export default function LeadCaptureModal({
 
       if (!res.ok) {
         const errJson = await res.json().catch(() => ({}));
-        console.warn('API error logging lead, proceeding to download:', errJson);
+        console.warn('API error logging lead:', errJson);
       }
 
       setSubmitted(true);
@@ -124,6 +128,26 @@ export default function LeadCaptureModal({
   };
 
   const handleSkip = async () => {
+    // If user filled in their email/name before skipping, record it in database
+    if (form.email.trim() && form.name.trim()) {
+      try {
+        await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: form.name.trim(),
+            email: form.email.trim(),
+            phone: form.phone.trim() || undefined,
+            message: form.message.trim() || undefined,
+            source: mode === 'download' ? 'portfolio_download' : 'project_inquiry',
+            projectTitle: mode === 'download' ? `${formattedCategory} Architecture Portfolio PDF` : (projectTitle || `${formattedCategory} Project`),
+          }),
+        });
+      } catch {
+        // ignore
+      }
+    }
+
     if (mode === 'download') {
       await triggerPortfolioDownload();
     }

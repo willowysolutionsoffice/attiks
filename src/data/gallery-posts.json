@@ -1,5 +1,159 @@
 [
   {
+    "id": "post-1788587817449-0",
+    "image": "/uploads/img_1788587795850_uc-th-12.jpg",
+    "caption": "UC@TH  12",
+    "description": "",
+    "location": "Kerala, India",
+    "aspectRatio": "square",
+    "createdAt": "2026-09-05",
+    "active": true,
+    "order": 19
+  },
+  {
+    "id": "post-1788587817449-1",
+    "image": "/uploads/img_1788587795704_x-17.jpg",
+    "caption": "X 17",
+    "description": "",
+    "location": "Kerala, India",
+    "aspectRatio": "square",
+    "createdAt": "2026-09-05",
+    "active": true,
+    "order": 20
+  },
+  {
+    "id": "post-1788587817449-2",
+    "image": "/uploads/img_1788587796120_x-22.jpg",
+    "caption": "X 22",
+    "description": "",
+    "location": "Kerala, India",
+    "aspectRatio": "square",
+    "createdAt": "2026-09-05",
+    "active": true,
+    "order": 21
+  },
+  {
+    "id": "post-1788587817449-3",
+    "image": "/uploads/img_1788587796085_x-33.jpg",
+    "caption": "X 33",
+    "description": "",
+    "location": "Kerala, India",
+    "aspectRatio": "square",
+    "createdAt": "2026-09-05",
+    "active": true,
+    "order": 22
+  },
+  {
+    "id": "post-1788587817449-4",
+    "image": "/uploads/img_1788587796101_uc-th-8.jpg",
+    "caption": "UC@TH  8",
+    "description": "",
+    "location": "Kerala, India",
+    "aspectRatio": "square",
+    "createdAt": "2026-09-05",
+    "active": true,
+    "order": 23
+  },
+  {
+    "id": "post-1788587817449-5",
+    "image": "/uploads/img_1788587795730_uc-th-003040.jpg",
+    "caption": "UC@TH 003040",
+    "description": "",
+    "location": "Kerala, India",
+    "aspectRatio": "square",
+    "createdAt": "2026-09-05",
+    "active": true,
+    "order": 24
+  },
+  {
+    "id": "post-1788587817449-6",
+    "image": "/uploads/img_1788587795773_uc-th-003062.jpg",
+    "caption": "UC@TH 003062",
+    "description": "",
+    "location": "Kerala, India",
+    "aspectRatio": "square",
+    "createdAt": "2026-09-05",
+    "active": true,
+    "order": 25
+  },
+  {
+    "id": "post-1788587817449-7",
+    "image": "/uploads/img_1788587796360_uc-th-003171.jpg",
+    "caption": "UC@TH 003171",
+    "description": "",
+    "location": "Kerala, India",
+    "aspectRatio": "square",
+    "createdAt": "2026-09-05",
+    "active": true,
+    "order": 26
+  },
+  {
+    "id": "post-1788587817449-8",
+    "image": "/uploads/img_1788587796130_uc-th-003192.jpg",
+    "caption": "UC@TH 003192",
+    "description": "",
+    "location": "Kerala, India",
+    "aspectRatio": "square",
+    "createdAt": "2026-09-05",
+    "active": true,
+    "order": 27
+  },
+  {
+    "id": "post-1788587817449-9",
+    "image": "/uploads/img_1788587795930_uc-th-003195.jpg",
+    "caption": "UC@TH 003195",
+    "description": "",
+    "location": "Kerala, India",
+    "aspectRatio": "square",
+    "createdAt": "2026-09-05",
+    "active": true,
+    "order": 28
+  },
+  {
+    "id": "post-1788587817449-10",
+    "image": "/uploads/img_1788587795574_x-7.jpg",
+    "caption": "X 7",
+    "description": "",
+    "location": "Kerala, India",
+    "aspectRatio": "square",
+    "createdAt": "2026-09-05",
+    "active": true,
+    "order": 29
+  },
+  {
+    "id": "post-1788587817449-11",
+    "image": "/uploads/img_1788587795484_x-20.jpg",
+    "caption": "X 20",
+    "description": "",
+    "location": "Kerala, India",
+    "aspectRatio": "square",
+    "createdAt": "2026-09-05",
+    "active": true,
+    "order": 30
+  },
+  {
+    "id": "post-1788587817449-12",
+    "image": "/uploads/img_1788587795624_x-24.jpg",
+    "caption": "X 24",
+    "description": "",
+    "location": "Kerala, India",
+    "aspectRatio": "square",
+    "createdAt": "2026-09-05",
+    "active": true,
+    "order": 31
+  },
+  {
+    "id": "post-1788587817449-13",
+    "image": "/uploads/img_1788587795889_x-42.jpg",
+    "caption": "X 42",
+    "description": "",
+    "location": "Kerala, India",
+    "aspectRatio": "square",
+    "createdAt": "2026-09-05",
+    "active": true,
+    "order": 32
+  },
+  {
     "id": "post-1788434125017",
     "image": "/uploads/img_1788434123317_class-room-02.png",
     "caption": "Class Room 02",
@@ -174,17 +328,6 @@
     "createdAt": "2026-02-05",
     "active": true,
     "order": 7
-  },
-  {
-    "id": "post-8",
-    "image": "/team_photo.webp",
-    "caption": "Attiks Architectural Collective",
-    "description": "The multidisciplinary minds behind our residential and commercial portfolio.",
-    "location": "Kerala",
-    "aspectRatio": "landscape",
-    "createdAt": "2026-01-28",
-    "active": true,
-    "order": 8
   },
   {
     "id": "post-9",

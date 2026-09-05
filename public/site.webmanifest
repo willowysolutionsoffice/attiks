@@ -1,21 +1,14 @@
 {
   "name": "ATTIKS Architecture",
   "short_name": "ATTIKS",
-  "description": "Bespoke architectural design and contextual spatial experiences.",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#050505",
-  "theme_color": "#050505",
   "icons": [
     {
       "src": "/images/logo-light.png",
       "sizes": "192x192",
       "type": "image/png"
-    },
-    {
-      "src": "/images/logo-light.png",
-      "sizes": "512x512",
-      "type": "image/png"
     }
-  ]
+  ],
+  "theme_color": "#050505",
+  "background_color": "#ffffff",
+  "display": "standalone"
 }

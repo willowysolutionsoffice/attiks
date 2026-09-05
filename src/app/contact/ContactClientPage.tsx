@@ -42,12 +42,15 @@ export default function ContactClientPage() {
     setSubmitting(true);
 
     try {
+      const fullName = `${formData.firstName.trim()} ${formData.lastName.trim()}`.trim();
       const payload = {
-        name: `${formData.firstName.trim()} ${formData.lastName.trim()}`.trim(),
+        name: fullName,
         email: formData.email.trim(),
         phone: formData.phone.trim() || undefined,
         message: formData.message.trim() || undefined,
         source: 'contact_page',
+        projectTitle: 'Contact Page Inquiry',
+        notes: 'Inquiry submitted from Contact Page form',
       };
 
       const res = await fetch('/api/leads', {
@@ -56,9 +59,9 @@ export default function ContactClientPage() {
         body: JSON.stringify(payload),
       });
 
-      if (!res.ok) {
-        const errJson = await res.json().catch(() => ({}));
-        throw new Error(errJson.error || errJson.message || 'Submission failed');
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.success === false) {
+        throw new Error(data.error || data.message || 'Submission failed. Please try again.');
       }
 
       setSubmitted(true);

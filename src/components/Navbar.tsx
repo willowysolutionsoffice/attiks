@@ -57,9 +57,10 @@ export default function Navbar() {
   }, [menuOpen]);
 
   // Header background states:
-  // - Top of home page: completely transparent background (hidden background)
+  // - Reach top on hero pages (home, about, project detail): completely transparent / hidden background
   // - Scrolled / active: modern luxury glassmorphic frosted overlay
-  const isTransparent = isHomePage && !scrolled && !menuOpen;
+  const hasHeroHeader = isHomePage || pathname === '/about' || pathname.startsWith('/projects/');
+  const isTransparent = hasHeroHeader && !scrolled && !menuOpen;
 
   const headerBg = menuOpen
     ? 'rgba(5, 5, 5, 0.98)'

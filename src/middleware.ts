@@ -7,13 +7,10 @@ function decodeJwtPayload(token: string): { exp?: number; role?: string; email?:
     if (parts.length !== 3) return null;
     const base64Url = parts[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split('')
-        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-        .join('')
-    );
-    return JSON.parse(jsonPayload);
+    const pad = base64.length % 4;
+    const padded = pad ? base64 + '='.repeat(4 - pad) : base64;
+    const json = atob(padded);
+    return JSON.parse(json);
   } catch {
     return null;
   }
@@ -22,13 +19,13 @@ function decodeJwtPayload(token: string): { exp?: number; role?: string; email?:
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
-  // Only guard /admin routes
+  // Only protect /admin routes
   if (!pathname.startsWith('/admin')) {
     return NextResponse.next();
   }
 
-  const token = request.cookies.get('attiks_admin_token')?.value;
   const isLoginPage = pathname === '/admin/login';
+  const token = request.cookies.get('attiks_admin_token')?.value;
 
   let isAuthenticated = false;
   let isAdmin = false;
@@ -39,32 +36,31 @@ export function middleware(request: NextRequest) {
       const isExpired = payload.exp ? payload.exp * 1000 < Date.now() : false;
       if (!isExpired) {
         isAuthenticated = true;
-        isAdmin = payload.role === 'ADMIN';
+        isAdmin = String(payload.role).toUpperCase() === 'ADMIN';
       }
     }
   }
 
-  // If already logged in as Admin and visiting login page, redirect to dashboard or redirect param
+  // If already logged in and navigating to login page -> redirect to dashboard
   if (isLoginPage) {
     if (isAuthenticated && isAdmin) {
-      const redirectUrl = request.nextUrl.searchParams.get('redirect') || '/admin/dashboard';
-      return NextResponse.redirect(new URL(redirectUrl, request.url));
+      const redirectTarget = request.nextUrl.searchParams.get('redirect') || '/admin/dashboard';
+      return NextResponse.redirect(new URL(redirectTarget, request.url));
     }
     return NextResponse.next();
   }
 
-  // For all protected /admin routes: verify authentication and ADMIN role
+  // If NOT logged in / not admin -> redirect to login with return url
   if (!isAuthenticated || !isAdmin) {
     const loginUrl = new URL('/admin/login', request.url);
-    const returnUrl = pathname + search;
-    loginUrl.searchParams.set('redirect', returnUrl);
+    const returnPath = pathname + (search || '');
+    loginUrl.searchParams.set('redirect', returnPath);
 
-    const response = NextResponse.redirect(loginUrl);
-    // Clear invalid or expired cookie
-    if (token && (!isAuthenticated || !isAdmin)) {
-      response.cookies.delete('attiks_admin_token');
+    const res = NextResponse.redirect(loginUrl);
+    if (token) {
+      res.cookies.delete('attiks_admin_token');
     }
-    return response;
+    return res;
   }
 
   return NextResponse.next();

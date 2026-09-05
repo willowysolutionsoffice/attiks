@@ -7,13 +7,17 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const backendRes = await fetch(`${BACKEND_URL}/api/leads?${searchParams.toString()}`, {
       cache: 'no-store',
-      signal: AbortSignal.timeout(3000),
+      signal: AbortSignal.timeout(5000),
     });
     if (backendRes.ok) {
       const data = await backendRes.json();
       return NextResponse.json(data, { status: backendRes.status });
     }
-    return NextResponse.json({ success: true, data: [] }, { status: 200 });
+    const errData = await backendRes.json().catch(() => ({}));
+    return NextResponse.json(
+      { success: false, error: errData.error || errData.message || 'Failed to fetch leads', data: [] },
+      { status: backendRes.status || 500 }
+    );
   } catch {
     return NextResponse.json({ success: true, data: [] }, { status: 200 });
   }
@@ -26,14 +30,15 @@ export async function POST(request: NextRequest) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
-      signal: AbortSignal.timeout(4000),
+      signal: AbortSignal.timeout(6000),
     });
-    if (backendRes.ok) {
-      const data = await backendRes.json();
-      return NextResponse.json(data, { status: backendRes.status });
-    }
-    return NextResponse.json({ success: true, message: 'Lead recorded successfully', data: { id: `lead-${Date.now()}`, ...body } }, { status: 201 });
-  } catch {
-    return NextResponse.json({ success: true, message: 'Lead recorded successfully', data: { id: `lead-${Date.now()}` } }, { status: 201 });
+    const data = await backendRes.json().catch(() => ({}));
+    return NextResponse.json(data, { status: backendRes.status });
+  } catch (err: any) {
+    return NextResponse.json(
+      { success: false, error: err.message || 'Unable to submit lead to backend' },
+      { status: 500 }
+    );
   }
 }
+

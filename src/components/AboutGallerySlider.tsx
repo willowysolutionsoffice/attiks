@@ -116,10 +116,14 @@ function ProjectCardItem({ project, isMobile }: { project: Project; isMobile: bo
 export default function AboutGallerySlider({ projects = [] }: { projects?: Project[] }) {
   const [isMobile, setIsMobile] = useState(false);
 
-  // Filter active projects or fallback
-  const activeProjects = projects.filter((p) => p.status !== 'draft');
-  const sourceList = activeProjects.length > 0 ? activeProjects : (projects.length > 0 ? projects : fallbackProjects);
-  const twoFeaturedProjects = sourceList.slice(0, 2);
+  // Strictly filter only projects that are published AND have featured === true (Hero Spotlight / Homepage Showcase)
+  const listToFilter = projects && projects.length > 0 ? projects : fallbackProjects;
+  const featuredProjects = listToFilter.filter(
+    (p) => String(p.status).toLowerCase() !== 'draft' && Boolean(p.featured)
+  );
+
+  // Take the featured projects (up to 2)
+  const twoFeaturedProjects = featuredProjects.slice(0, 2);
 
   // Responsive check
   useEffect(() => {
@@ -130,6 +134,10 @@ export default function AboutGallerySlider({ projects = [] }: { projects?: Proje
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  if (twoFeaturedProjects.length === 0) {
+    return null;
+  }
 
   return (
     <section

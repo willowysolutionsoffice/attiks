@@ -35,6 +35,7 @@ export default function EditProjectClient({ id }: { id: string }) {
   const mainFileInputRef = useRef<HTMLInputElement | null>(null);
   const galleryFileInputRef = useRef<HTMLInputElement | null>(null);
 
+  const [newHighlight, setNewHighlight] = useState('');
   const [formValues, setFormValues] = useState({
     title: '',
     category: 'residential',
@@ -44,7 +45,7 @@ export default function EditProjectClient({ id }: { id: string }) {
     scope: 'Architecture & Interior Design',
     area: '',
     description: '',
-    highlights: '',
+    highlights: [] as string[],
     gallery: [] as string[],
     status: 'published',
     featured: true,
@@ -71,7 +72,11 @@ export default function EditProjectClient({ id }: { id: string }) {
               scope: p.scope || '',
               area: p.area || '',
               description: p.description || '',
-              highlights: Array.isArray(p.highlights) ? p.highlights.join('\n') : p.highlights || '',
+              highlights: Array.isArray(p.highlights)
+                ? p.highlights
+                : p.highlights
+                ? String(p.highlights).split('\n').map((h: string) => h.trim()).filter(Boolean)
+                : [],
               gallery: Array.isArray(p.gallery) ? p.gallery : [],
               status: String(p.status).toLowerCase() === 'draft' ? 'draft' : 'published',
               featured: Boolean(p.featured),
@@ -99,7 +104,11 @@ export default function EditProjectClient({ id }: { id: string }) {
             scope: found.scope || '',
             area: found.area || '',
             description: found.description || '',
-            highlights: Array.isArray(found.highlights) ? found.highlights.join('\n') : found.highlights || '',
+            highlights: Array.isArray(found.highlights)
+              ? found.highlights
+              : found.highlights
+              ? String(found.highlights).split('\n').map((h: string) => h.trim()).filter(Boolean)
+              : [],
             gallery: Array.isArray(found.gallery) ? found.gallery : [],
             status: found.status?.toLowerCase() === 'draft' ? 'draft' : 'published',
             featured: Boolean(found.featured),
@@ -208,6 +217,32 @@ export default function EditProjectClient({ id }: { id: string }) {
     });
   }
 
+  function handleAddHighlight(e?: React.FormEvent) {
+    if (e) e.preventDefault();
+    const val = newHighlight.trim();
+    if (!val) return;
+    setFormValues((prev) => ({
+      ...prev,
+      highlights: [...prev.highlights, val],
+    }));
+    setNewHighlight('');
+  }
+
+  function handleUpdateHighlight(index: number, val: string) {
+    setFormValues((prev) => {
+      const updated = [...prev.highlights];
+      updated[index] = val;
+      return { ...prev, highlights: updated };
+    });
+  }
+
+  function handleRemoveHighlight(index: number) {
+    setFormValues((prev) => ({
+      ...prev,
+      highlights: prev.highlights.filter((_, i) => i !== index),
+    }));
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setErrorMsg(null);
@@ -221,11 +256,8 @@ export default function EditProjectClient({ id }: { id: string }) {
 
     try {
       const highlightsArray = formValues.highlights
-        ? formValues.highlights
-            .split('\n')
-            .map((h) => h.trim())
-            .filter((h) => h.length > 0)
-        : [];
+        .map((h) => (typeof h === 'string' ? h.trim() : ''))
+        .filter((h) => h.length > 0);
 
       const payload = {
         ...formValues,
@@ -830,15 +862,135 @@ export default function EditProjectClient({ id }: { id: string }) {
             />
           </div>
 
+          {/* Key Highlights & Innovations */}
           <div className="admin-field">
-            <label className="admin-label">Key Highlights & Innovations (One per line)</label>
-            <textarea
-              className="admin-textarea"
-              placeholder="Passive Cooling Central Courtyards&#10;Thermal Mass Laterite Masonry&#10;Zero-Carbon Timber Screens"
-              rows={3}
-              value={formValues.highlights}
-              onChange={(e) => setFormValues({ ...formValues, highlights: e.target.value })}
-            />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.65rem' }}>
+              <div>
+                <label className="admin-label" style={{ marginBottom: 2 }}>Key Highlights & Innovations</label>
+                <p style={{ fontSize: '0.78rem', color: 'var(--admin-text-muted)', margin: 0 }}>
+                  Add points highlighting distinctive architectural features, materials, or structural innovations
+                </p>
+              </div>
+              <span style={{ fontSize: '0.75rem', background: 'var(--admin-surface-2)', padding: '2px 8px', borderRadius: 4, color: 'var(--admin-text-muted)', border: '1px solid var(--admin-border)' }}>
+                {formValues.highlights.length} {formValues.highlights.length === 1 ? 'Point' : 'Points'}
+              </span>
+            </div>
+
+            {/* List of points */}
+            {formValues.highlights.length > 0 && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '0.85rem' }}>
+                {formValues.highlights.map((item, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.65rem',
+                      background: 'var(--admin-surface-2)',
+                      border: '1px solid var(--admin-border)',
+                      borderRadius: 4,
+                      padding: '0.35rem 0.6rem 0.35rem 0.75rem',
+                    }}
+                  >
+                    <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--admin-text-muted)', minWidth: 20 }}>
+                      {idx + 1}.
+                    </span>
+                    <input
+                      type="text"
+                      className="admin-input"
+                      value={item}
+                      onChange={(e) => handleUpdateHighlight(idx, e.target.value)}
+                      placeholder="e.g. Passive Cooling Central Courtyards"
+                      style={{
+                        flex: 1,
+                        background: 'transparent',
+                        border: 'none',
+                        padding: '0.35rem 0.25rem',
+                        fontSize: '0.85rem',
+                        outline: 'none',
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveHighlight(idx)}
+                      title="Remove highlight"
+                      className="admin-btn-icon"
+                      style={{
+                        padding: '4px',
+                        background: 'transparent',
+                        border: 'none',
+                        color: 'var(--admin-text-muted)',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: 3,
+                        transition: 'color 0.15s',
+                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = '#ef4444')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--admin-text-muted)')}
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Input + Plus Button to Add New Point */}
+            <div
+              style={{
+                display: 'flex',
+                gap: '0.5rem',
+                alignItems: 'center',
+                background: 'var(--admin-surface)',
+                border: '1px dashed var(--admin-border-focus, #3b82f6)',
+                borderRadius: 4,
+                padding: '0.35rem 0.5rem 0.35rem 0.75rem',
+              }}
+            >
+              <Plus size={16} style={{ color: '#3b82f6', flexShrink: 0 }} />
+              <input
+                type="text"
+                value={newHighlight}
+                onChange={(e) => setNewHighlight(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleAddHighlight();
+                  }
+                }}
+                placeholder="Type a key highlight & press Enter or click Add..."
+                style={{
+                  flex: 1,
+                  background: 'transparent',
+                  border: 'none',
+                  outline: 'none',
+                  fontSize: '0.85rem',
+                  color: 'inherit',
+                  padding: '0.4rem 0.25rem',
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => handleAddHighlight()}
+                disabled={!newHighlight.trim()}
+                className="btn-admin-secondary"
+                style={{
+                  padding: '0.35rem 0.75rem',
+                  fontSize: '0.78rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 4,
+                  cursor: newHighlight.trim() ? 'pointer' : 'default',
+                  opacity: newHighlight.trim() ? 1 : 0.5,
+                  borderRadius: 3,
+                }}
+              >
+                <Plus size={14} />
+                <span>Add Point</span>
+              </button>
+            </div>
           </div>
         </div>
 

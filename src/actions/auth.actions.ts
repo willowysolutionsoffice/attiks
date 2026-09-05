@@ -16,6 +16,7 @@ export async function loginAction(payload: LoginPayload) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(4000),
     });
 
     const data = await res.json();
@@ -73,6 +74,7 @@ export async function getSessionAction() {
         Authorization: `Bearer ${token}`,
       },
       cache: 'no-store',
+      signal: AbortSignal.timeout(3000),
     });
 
     if (!res.ok) {
